@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 16:01:31 by tbehra            #+#    #+#             */
-/*   Updated: 2018/05/07 17:31:21 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/05/16 19:48:48 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int				read_in_str(t_line_reader *reader)
 	char	*buf;
 	char	*new_str;
 
-	if (!(buf = ft_strnew(BUFF_SIZE)))
+	if (!(buf = ft_strnew(BUFF_SIZE_GNL)))
 		return (-1);
-	ft_bzero(buf, BUFF_SIZE + 1);
-	reader->ret_read = read(reader->fd, buf, BUFF_SIZE);
+	ft_bzero(buf, BUFF_SIZE_GNL + 1);
+	reader->ret_read = read(reader->fd, buf, BUFF_SIZE_GNL);
 	if (reader->ret_read == -1 || reader->ret_read == 0)
 	{
 		free(buf);

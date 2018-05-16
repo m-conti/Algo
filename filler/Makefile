@@ -9,21 +9,21 @@ SRCDIR	= src
 OBJDIR	= obj
 INCDIR	= include
 
-SRC		= filler.c 
+SRC		= filler.c tactic.c
 
 OBJ		= $(SRC:.c=.o)
 
-LIBFT	= -Llibft/ -lft
+LIBFTPRINTF	= ft_printf/libftprintf.a
 
 OBJP	= $(addprefix $(OBJDIR)/, $(OBJ))
 INCP	= $(foreach dir, $(INCDIR), -I$(dir))
 
-all: libftcomp $(OBJDIR) $(NAME)
+all: printfcomp $(OBJDIR) $(NAME)
 
 re: fclean all
 
-libftcomp:
-	make all -C libft/
+printfcomp:
+	make all -C ft_printf/
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) -c -o $@ $^ $(INCP)
@@ -32,13 +32,13 @@ $(OBJDIR):
 	@mkdir -p $(OBJDIR)
 
 clean:
-	make clean -C libft/
+	make clean -C ft_printf/
 	rm -rf $(OBJDIR)
 
 fclean:
-	make fclean -C libft/
+	make fclean -C ft_printf/
 	rm -rf $(OBJDIR)
 	rm -f $(NAME)
 
 $(NAME): $(OBJP)
-	$(CC) $(CFLAGS) -o $@ $^ $(INCP) $(LIBFT)
+	$(CC) $(CFLAGS) -o $@ $^ $(INCP) $(LIBFTPRINTF)

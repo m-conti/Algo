@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 16:31:16 by tbehra            #+#    #+#             */
-/*   Updated: 2018/05/15 16:08:08 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/05/16 19:43:16 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,6 @@ char				*ft_ultoa_base(unsigned long value, unsigned int base);
 char				*ft_lltoa_base(unsigned long long value, unsigned int base);
 char				*ft_umaxtoa_base(uintmax_t value, unsigned int base);
 char				*ft_strtolower(char *str);
+void				ft_tabdel(void **tab, int y);
 
 #endif

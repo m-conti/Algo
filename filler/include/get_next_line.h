@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 13:26:34 by tbehra            #+#    #+#             */
-/*   Updated: 2018/05/15 16:10:07 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/05/16 19:48:25 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <sys/uio.h>
 # include <unistd.h>
 # include "libft.h"
-# define BUFF_SIZE 1024
+# define BUFF_SIZE_GNL 1024
 # define UNDEF -99
 
 typedef	struct				s_line_reader

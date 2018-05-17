@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 17:35:36 by tbehra            #+#    #+#             */
-/*   Updated: 2018/05/17 05:16:33 by mconti           ###   ########.fr       */
+/*   Updated: 2018/05/17 15:11:08 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	build_piece(t_filler *f, char *line)
 		if (!(f->piece.tab[r] = (char*)malloc(sizeof(char) * f->piece.xmax)))
 			return ; //ERREUR
 		get_next_line(0, &(f->piece.tab[r]));
-		ft_log(f->piece.tab[r], f->fd);
+//		ft_log(f->piece.tab[r], f->fd);
 	}
 }
 
@@ -52,9 +52,9 @@ void	init_turn(t_filler *f)
 {
 	f->x = 0;
 	f->y = 0;
-	f->bestpos.n = 0;
 	f->piece.x = 0;
 	f->piece.y = 0;
+	f->bestpos.n = 0;
 }
 
 void	init_filler(t_filler *f)
@@ -66,6 +66,7 @@ void	init_filler(t_filler *f)
 	f->tab = NULL;
 	f->tactic[0] = &check_area;
 	f->tactic[1] = &check_contact;
+	f->bestpos.count_change_strat = 0;
 }	
 
 /*void	free_piece_tab(t_piece *p)
@@ -172,36 +173,33 @@ int main(int ac, char **av)
 {
 	char		*line;
 	t_filler	f;
-	int i;
+	int16_t		n;
 
 	//sert a rien
 	if (!(av))
 		return (ac);
 	//- ---- --- 
-	f.fd = open("/Users/mconti/42/algotim/filler/log", 
+	f.fd = open("/Users/tbehra/Documents/projects/Algo_m/filler/log",
 			O_CREAT | O_WRONLY | O_TRUNC);
 	line = ft_strdup("abc");
 	
 	init_filler(&f);
-	while (1)
+	n = -1;
+	while (n)
 	{	
-		i = 0;
 		init_turn(&f);
 		parse_tab(&f, line);
 		get_next_line(0, &line);
 		build_piece(&f, line);
-		ft_log("build piece", f.fd);
-		best_placement(&f);
-		ft_log("placement done", f.fd);
+		if (!(n = best_placement(&f)))
+			break ;	
 		ft_printf("%i %i\n", f.bestpos.y, f.bestpos.x);
 		//ft_tabdel((void**)f.piece.tab, f.piece.ymax);
 		while (get_next_line(0, &line) == 0)
-			if (i++ > 200000)
-			{
-				printf("0 0\n");
-			}
+			;
 		ft_strdel(&line); // del line Plateau X X
 	}
+	ft_printf("0 0\n");
 	//close(log_fd);
 	return (0);
 }

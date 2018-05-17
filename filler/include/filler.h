@@ -20,6 +20,7 @@ typedef struct	s_bestpos
 	int			n;
 	int			x;
 	int			y;
+	int			count_change_strat;
 }				t_bestpos;
 
 typedef struct	s_filler
@@ -35,11 +36,11 @@ typedef struct	s_filler
 	t_piece		piece;
 	int16_t		(*tactic[2])(struct s_filler*);
 	char		**tab;
-int		fd;
+	int			fd;
 }				t_filler;
 
 int16_t			check_contact(t_filler *f);
 int16_t			check_area(t_filler *f);
-void			best_placement(t_filler *f);
+int16_t			best_placement(t_filler *f);
 
 #endif

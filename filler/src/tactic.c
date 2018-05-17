@@ -112,6 +112,7 @@ int16_t	check_area(t_filler *f)
 	int16_t area;
 
 	area = 0;
+	f->y = 0;
 	while (f->y < f->ymax)
 	{
 		f->x = 0;
@@ -161,8 +162,10 @@ void	best_placement(t_filler *f)
 {
 	int16_t n;
 
+	n = 0;
 	while (f->piece.y + f->piece.ymax <= f->ymax)
 	{
+		f->piece.x = 0;
 		while (f->piece.x + f->piece.xmax <= f->xmax)
 		{
 			if (check_placement(f))

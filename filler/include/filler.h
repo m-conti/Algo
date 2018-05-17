@@ -35,6 +35,7 @@ typedef struct	s_filler
 	t_piece		piece;
 	int16_t		(*tactic[2])(struct s_filler*);
 	char		**tab;
+int		fd;
 }				t_filler;
 
 int16_t			check_contact(t_filler *f);

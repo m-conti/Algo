@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   filler.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 17:35:36 by tbehra            #+#    #+#             */
-/*   Updated: 2018/05/16 20:26:31 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/05/17 05:14:39 by mconti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_log(char *str, int fd)
 	write(fd, "\n", 1);
 }
 
-void	build_piece(t_filler *f, char *line, int log_fd)
+void	build_piece(t_filler *f, char *line)
 {
 	char	*pos;
 	int		r;
@@ -44,7 +44,7 @@ void	build_piece(t_filler *f, char *line, int log_fd)
 		if (!(f->piece.tab[r] = (char*)malloc(sizeof(char) * f->piece.xmax)))
 			return ; //ERREUR
 		get_next_line(0, &(f->piece.tab[r]));
-		ft_log(f->piece.tab[r], log_fd);
+		ft_log(f->piece.tab[r], f->fd);
 	}
 }
 
@@ -116,7 +116,7 @@ void	parse_first_time(t_filler *f, char *line)
 	}
 	else
 		return ; //error
-	get_next_line(0, &line); // line with 01234567890123 if everything is as planned
+	 // line with 01234567890123 if everything is as planned
 }
 
 /*
@@ -140,7 +140,7 @@ void	init_free_tab(t_filler *f)
 		{
 			ft_strdel(&(f->tab[i]));
 			i++;
-		}	
+		}
 	}
 }
 
@@ -152,6 +152,7 @@ void	parse_tab(t_filler *f, char *line)
 	if (!f->player)
 		parse_first_time(f, line);
 	init_free_tab(f);
+	get_next_line(0, &line); //lecture line 012345674152058
 	ft_strdel(&line); // del line 01234567890123 if we didn't mess up 
 	row = -1;
 	while (++row < f->ymax)
@@ -162,7 +163,7 @@ void	parse_tab(t_filler *f, char *line)
 		ft_strdel(&line);
 		if (ft_atoi(tab[0]) != row)
 			return ; //error
-		f->tab[row] = tab[row];
+		f->tab[row] = tab[1];
 		//ft_tabdel((void**)tab, 1);	
 	}
 }
@@ -170,33 +171,35 @@ void	parse_tab(t_filler *f, char *line)
 int main(int ac, char **av)
 {
 	char		*line;
-	int			log_fd; //
 	t_filler	f;
+	int i;
 
 	//sert a rien
 	if (!(av))
 		return (ac);
 	//- ---- --- 
-	log_fd = open("/Users/tbehra/Documents/projects/Algo_m/filler/log", 
+	f.fd = open("/Users/mconti/42/algotim/filler/log", 
 			O_CREAT | O_WRONLY | O_TRUNC);
 	line = ft_strdup("abc");
 	
 	init_filler(&f);
 	while (1)
 	{	
+		i = 0;
 		init_turn(&f);
 		parse_tab(&f, line);
 		get_next_line(0, &line);
-		build_piece(&f, line, log_fd);
-
-		ft_log("build piece", log_fd);
+		build_piece(&f, line);
+		ft_log("build piece", f.fd);
 		best_placement(&f);
-		ft_log("placement done", log_fd);
-		dprintf(log_fd, "%i %i\n", f.bestpos.y, f.bestpos.x);
-		ft_printf("%i %i\n", f.bestpos.y, f.bestpos.x);
+		ft_log("placement done", f.fd);
 		//ft_tabdel((void**)f.piece.tab, f.piece.ymax);
 		while (get_next_line(0, &line) == 0)
-			;
+			if (i++ > 200000)
+			{
+				printf("0 0\n");
+			}
+		ft_strdel(&line); // del line Plateau X X
 	}
 	//close(log_fd);
 	return (0);

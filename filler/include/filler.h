@@ -37,8 +37,13 @@ typedef struct	s_filler
 	int16_t		(*tactic[2])(struct s_filler*);
 	char		**tab;
 	int			fd;
+
+	int8_t		**frontier;
+	int			territory;
 }				t_filler;
 
+void			update_frontier(t_filler *f);
+void			set_frontier(t_filler *f);
 int16_t			check_contact(t_filler *f);
 int16_t			check_area(t_filler *f);
 int16_t			best_placement(t_filler *f);

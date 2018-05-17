@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 17:35:36 by tbehra            #+#    #+#             */
-/*   Updated: 2018/05/17 15:11:08 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/05/17 19:24:42 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	init_filler(t_filler *f)
 	f->tactic[0] = &check_area;
 	f->tactic[1] = &check_contact;
 	f->bestpos.count_change_strat = 0;
+	f->frontier = NULL;
 }	
 
 /*void	free_piece_tab(t_piece *p)
@@ -167,6 +168,8 @@ void	parse_tab(t_filler *f, char *line)
 		f->tab[row] = tab[1];
 		//ft_tabdel((void**)tab, 1);	
 	}
+	if (!f->frontier)
+		set_frontier(f);
 }
 
 int main(int ac, char **av)
@@ -201,5 +204,6 @@ int main(int ac, char **av)
 	}
 	ft_printf("0 0\n");
 	//close(log_fd);
+	// FREE FRONTIER
 	return (0);
 }

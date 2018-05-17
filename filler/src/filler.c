@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 17:35:36 by tbehra            #+#    #+#             */
-/*   Updated: 2018/05/17 05:14:39 by mconti           ###   ########.fr       */
+/*   Updated: 2018/05/17 05:16:33 by mconti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ int main(int ac, char **av)
 		ft_log("build piece", f.fd);
 		best_placement(&f);
 		ft_log("placement done", f.fd);
+		ft_printf("%i %i\n", f.bestpos.y, f.bestpos.x);
 		//ft_tabdel((void**)f.piece.tab, f.piece.ymax);
 		while (get_next_line(0, &line) == 0)
 			if (i++ > 200000)

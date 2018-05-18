@@ -15,13 +15,13 @@ int16_t	check_contact(t_filler p)
 		{
 			if (p.piece.tab[j][i] == '*')
 				{
-					if (p.piece.y + j + 1 < p.ymax || p.tab[p.piece.y + j + 1][p.piece.x + i] == '.')
+					if (p.tab[p.piece.y + j + 1][p.piece.x + i] == '.')
 						b++;
-					if (p.piece.y + j - 1 > 0 || p.tab[p.piece.y + j - 1][p.piece.x + i] == '.')
+					if (p.tab[p.piece.y + j - 1][p.piece.x + i] == '.')
 						b++;
-					if (p.piece.x + i + 1 < p.xmax || p.tab[p.piece.y + j][p.piece.x + i + 1] == '.')
+					if (p.tab[p.piece.y + j][p.piece.x + i + 1] == '.')
 						b++;
-					if (p.piece.x + i - 1 > 0 || p.tab[p.piece.y + j][p.piece.x + i - 1] == '.')
+					if (p.tab[p.piece.y + j][p.piece.x + i - 1] == '.')
 						b++;
 				}
 			i++;
@@ -124,28 +124,27 @@ int16_t	check_area(t_filler p)
 
 // CHECK PLACEMENT POS PIECE
 
-t_filler	best_placement(t_filler p)
+void	best_placement(t_filler *p)
 {
 	int16_t n;
 
-	p.piece.x = 0;
-	p.piece.y = 0;
-	while (p.piece.y + p.piece.ymax <= p.ymax)
+	p->piece.x = 0;
+	p->piece.y = 0;
+	while (p->piece.y + p->piece.ymax <= p->ymax)
 	{
-		while (p.piece.x + p.piece.xmax <= p.xmax)
+		while (p->piece.x + p->piece.xmax <= p->xmax)
 		{
 			if (check_placement(p))
-				if ((n = g_tactic[p.tactic](p)) > p.bestpos.n)
+				if ((n = g_tactic[p->tactic](p)) > p->bestpos.n)
 				{
-					p.bestpos.n = n;
-					p.bestpos.x = p.piece.x;
-					p.bestpos.y = p.piece.y;
+					p->bestpos.n = n;
+					p->bestpos.x = p->piece.x;
+					p->bestpos.y = p->piece.y;
 				}
-			p.piece.x++;
+			p->piece.x++;
 		}
-		p.piece.y++;
+		p->piece.y++;
 	}
-	return (t_filler);
 }
 
 int8_t	check_placement(t_filler p)

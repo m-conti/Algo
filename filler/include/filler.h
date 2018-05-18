@@ -5,7 +5,6 @@
 # include <inttypes.h>
 # include "ft_printf.h"
 # define PLAYER_NAME "timmy.filler" //
-# define COPY 1
 
 typedef struct	s_piece
 {

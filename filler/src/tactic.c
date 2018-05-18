@@ -165,12 +165,10 @@ int16_t	check_area(t_filler *f)
 
 int16_t	check_territory(t_filler *f)
 {
-	int8_t	**cp_frontier;
-
 	int		ret;
 
 	cp_frontier = copy_frontier(f);
-	update_frontier(f, 1, COPY);
+	update_frontier(f, 1);
 	ret = count_ones(cp_frontier); //si on peut avoir f->territory a jour, c'est mieux
 	free_frontier(cp_frontier);
 

@@ -80,6 +80,36 @@ int8_t	check_for_pos(t_filler *f, int x1, int y1, uint8_t opt)
 	return (area);
 }
 
+int8_t	closest_player(t_filler *f, int x, int y)
+{
+	int16_t		distance;
+	int8_t		close;
+	uint8_t		opt;
+	uint8_t		stop;	
+
+	distance = 0;
+	close = 0;
+	stop = 0;
+	while (++distance)
+	{
+		opt = 0;
+		while (opt < 4)
+		{
+			f->x = x;
+			f->y = y;
+			if (!(opt & 2))
+				x += (opt & 1) ? distance : -distance;
+			else
+				y += (opt & 1) ? distance : -distance;
+			close = check_for_pos(f, x, y, opt++);
+		}
+		if (stop)
+			return ();
+		if (close)
+			stop = 1;
+	}
+	return (0);
+}
 // STRATEGIE AGRESSION || CHECK AIR DE LA PIECE
 
 int8_t	shortest_distance(t_filler *f)
@@ -110,7 +140,7 @@ int8_t	shortest_distance(t_filler *f)
 	}
 	return (0);
 }
-/*
+
 int16_t	check_area(t_filler *f)
 {
 	int16_t area;
@@ -132,14 +162,19 @@ int16_t	check_area(t_filler *f)
 	}
 	return (area);
 }
-*/
 
-int16_t	check_area(t_filler *f)
+int16_t	check_territory(t_filler *f)
 {
-	//int8_t	**cp_frontier;
+	int8_t	**cp_frontier;
 
-	predict_frontier();
-	return (f->territory);
+	int		ret;
+
+	cp_frontier = copy_frontier(f);
+	update_frontier(f, 1, COPY);
+	ret = count_ones(cp_frontier); //si on peut avoir f->territory a jour, c'est mieux
+	free_frontier(cp_frontier);
+
+	return (ret);
 }
 
 int8_t	check_placement(t_filler *f)

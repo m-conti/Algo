@@ -5,6 +5,7 @@
 # include <inttypes.h>
 # include "ft_printf.h"
 # define PLAYER_NAME "timmy.filler" //
+# define COPY 1
 
 typedef struct	s_piece
 {
@@ -38,7 +39,7 @@ typedef struct	s_filler
 	char		**tab;
 	int			fd;
 
-	int8_t		**frontier;
+	int8_t		**frontier[2];
 	int			territory;
 }				t_filler;
 

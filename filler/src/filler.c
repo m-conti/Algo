@@ -64,9 +64,9 @@ void	init_filler(t_filler *f)
 	f->strategy = 0;
 	f->piece.tab = NULL;
 	f->tab = NULL;
+	f->frontier = NULL;
 	f->tactic[0] = &update_frontier_test; //&check_territory;
 	f->tactic[1] = &check_contact;
-	f->frontier = NULL;
 }	
 
 /*void	free_piece_tab(t_piece *p)

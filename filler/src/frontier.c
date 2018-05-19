@@ -116,7 +116,7 @@ void	fill_frontier(t_filler *f, int x, int y, int player_sign)
 	if (f->tab[y][x] != '.')
 		f->frontier[y][x] = (f->tab[y][x] == f->player) ? 3 : -3;
 	else if (X_ETOILE >= 0 && X_ETOILE < f->piece.xmax && Y_ETOILE >= 0 &&
-		Y_ETOILE < f->piece.ymax && f->piece.tab[Y_ETOILE][Y_ETOILE] == '*')
+		Y_ETOILE < f->piece.ymax && f->piece.tab[Y_ETOILE][X_ETOILE] == '*')
 		f->frontier[y][x] = 3;
 	else
 		f->frontier[y][x] = closest_player(f, x, y, player_sign) ^ 2;

@@ -42,7 +42,14 @@ typedef struct	s_filler
 	int			territory;
 }				t_filler;
 
-void			update_frontier(t_filler *f);
+typedef struct	s_pos
+{
+	int			x;
+	int			y;
+	int			distance;
+}				t_pos;
+
+void			update_frontier(t_filler *f, int player_sign);
 void			set_frontier(t_filler *f);
 int16_t			check_contact(t_filler *f);
 int16_t			check_area(t_filler *f);

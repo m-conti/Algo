@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 17:35:36 by tbehra            #+#    #+#             */
-/*   Updated: 2018/05/17 19:24:42 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/05/18 18:02:33 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	init_filler(t_filler *f)
 	f->strategy = 0;
 	f->piece.tab = NULL;
 	f->tab = NULL;
-	f->tactic[0] = &check_area;
+	f->tactic[0] = &check_area; //&check_territory;
 	f->tactic[1] = &check_contact;
 	f->bestpos.count_change_strat = 0;
 	f->frontier = NULL;
@@ -182,7 +182,7 @@ int main(int ac, char **av)
 	if (!(av))
 		return (ac);
 	//- ---- --- 
-	f.fd = open("/Users/tbehra/Documents/projects/Algo_m/filler/log",
+	f.fd = open("/Users/mconti/42/algotim/filler/log",
 			O_CREAT | O_WRONLY | O_TRUNC);
 	line = ft_strdup("abc");
 	
@@ -192,12 +192,14 @@ int main(int ac, char **av)
 	{	
 		init_turn(&f);
 		parse_tab(&f, line);
+		update_frontier(&f, -1);
 		get_next_line(0, &line);
 		build_piece(&f, line);
 		if (!(n = best_placement(&f)))
 			break ;	
 		ft_printf("%i %i\n", f.bestpos.y, f.bestpos.x);
 		//ft_tabdel((void**)f.piece.tab, f.piece.ymax);
+		update_frontier(&f, 1);
 		while (get_next_line(0, &line) == 0)
 			;
 		ft_strdel(&line); // del line Plateau X X

@@ -6,45 +6,131 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/17 16:29:01 by tbehra            #+#    #+#             */
-/*   Updated: 2018/05/17 19:24:49 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/05/18 18:02:30 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 
-#define Y_PLAYER (int16_t)((coord >> 0x10) & 0xFFFF)
-#define X_PLAYER (int16_t)(coord & 0xFFFF)
-#define Y_ENNEMY (int16_t)((coord >> 0x30) & 0xFFFF)
-#define X_ENNEMY (int16_t)((coord >> 0x20) & 0xFFFF)
+#define Y_PLAYER ((coord >> 0x10) & 0xFFFF)
+#define X_PLAYER (coord & 0xFFFF)
+#define Y_ENNEMY ((coord >> 0x30) & 0xFFFF)
+#define X_ENNEMY ((coord >> 0x20) & 0xFFFF)
+
+void	show_frontier(t_filler *f)
+{
+	int x;
+	int y;
+
+	y = -1;
+//	dprintf(f->fd, "Player = %c\n", f->player);
+	while (++y < f->ymax)
+	{
+		x = -1;
+		while (++x < f->xmax)
+		{
+			dprintf(f->fd, "%3d", f->frontier[y][x]);
+		}
+		x = -1;
+		while (++x < f->xmax)
+		{
+			dprintf(f->fd, "%2c", f->tab[y][x]);
+		}
+		dprintf(f->fd, "\n");
+	}
+	dprintf(f->fd, "\n");
+}
+
+int8_t is_player(t_filler *f, int x, int y, int player_sign)
+{
+	int x1;
+	int y1;
+
+	if (x < 0 || x >= f->xmax || y < 0 || y >= f->ymax)
+		return (0);
+	if (f->tab[y][x] != '.')
+		return (f->tab[y][x] == f->player ? 1 : -1);
+	if (player_sign == 1)
+	{
+		x1 = x - f->bestpos.x;
+		y1 = y - f->bestpos.y;
+		if (x1 < 0 || x1 >= f->piece.xmax || y1 < 0 || y1 >= f->piece.ymax)
+			return (0);
+		return(f->piece.tab[y1][x1] == '*');
+	}
+	return (0);
+}
+
+int8_t check_pos(t_filler *f, t_pos p, int player_sign)
+{
+	int ret;
+	int n;
+	int	x1;
+	int	y1;
+
+	x1 = p.x - p.distance;
+	y1 = p.y;
+	ret = 0;
+	while (x1 != p.x && ret != 2)
+		if ((n = is_player(f, x1++, y1--, player_sign)) && n != ret)
+			ret = ret ? 2 : n;
+	while (y1 != p.y && ret != 2)
+		if ((n = is_player(f, x1++, y1++, player_sign)) && n != ret)
+			ret = ret ? 2 : n;
+	while (x1 != p.x && ret != 2)
+		if ((n = is_player(f, x1--, y1++, player_sign)) && n != ret)
+			ret = ret ? 2 : n;
+	while (y1 != p.y && ret != 2)
+		if ((n = is_player(f, x1--, y1--, player_sign)) && n != ret)
+			ret = ret ? 2 : n;
+//	dprintf(f->fd, "x: %2i || y: %2i || dist: %2i || ret: %2i\n", p.x, p.y, p.distance, ret);
+	return (ret);
+}
+
+int8_t	closest_player(t_filler *f, int x, int y, int player_sign)
+{
+	int	ret;
+	int	n;
+	t_pos p;
+
+	p.x = x;
+	p.y = y;
+	p.distance = 0;
+	ret = 0;
+	while (++p.distance && !ret)
+		ret = check_pos(f, p, player_sign);
+	if (ret != 2)
+		ret = (n = check_pos(f, p, player_sign)) && n != ret ? 2 : ret;
+	if (ret == 2)
+		ret = 0;
+	return (ret);
+}
 
 void	fill_frontier(t_filler *f, int x, int y, int player_sign)
 {
 	int8_t pre_fill;
 
 	pre_fill = f->frontier[y][x];
+//	dprintf(f->fd, "pre_fill: %-2hhi", pre_fill);
 	if (f->tab[y][x] != '.')
+		f->frontier[y][x] = (f->tab[y][x] == f->player) ? 3 : -3;
+	else
+		f->frontier[y][x] = closest_player(f, x, y, player_sign) ^ 2;
+	if (pre_fill != f->frontier[y][x] % 2)
 	{
-		f->frontier[y][x] = (f->tab[y][x] == f->player) ? 1 : -1;
-	//	f->territory += f->frontier[y][x] * (pre_fill != f->frontier[y][x]);
+		if (pre_fill == 1)
+			f->territory--;
+		else if (f->frontier[y][x] == 3)
+			f->territory++;
+		if (x + 1 < f->xmax && f->frontier[y][x + 1] == -player_sign)
+			fill_frontier(f, x + 1, y, player_sign);
+		if (x - 1 > 0 && f->frontier[y][x - 1] == -player_sign)
+			fill_frontier(f, x - 1, y, player_sign);
+		if (y + 1 < f->ymax && f->frontier[y + 1][x] == -player_sign)
+			fill_frontier(f, x, y + 1, player_sign);
+		if (y - 1 > 0 && f->frontier[y - 1][x] == -player_sign)
+			fill_frontier(f, x, y - 1, player_sign);
 	}
-	else if ()
-	{
-
-	}
-
-	if (pre_fill != f->frontier[y][x])
-	{
-		if (x + 1 < xmax && f->frontier[y][x + 1] != player_sign)
-			;
-		if (x - 1 > 0 && f->frontier[y][x - 1] != player_sign)
-			;
-		if (y + 1 < ymax && f->frontier[y + 1][x] != player_sign)
-			;
-		if (y - 1 > 0 && f->frontier[y - 1][x] != player_sign)
-			;
-		
-	}
-
 }
 
 void	update_frontier(t_filler *f, int player_sign)
@@ -52,30 +138,30 @@ void	update_frontier(t_filler *f, int player_sign)
 	int x;
 	int y;
 
-	y  = -1;
-	while (y++ < ymax)
+	y = -1;
+	while (++y < f->ymax)
 	{
 		x = -1;
-		while (x++ < xmax)
+		while (++x < f->xmax)
 			if (!f->frontier[y][x])
 				fill_frontier(f, x, y, player_sign);
 	}
 	y = -1;
-	while (y++ < ymax)
+	while (++y < f->ymax)
 	{
 		x = -1;
-		while (x++ < xmax)
+		while (++x < f->xmax)
 			f->frontier[y][x] %= 2;
 	}
+	show_frontier(f);
 }
 
-
-void	find_coord(t_filler *f, uint64_t *coord)
+void	find_coord(t_filler *f, int64_t *coord)
 {
 	int64_t x;
 	int64_t y;
 
-	y = -1; 
+	y = -1;
 	while (++y < f->ymax)
 	{
 		x = -1;
@@ -85,7 +171,7 @@ void	find_coord(t_filler *f, uint64_t *coord)
 			{
 				if (f->tab[y][x] == f->player)
 					*coord |= (y << 0x10) | x;
-				else if (*coord < 0x100)
+				else if (*coord < 0x100000000)
 					*coord |= (y << 0x30) | (x << 0x20);
 			}
 		}
@@ -93,13 +179,13 @@ void	find_coord(t_filler *f, uint64_t *coord)
 }
 
 
-int8_t	belongs_to_us(int x, int y, uint64_t coord)
+int8_t	belongs_to_us(int x, int y, int64_t coord)
 {
 	int dist_y_p;
 	int dist_y_e;
 	int dist_x_p;
 	int dist_x_e;
-	
+
 	dist_y_p = (Y_PLAYER - y) < 0 ? -(Y_PLAYER - y) : Y_PLAYER - y;
 	dist_y_e = (Y_ENNEMY - y) < 0 ? -(Y_ENNEMY - y) : Y_ENNEMY - y;
 	dist_x_p = (X_PLAYER - x) < 0 ? -(X_PLAYER - x) : X_PLAYER - x;
@@ -109,30 +195,16 @@ int8_t	belongs_to_us(int x, int y, uint64_t coord)
 	return (dist_y_p + dist_x_p < dist_y_e + dist_x_e - 1);
 }
 
-void	show_frontier(t_filler *f)
-{
-	int x;
-	int y;
-	y = -1;
-	while (++y < f->ymax)
-	{
-		x = -1;
-		while (++x < f->xmax)
-		{
-			dprintf(f->fd, "%3d", f->frontier[y][x]);	
-		}
-		dprintf(f->fd, "\n");
-	}
-}
-
 void	set_frontier(t_filler *f)
 {
-	uint64_t	coord;
+	int64_t	coord;
 	int			x;
 	int			y;
 
+	coord = 0;
 	find_coord(f, &coord);
-//	dprintf(f->fd, "ex = %i || ey = %i || px = %i || py = %i", X_ENNEMY, Y_ENNEMY , X_PLAYER , Y_PLAYER);
+//	dprintf(f->fd, "coord : %llX || ex = %lli || ey = %lli || px = %lli || py = %lli\n", coord, X_ENNEMY, Y_ENNEMY , X_PLAYER , Y_PLAYER);
+
 	f->frontier = (int8_t**)malloc(sizeof(int8_t*) * f->ymax);
 	y = -1;
 	while (++y < f->ymax)

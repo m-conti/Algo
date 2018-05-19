@@ -110,7 +110,7 @@ int8_t	shortest_distance(t_filler *f)
 	}
 	return (0);
 }
-/*
+
 int16_t	check_area(t_filler *f)
 {
 	int16_t area;
@@ -132,14 +132,14 @@ int16_t	check_area(t_filler *f)
 	}
 	return (area);
 }
-*/
 
-int16_t	check_area(t_filler *f)
+int16_t	check_territory(t_filler *f)
 {
-	//int8_t	**cp_frontier;
+	int		ret;
 
-	predict_frontier();
-	return (f->territory);
+	ret = 0;
+	update_frontier(f, 1);
+	return (ret);
 }
 
 int8_t	check_placement(t_filler *f)

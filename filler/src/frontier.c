@@ -45,11 +45,11 @@ void	show_frontier(t_filler *f)
 		x = RESET_COUNT;
 		while (++x < f->xmax)
 		{
-			if (!f->frontier[y][x])
+			if (!(f->frontier[y][x] % 2))
 				dprintf(f->fd, "\x1b[32m%3c", f->tab[y][x]);
-			else if (f->frontier[y][x] == ENNEMY_TERRITORY)
+			else if (f->frontier[y][x] % 2 == ENNEMY_TERRITORY)
 				dprintf(f->fd, "\x1b[31m%3c", f->tab[y][x]);
-			else if (f->frontier[y][x] == PLAYER_TERRITORY)
+			else if (f->frontier[y][x] % 2 == PLAYER_TERRITORY)
 				dprintf(f->fd, "\x1b[34m%3c", f->tab[y][x]);
 		}
 		dprintf(f->fd, "\n");
@@ -115,7 +115,8 @@ int8_t	closest_player(t_filler *f, int x, int y, int player_sign)
 	while (++p.distance && !ret)
 		ret = check_pos(f, p, player_sign);
 	if (ret != LOST_TERRITORY)
-		ret = (n = check_pos(f, p, player_sign)) && n != ret ? LOST_TERRITORY : ret;
+		if ((n = check_pos(f, p, player_sign)) && n != ret)
+			ret = LOST_TERRITORY;
 	if (ret == LOST_TERRITORY)
 		ret = 0;
 	return (ret);
@@ -164,6 +165,16 @@ void	fill_frontier(t_filler *f, int x, int y, int player_sign)
 	}
 }
 
+void	draw_frontier(t_filler *f, int x, int y)
+{
+	if ((LEFT >= 0 && (f->frontier[y][LEFT]) == PLAYER_TERRITORY)
+	|| (RIGHT < f->xmax && (f->frontier[y][RIGHT]) == PLAYER_TERRITORY)
+	|| (UP >= 0 && (f->frontier[UP][x]) == PLAYER_TERRITORY)
+	|| (DOWN < f->ymax && (f->frontier[DOWN][x]) == PLAYER_TERRITORY))
+		return ;
+	f->frontier[y][x] = ENNEMY_TERRITORY;
+}
+
 void	update_frontier(t_filler *f, int player_sign)
 {
 	int x;
@@ -182,9 +193,21 @@ void	update_frontier(t_filler *f, int player_sign)
 	{
 		x = RESET_COUNT;
 		while (++x < f->xmax)
+		{
 			f->frontier[y][x] %= 2;
+		}
 	}
-	show_frontier(f);
+	y = RESET_COUNT;
+	while (++y < f->ymax)
+	{
+		x = RESET_COUNT;
+		while (++x < f->xmax)
+		{
+			if (!f->frontier[y][x] && player_sign == ENNEMY_TERRITORY)
+				draw_frontier(f, x, y);
+		}
+	}
+//	show_frontier(f);
 }
 
 void	find_coord(t_filler *f, int64_t *coord)
@@ -246,5 +269,5 @@ void	set_frontier(t_filler *f)
 			f->territory += (f->frontier[y][x] == PLAYER_TERRITORY);
 		}
 	}
-	show_frontier(f);//
+//	show_frontier(f);//
 }

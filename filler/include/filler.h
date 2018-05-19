@@ -54,5 +54,6 @@ void			set_frontier(t_filler *f);
 int16_t			check_contact(t_filler *f);
 int16_t			check_area(t_filler *f);
 int16_t			best_placement(t_filler *f);
+int16_t			update_frontier_test(t_filler *f);
 
 #endif

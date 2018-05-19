@@ -9,7 +9,7 @@ SRCDIR	= src
 OBJDIR	= obj
 INCDIR	= include
 
-SRC		= filler.c tactic.c frontier.c
+SRC		= filler.c tactic.c frontier.c test_frontier.c
 
 OBJ		= $(SRC:.c=.o)
 

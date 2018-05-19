@@ -176,10 +176,8 @@ int8_t	check_placement(t_filler *f)
 int16_t	best_placement(t_filler *f)
 {
 	int16_t n;
-	int		change_strat;
 
 	n = 0;
-	change_strat = 0;
 	f->piece.y = -f->piece.ymax;
 	while (f->piece.y <= f->ymax)
 	{
@@ -192,14 +190,13 @@ int16_t	best_placement(t_filler *f)
 					f->bestpos.n = n;
 					f->bestpos.x = f->piece.x;
 					f->bestpos.y = f->piece.y;
-					change_strat++;
 				}
 			f->piece.x++;
 		}
 		f->piece.y++;
 	}
-	f->bestpos.count_change_strat = (change_strat == 1) ? f->bestpos.count_change_strat+1 : 0;
+	f->bestpos.count_change_strat -= (f->bestpos.n == f->territory);
 	if (!(f->strategy))
-		f->strategy = (f->bestpos.count_change_strat == 8);
+		f->strategy = !(f->bestpos.count_change_strat);
 	return (n);
 }

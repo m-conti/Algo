@@ -16,6 +16,8 @@
 #define X_PLAYER (coord & 0xFFFF)
 #define Y_ENNEMY ((coord >> 0x30) & 0xFFFF)
 #define X_ENNEMY ((coord >> 0x20) & 0xFFFF)
+#define X_ETOILE x - f->bestpos.x
+#define Y_ETOILE y - f->bestpos.y
 
 void	show_frontier(t_filler *f)
 {
@@ -32,6 +34,7 @@ void	show_frontier(t_filler *f)
 			dprintf(f->fd, "%3d", f->frontier[y][x]);
 		}
 		x = -1;
+		dprintf(f->fd, "   ");
 		while (++x < f->xmax)
 		{
 			dprintf(f->fd, "%2c", f->tab[y][x]);
@@ -52,8 +55,8 @@ int8_t is_player(t_filler *f, int x, int y, int player_sign)
 		return (f->tab[y][x] == f->player ? 1 : -1);
 	if (player_sign == 1)
 	{
-		x1 = x - f->bestpos.x;
-		y1 = y - f->bestpos.y;
+		x1 = X_ETOILE;
+		y1 = Y_ETOILE;
 		if (x1 < 0 || x1 >= f->piece.xmax || y1 < 0 || y1 >= f->piece.ymax)
 			return (0);
 		return(f->piece.tab[y1][x1] == '*');
@@ -111,9 +114,11 @@ void	fill_frontier(t_filler *f, int x, int y, int player_sign)
 	int8_t pre_fill;
 
 	pre_fill = f->frontier[y][x];
-//	dprintf(f->fd, "pre_fill: %-2hhi", pre_fill);
 	if (f->tab[y][x] != '.')
 		f->frontier[y][x] = (f->tab[y][x] == f->player) ? 3 : -3;
+	else if (X_ETOILE >= 0 && X_ETOILE < f->piece.xmax && Y_ETOILE >= 0 &&
+		Y_ETOILE < f->piece.ymax && f->piece.tab[Y_ETOILE][Y_ETOILE] == '*')
+		f->frontier[y][x] = 3;
 	else
 		f->frontier[y][x] = closest_player(f, x, y, player_sign) ^ 2;
 	if (pre_fill != f->frontier[y][x] % 2)
@@ -153,7 +158,7 @@ void	update_frontier(t_filler *f, int player_sign)
 		while (++x < f->xmax)
 			f->frontier[y][x] %= 2;
 	}
-	show_frontier(f);
+	//show_frontier(f);
 }
 
 void	find_coord(t_filler *f, int64_t *coord)
@@ -217,5 +222,5 @@ void	set_frontier(t_filler *f)
 			f->territory += (f->frontier[y][x] == 1);
 		}
 	}
-	show_frontier(f);
+	//show_frontier(f);
 }

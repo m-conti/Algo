@@ -64,9 +64,8 @@ void	init_filler(t_filler *f)
 	f->strategy = 0;
 	f->piece.tab = NULL;
 	f->tab = NULL;
-	f->tactic[0] = &check_area; //&check_territory;
+	f->tactic[0] = &update_frontier_test; //&check_territory;
 	f->tactic[1] = &check_contact;
-	f->bestpos.count_change_strat = 0;
 	f->frontier = NULL;
 }	
 
@@ -169,7 +168,10 @@ void	parse_tab(t_filler *f, char *line)
 		//ft_tabdel((void**)tab, 1);	
 	}
 	if (!f->frontier)
+	{
+		f->bestpos.count_change_strat = f->xmax / 2;
 		set_frontier(f);
+	}
 }
 
 int main(int ac, char **av)
@@ -184,8 +186,6 @@ int main(int ac, char **av)
 	//- ---- --- 
 	f.fd = open("/Users/mconti/42/algotim/filler/log",
 			O_CREAT | O_WRONLY | O_TRUNC);
-	line = ft_strdup("abc");
-	
 	init_filler(&f);
 	n = -1;
 	while (n)

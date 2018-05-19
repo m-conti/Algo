@@ -12,30 +12,44 @@
 
 #include "filler.h"
 
-#define Y_PLAYER ((coord >> 0x10) & 0xFFFF)
-#define X_PLAYER (coord & 0xFFFF)
-#define Y_ENNEMY ((coord >> 0x30) & 0xFFFF)
-#define X_ENNEMY ((coord >> 0x20) & 0xFFFF)
+#define TWO_BYTES (0x10)
+#define FOUR_BYTES (0x20)
+#define SIX_BYTES (0x30)
+#define MASQ_SHORT (0xFFFF)
+#define Y_PLAYER ((coord >> TWO_BYTES) & MASQ_SHORT)
+#define X_PLAYER (coord & MASQ_SHORT)
+#define Y_ENNEMY ((coord >> SIX_BYTES) & MASQ_SHORT)
+#define X_ENNEMY ((coord >> FOUR_BYTES) & MASQ_SHORT)
 #define X_ETOILE x - f->bestpos.x
 #define Y_ETOILE y - f->bestpos.y
+#define NEW_PLAYER_TERRITORY (3)
+#define NEW_ENNEMY_TERRITORY (-3)
+#define LOST_TERRITORY (2)
+#define PLAYER_TERRITORY (1)
+#define ENNEMY_TERRITORY (-1)
+#define RESET_COUNT (-1)
+#define UP (y - 1)
+#define DOWN (y + 1)
+#define RIGHT (x + 1)
+#define LEFT (x - 1)
 
 void	show_frontier(t_filler *f)
 {
 	int x;
 	int y;
 
-	y = -1;
+	y = RESET_COUNT;
 //	dprintf(f->fd, "Player = %c\n", f->player);
 	while (++y < f->ymax)
 	{
-		x = -1;
+		x = RESET_COUNT;
 		while (++x < f->xmax)
 		{
 			if (!f->frontier[y][x])
 				dprintf(f->fd, "\x1b[32m%3c", f->tab[y][x]);
-			else if (f->frontier[y][x] == -1)
+			else if (f->frontier[y][x] == ENNEMY_TERRITORY)
 				dprintf(f->fd, "\x1b[31m%3c", f->tab[y][x]);
-			else if (f->frontier[y][x] == 1)
+			else if (f->frontier[y][x] == PLAYER_TERRITORY)
 				dprintf(f->fd, "\x1b[34m%3c", f->tab[y][x]);
 		}
 		dprintf(f->fd, "\n");
@@ -51,8 +65,8 @@ int8_t is_player(t_filler *f, int x, int y, int player_sign)
 	if (x < 0 || x >= f->xmax || y < 0 || y >= f->ymax)
 		return (0);
 	if (f->tab[y][x] != '.')
-		return (f->tab[y][x] == f->player ? 1 : -1);
-	if (player_sign == 1)
+		return (f->tab[y][x] == f->player ? PLAYER_TERRITORY : ENNEMY_TERRITORY);
+	if (player_sign == PLAYER_TERRITORY)
 	{
 		x1 = X_ETOILE;
 		y1 = Y_ETOILE;
@@ -73,19 +87,18 @@ int8_t check_pos(t_filler *f, t_pos p, int player_sign)
 	x1 = p.x - p.distance;
 	y1 = p.y;
 	ret = 0;
-	while (x1 != p.x && ret != 2)
+	while (x1 != p.x && ret != LOST_TERRITORY)
 		if ((n = is_player(f, x1++, y1--, player_sign)) && n != ret)
-			ret = ret ? 2 : n;
-	while (y1 != p.y && ret != 2)
+			ret = ret ? LOST_TERRITORY : n;
+	while (y1 != p.y && ret != LOST_TERRITORY)
 		if ((n = is_player(f, x1++, y1++, player_sign)) && n != ret)
-			ret = ret ? 2 : n;
-	while (x1 != p.x && ret != 2)
+			ret = ret ? LOST_TERRITORY : n;
+	while (x1 != p.x && ret != LOST_TERRITORY)
 		if ((n = is_player(f, x1--, y1++, player_sign)) && n != ret)
-			ret = ret ? 2 : n;
-	while (y1 != p.y && ret != 2)
+			ret = ret ? LOST_TERRITORY : n;
+	while (y1 != p.y && ret != LOST_TERRITORY)
 		if ((n = is_player(f, x1--, y1--, player_sign)) && n != ret)
-			ret = ret ? 2 : n;
-//	dprintf(f->fd, "x: %2i || y: %2i || dist: %2i || ret: %2i\n", p.x, p.y, p.distance, ret);
+			ret = ret ? LOST_TERRITORY : n;
 	return (ret);
 }
 
@@ -101,11 +114,31 @@ int8_t	closest_player(t_filler *f, int x, int y, int player_sign)
 	ret = 0;
 	while (++p.distance && !ret)
 		ret = check_pos(f, p, player_sign);
-	if (ret != 2)
-		ret = (n = check_pos(f, p, player_sign)) && n != ret ? 2 : ret;
-	if (ret == 2)
+	if (ret != LOST_TERRITORY)
+		ret = (n = check_pos(f, p, player_sign)) && n != ret ? LOST_TERRITORY : ret;
+	if (ret == LOST_TERRITORY)
 		ret = 0;
 	return (ret);
+}
+
+void	move_next_frontier(t_filler *f, int x, int y, int player_sign)
+{
+	if (RIGHT < f->xmax && f->frontier[y][RIGHT] == -player_sign)
+		fill_frontier(f, RIGHT, y, player_sign);
+	if (LEFT >= 0 && f->frontier[y][LEFT] == -player_sign)
+		fill_frontier(f, LEFT, y, player_sign);
+	if (DOWN < f->ymax && f->frontier[DOWN][x] == -player_sign)
+		fill_frontier(f, x, DOWN, player_sign);
+	if (UP >= 0 && f->frontier[UP][x] == -player_sign)
+		fill_frontier(f, x, UP, player_sign);
+	if (RIGHT < f->xmax && DOWN < f->ymax && f->frontier[DOWN][RIGHT] == -player_sign)
+		fill_frontier(f, RIGHT, DOWN, player_sign);
+	if (LEFT >= 0 && DOWN < f->ymax && f->frontier[DOWN][LEFT] == -player_sign)
+		fill_frontier(f, LEFT, DOWN, player_sign);
+	if (RIGHT < f->xmax && UP >= 0 && f->frontier[UP][RIGHT] == -player_sign)
+		fill_frontier(f, RIGHT, UP, player_sign);
+	if (LEFT  >= 0 && UP >= 0 && f->frontier[UP][LEFT] == -player_sign)
+		fill_frontier(f, LEFT, UP, player_sign);
 }
 
 void	fill_frontier(t_filler *f, int x, int y, int player_sign)
@@ -114,41 +147,20 @@ void	fill_frontier(t_filler *f, int x, int y, int player_sign)
 
 	pre_fill = f->frontier[y][x];
 	if (f->tab[y][x] != '.')
-		f->frontier[y][x] = (f->tab[y][x] == f->player) ? 3 : -3;
+		f->frontier[y][x] = (f->tab[y][x] == f->player) ?
+			NEW_PLAYER_TERRITORY : NEW_ENNEMY_TERRITORY;
 	else if (X_ETOILE >= 0 && X_ETOILE < f->piece.xmax && Y_ETOILE >= 0 &&
 		Y_ETOILE < f->piece.ymax && f->piece.tab[Y_ETOILE][X_ETOILE] == '*')
-		f->frontier[y][x] = 3;
+		f->frontier[y][x] = NEW_PLAYER_TERRITORY;
 	else
 		f->frontier[y][x] = closest_player(f, x, y, player_sign) ^ 2;
 	if (pre_fill != f->frontier[y][x] % 2)
 	{
-		if (pre_fill == 1)
+		if (pre_fill == PLAYER_TERRITORY)
 			f->territory--;
-		else if (f->frontier[y][x] == 3)
+		else if (f->frontier[y][x] == NEW_PLAYER_TERRITORY)
 			f->territory++;
-		if (x + 1 < f->xmax && f->frontier[y][x + 1] == -player_sign)
-			fill_frontier(f, x + 1, y, player_sign);
-
-		if (x - 1 >= 0 && f->frontier[y][x - 1] == -player_sign)
-			fill_frontier(f, x - 1, y, player_sign);
-
-		if (y + 1 < f->ymax && f->frontier[y + 1][x] == -player_sign)
-			fill_frontier(f, x, y + 1, player_sign);
-
-		if (y - 1 >= 0 && f->frontier[y - 1][x] == -player_sign)
-			fill_frontier(f, x, y - 1, player_sign);
-
-		if (x + 1 < f->xmax && y + 1 < f->ymax && f->frontier[y + 1][x + 1] == -player_sign)
-			fill_frontier(f, x + 1, y + 1, player_sign);
-
-		if (x - 1 >= 0 && y + 1 < f->ymax && f->frontier[y + 1][x - 1] == -player_sign)
-			fill_frontier(f, x - 1, y + 1, player_sign);
-
-		if (x + 1 < f->xmax && y - 1 >= 0 && f->frontier[y - 1][x + 1] == -player_sign)
-			fill_frontier(f, x + 1, y - 1, player_sign);
-
-		if (x - 1  >= 0 && y - 1 >= 0 && f->frontier[y - 1][x - 1] == -player_sign)
-			fill_frontier(f, x - 1, y - 1, player_sign);
+		move_next_frontier(f, x, y, player_sign);
 	}
 }
 
@@ -157,18 +169,18 @@ void	update_frontier(t_filler *f, int player_sign)
 	int x;
 	int y;
 
-	y = -1;
+	y = RESET_COUNT;
 	while (++y < f->ymax)
 	{
-		x = -1;
+		x = RESET_COUNT;
 		while (++x < f->xmax)
 			if (!f->frontier[y][x])
 				fill_frontier(f, x, y, player_sign);
 	}
-	y = -1;
+	y = RESET_COUNT;
 	while (++y < f->ymax)
 	{
-		x = -1;
+		x = RESET_COUNT;
 		while (++x < f->xmax)
 			f->frontier[y][x] %= 2;
 	}
@@ -180,18 +192,18 @@ void	find_coord(t_filler *f, int64_t *coord)
 	int64_t x;
 	int64_t y;
 
-	y = -1;
+	y = RESET_COUNT;
 	while (++y < f->ymax)
 	{
-		x = -1;
+		x = RESET_COUNT;
 		while (++x < f->xmax)
 		{
 			if (f->tab[y][x] != '.')
 			{
 				if (f->tab[y][x] == f->player)
-					*coord |= (y << 0x10) | x;
-				else if (*coord < 0x100000000)
-					*coord |= (y << 0x30) | (x << 0x20);
+					*coord |= (y << TWO_BYTES) | x;
+				else if (*coord <= INT_MAX)
+					*coord |= (y << SIX_BYTES) | (x << FOUR_BYTES);
 			}
 		}
 	}
@@ -210,7 +222,7 @@ int8_t	belongs_to_us(int x, int y, int64_t coord)
 	dist_x_p = (X_PLAYER - x) < 0 ? -(X_PLAYER - x) : X_PLAYER - x;
 	dist_x_e = (X_ENNEMY - x) < 0 ? -(X_ENNEMY - x) : X_ENNEMY - x;
 	if (dist_y_p + dist_x_p > dist_y_e + dist_x_e + 1)
-		return (-1);
+		return (ENNEMY_TERRITORY);
 	return (dist_y_p + dist_x_p < dist_y_e + dist_x_e - 1);
 }
 
@@ -222,19 +234,17 @@ void	set_frontier(t_filler *f)
 
 	coord = 0;
 	find_coord(f, &coord);
-//	dprintf(f->fd, "coord : %llX || ex = %lli || ey = %lli || px = %lli || py = %lli\n", coord, X_ENNEMY, Y_ENNEMY , X_PLAYER , Y_PLAYER);
-
 	f->frontier = (int8_t**)malloc(sizeof(int8_t*) * f->ymax);
-	y = -1;
+	y = RESET_COUNT;
 	while (++y < f->ymax)
 	{
 		f->frontier[y] = (int8_t*)malloc(f->xmax);
-		x = -1;
+		x = RESET_COUNT;
 		while (++x < f->xmax)
 		{
 			f->frontier[y][x] = belongs_to_us(x, y, coord);
-			f->territory += (f->frontier[y][x] == 1);
+			f->territory += (f->frontier[y][x] == PLAYER_TERRITORY);
 		}
 	}
-	show_frontier(f);
+	show_frontier(f);//
 }

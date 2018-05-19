@@ -50,8 +50,6 @@ void	build_piece(t_filler *f, char *line)
 
 void	init_turn(t_filler *f)
 {
-	f->x = 0;
-	f->y = 0;
 	f->piece.x = 0;
 	f->piece.y = 0;
 	f->bestpos.n = 0;
@@ -85,8 +83,6 @@ void	init_filler(t_filler *f)
 	//ft_memdel((void**)p->piece);
 }*/
 
-
-
 void	parse_first_time(t_filler *f, char *line)
 {
 	char **plateau_line;
@@ -113,7 +109,7 @@ void	parse_first_time(t_filler *f, char *line)
 		f->xmax = ft_atoi(plateau_line[2]);
 		if (!(f->ymax >= 2 || f->xmax >= 2))
 			return ; //error();
-	//	ft_tabdel((void**)plateau_line, -1);
+		//ft_tabdel((void**)plateau_line, -1);
 	}
 	else
 		return ; //error
@@ -169,7 +165,7 @@ void	parse_tab(t_filler *f, char *line)
 	}
 	if (!f->frontier)
 	{
-		f->bestpos.count_change_strat = f->xmax;
+		f->bestpos.count_change_strat = f->xmax; // A VIRER 
 		set_frontier(f);
 	}
 }

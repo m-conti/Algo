@@ -102,6 +102,17 @@ int16_t	fill_frontier_test(t_filler *f, int x, int y)
 			ret += fill_frontier_test(f, x, y + 1);
 		if (y - 1 > 0 && f->frontier[y - 1][x] == -1)
 			ret += fill_frontier_test(f, x, y - 1);
+		if (x + 1 < f->xmax && y + 1 < f->ymax && f->frontier[y + 1][x + 1] == -1)
+			ret += fill_frontier_test(f, x + 1, y + 1);
+
+		if (x - 1 >= 0 && y + 1 < f->ymax && f->frontier[y + 1][x - 1] == -1)
+			ret += fill_frontier_test(f, x - 1, y + 1);
+
+		if (x + 1 < f->xmax && y - 1 >= 0 && f->frontier[y - 1][x + 1] == -1)
+			ret += fill_frontier_test(f, x + 1, y - 1);
+
+		if (x - 1  >= 0 && y - 1 >= 0 && f->frontier[y - 1][x - 1] == -1)
+			ret += fill_frontier_test(f, x - 1, y - 1);
 	}
 	f->frontier[y][x] = pre_fill ^ 2;
 	return (ret);
@@ -129,6 +140,6 @@ int16_t	update_frontier_test(t_filler *f)
 		while (++x < f->xmax)
 			f->frontier[y][x] %= 2;
 	}
-	dprintf(f->fd, "%hi\n", ret);
+	//dprintf(f->fd, "%hi\n", ret);
 	return (f->territory + ret);
 }

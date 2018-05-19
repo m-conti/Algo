@@ -169,7 +169,7 @@ void	parse_tab(t_filler *f, char *line)
 	}
 	if (!f->frontier)
 	{
-		f->bestpos.count_change_strat = f->xmax / 2;
+		f->bestpos.count_change_strat = f->xmax;
 		set_frontier(f);
 	}
 }

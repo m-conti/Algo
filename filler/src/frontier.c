@@ -31,13 +31,12 @@ void	show_frontier(t_filler *f)
 		x = -1;
 		while (++x < f->xmax)
 		{
-			dprintf(f->fd, "%3d", f->frontier[y][x]);
-		}
-		x = -1;
-		dprintf(f->fd, "   ");
-		while (++x < f->xmax)
-		{
-			dprintf(f->fd, "%2c", f->tab[y][x]);
+			if (!f->frontier[y][x])
+				dprintf(f->fd, "\x1b[32m%3c", f->tab[y][x]);
+			else if (f->frontier[y][x] == -1)
+				dprintf(f->fd, "\x1b[31m%3c", f->tab[y][x]);
+			else if (f->frontier[y][x] == 1)
+				dprintf(f->fd, "\x1b[34m%3c", f->tab[y][x]);
 		}
 		dprintf(f->fd, "\n");
 	}
@@ -129,12 +128,27 @@ void	fill_frontier(t_filler *f, int x, int y, int player_sign)
 			f->territory++;
 		if (x + 1 < f->xmax && f->frontier[y][x + 1] == -player_sign)
 			fill_frontier(f, x + 1, y, player_sign);
-		if (x - 1 > 0 && f->frontier[y][x - 1] == -player_sign)
+
+		if (x - 1 >= 0 && f->frontier[y][x - 1] == -player_sign)
 			fill_frontier(f, x - 1, y, player_sign);
+
 		if (y + 1 < f->ymax && f->frontier[y + 1][x] == -player_sign)
 			fill_frontier(f, x, y + 1, player_sign);
-		if (y - 1 > 0 && f->frontier[y - 1][x] == -player_sign)
+
+		if (y - 1 >= 0 && f->frontier[y - 1][x] == -player_sign)
 			fill_frontier(f, x, y - 1, player_sign);
+
+		if (x + 1 < f->xmax && y + 1 < f->ymax && f->frontier[y + 1][x + 1] == -player_sign)
+			fill_frontier(f, x + 1, y + 1, player_sign);
+
+		if (x - 1 >= 0 && y + 1 < f->ymax && f->frontier[y + 1][x - 1] == -player_sign)
+			fill_frontier(f, x - 1, y + 1, player_sign);
+
+		if (x + 1 < f->xmax && y - 1 >= 0 && f->frontier[y - 1][x + 1] == -player_sign)
+			fill_frontier(f, x + 1, y - 1, player_sign);
+
+		if (x - 1  >= 0 && y - 1 >= 0 && f->frontier[y - 1][x - 1] == -player_sign)
+			fill_frontier(f, x - 1, y - 1, player_sign);
 	}
 }
 
@@ -158,7 +172,7 @@ void	update_frontier(t_filler *f, int player_sign)
 		while (++x < f->xmax)
 			f->frontier[y][x] %= 2;
 	}
-	//show_frontier(f);
+	show_frontier(f);
 }
 
 void	find_coord(t_filler *f, int64_t *coord)
@@ -222,5 +236,5 @@ void	set_frontier(t_filler *f)
 			f->territory += (f->frontier[y][x] == 1);
 		}
 	}
-	//show_frontier(f);
+	show_frontier(f);
 }

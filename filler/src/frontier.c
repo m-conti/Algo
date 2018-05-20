@@ -207,7 +207,7 @@ void	update_frontier(t_filler *f, int player_sign)
 				draw_frontier(f, x, y);
 		}
 	}
-//	show_frontier(f);
+	//show_frontier(f);
 }
 
 void	find_coord(t_filler *f, int64_t *coord)

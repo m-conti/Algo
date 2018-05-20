@@ -21,14 +21,12 @@ typedef struct	s_bestpos
 	int			n;
 	int			x;
 	int			y;
-	int			count_change_strat;
 }				t_bestpos;
 
 typedef struct	s_filler
 {
 	char		player;
 	char		ennemy;
-	uint8_t		strategy;
 	int			xmax;
 	int			ymax;
 	t_bestpos	bestpos;
@@ -48,11 +46,12 @@ typedef struct	s_pos
 	int			distance;
 }				t_pos;
 
+void			*init_affichage(t_filler *f);
 void			update_frontier(t_filler *f, int player_sign);
 void			fill_frontier(t_filler *f, int x, int y, int player_sign);
 void			set_frontier(t_filler *f);
 int16_t			check_contact(t_filler *f);
-int16_t			best_placement(t_filler *f);
+int16_t			best_placement(t_filler *f, uint8_t strategy);
 int16_t			update_frontier_test(t_filler *f);
 
 #endif

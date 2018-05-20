@@ -9,7 +9,7 @@ SRCDIR	= src
 OBJDIR	= obj
 INCDIR	= include
 
-SRC		= filler.c tactic.c frontier.c test_frontier.c
+SRC		= filler.c tactic.c frontier.c test_frontier.c mlx.c
 
 OBJ		= $(SRC:.c=.o)
 
@@ -17,6 +17,8 @@ LIBFTPRINTF	= ft_printf/libftprintf.a
 
 OBJP	= $(addprefix $(OBJDIR)/, $(OBJ))
 INCP	= $(foreach dir, $(INCDIR), -I$(dir))
+
+MLXFLAG	= -L/usr/X11/lib -lmlx -lXext -lx11
 
 all: printfcomp $(OBJDIR) $(NAME)
 
@@ -26,7 +28,7 @@ printfcomp:
 	make all -C ft_printf/
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(CC) $(CFLAGS) -c -o $@ $^ $(INCP)
+	$(CC) $(MLXFLAG) $(CFLAGS) -c -o $@ $^ $(INCP)
 
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)

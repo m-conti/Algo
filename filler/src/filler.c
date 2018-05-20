@@ -59,7 +59,6 @@ void	init_filler(t_filler *f)
 {
 	f->player = '\0';
 	f->ennemy = '\0';
-	f->strategy = 0;
 	f->piece.tab = NULL;
 	f->tab = NULL;
 	f->frontier = NULL;
@@ -165,7 +164,7 @@ void	parse_tab(t_filler *f, char *line)
 	}
 	if (!f->frontier)
 	{
-		f->bestpos.count_change_strat = f->xmax; // A VIRER 
+		init_affichage(f);
 		set_frontier(f);
 	}
 }
@@ -183,7 +182,7 @@ int main(int ac, char **av)
 	f.fd = open("/Users/mconti/42/algotim/filler/log",
 			O_CREAT | O_WRONLY | O_TRUNC);
 	init_filler(&f);
-	n = -1;
+	n = 1;
 	while (n)
 	{	
 		init_turn(&f);
@@ -191,7 +190,7 @@ int main(int ac, char **av)
 		update_frontier(&f, -1);
 		get_next_line(0, &line);
 		build_piece(&f, line);
-		if (!(n = best_placement(&f)))
+		if (!(n = best_placement(&f, 0)))
 			break ;	
 		ft_printf("%i %i\n", f.bestpos.y, f.bestpos.x);
 		//ft_tabdel((void**)f.piece.tab, f.piece.ymax);

@@ -66,7 +66,7 @@ int8_t	check_placement(t_filler *f)
 	return (b == 1);
 }
 
-int16_t	best_placement(t_filler *f)
+int16_t	best_placement(t_filler *f, uint8_t strategy)
 {
 	int16_t n;
 
@@ -78,7 +78,7 @@ int16_t	best_placement(t_filler *f)
 		while (f->piece.x <= f->xmax)
 		{
 			if (check_placement(f))
-				if ((n = f->tactic[f->strategy](f)) > f->bestpos.n)
+				if ((n = f->tactic[strategy](f)) > f->bestpos.n)
 				{
 					f->bestpos.n = n;
 					f->bestpos.x = f->piece.x;
@@ -88,8 +88,7 @@ int16_t	best_placement(t_filler *f)
 		}
 		f->piece.y++;
 	}
-	f->bestpos.count_change_strat -= (f->bestpos.n == f->territory);
-	if (!(f->strategy))
-		f->strategy = !(f->bestpos.count_change_strat);
-	return (n);
+	if (!f->bestpos.n && !strategy)
+		return (best_placement(f, 1));
+	return (f->bestpos.n);
 }

@@ -141,5 +141,5 @@ int16_t	update_frontier_test(t_filler *f)
 			f->frontier[y][x] %= 2;
 	}
 	//dprintf(f->fd, "%hi\n", ret);
-	return (f->territory + ret);
+	return (ret);
 }

@@ -205,7 +205,11 @@ void	update_frontier(t_filler *f, int player_sign)
 		{
 			if (!f->frontier[y][x] && player_sign == ENNEMY_TERRITORY)
 				draw_frontier(f, x, y);
+			dprintf(f->fd, "y = %i, x = %i | ", y, x);
+//			if (f->tab[y][x] == '.')
+//				print_point(f, x, y, f->frontier[y][x] + 3);
 		}
+		dprintf(f->fd, "\n");
 	}
 	//show_frontier(f);
 }
@@ -224,9 +228,15 @@ void	find_coord(t_filler *f, int64_t *coord)
 			if (f->tab[y][x] != '.')
 			{
 				if (f->tab[y][x] == f->player)
+				{
+//					print_point(f, x, y, 0);
 					*coord |= (y << TWO_BYTES) | x;
+				}
 				else if (*coord <= INT_MAX)
+				{
+//					print_point(f, x, y, 1);
 					*coord |= (y << SIX_BYTES) | (x << FOUR_BYTES);
+				}
 			}
 		}
 	}
@@ -255,6 +265,7 @@ void	set_frontier(t_filler *f)
 	int			x;
 	int			y;
 
+//	init_window(f);
 	coord = 0;
 	find_coord(f, &coord);
 	f->frontier = (int8_t**)malloc(sizeof(int8_t*) * f->ymax);

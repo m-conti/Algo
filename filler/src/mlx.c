@@ -10,62 +10,67 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
 #include "filler.h"
 #define RESET -1
 
-/*				TAILLE MARGE			*/
-#define MARGELEN 20
+/*					TAILLE ANNEXE				*/
+#define MARGELEN			20
+#define POINTLEN			8
+#define MARGECASE			1
+#define CASELEN				(POINTLEN + 2 * MARGECASE)
 
-/*				TAILLE MAP				*/
-#define MAPLENY 1000
-#define MAPLENX 1000
+/*					TAILLE MAP					*/
+#define MAPLENY				(f->ymax * CASELEN)
+#define MAPLENX				(f->xmax * CASELEN)
 
-/*				TAILLE HUD				*/
-#define HUDLENY 200
-#define HUDLENX (MAPLENX - 2 * MARGELEN)
+/*					TAILLE HUD					*/
+#define HUDLENY				200
+#define HUDLENX				(MAPLENX - 2 * MARGELEN)
 
 /*				TAILLE WINDOW			*/
-#define WINLENY (MAPLENY + HUDLENY + 3 * MARGELEN)
-#define WINLENX (MAPLENX + 2 * MARGELEN)
+#define WINLENY				(MAPLENY + HUDLENY + 3 * MARGELEN)
+#define WINLENX				(MAPLENX + 2 * MARGELEN)
 
-/*				POINTS HUD				*/
-#define HUDXMIN (2 * MARGELEN)
-#define HUDXMAX (HUDXMIN + HUDLENX)
-#define HUDYMIN MARGELEN
-#define HUDYMAX (HUDYMIN + HUDLENY)
+/*					POINTS HUD					*/
+#define HUDXMIN				(2 * MARGELEN)
+#define HUDXMAX				(HUDXMIN + HUDLENX)
+#define HUDYMIN				MARGELEN
+#define HUDYMAX				(HUDYMIN + HUDLENY)
 
-/*				POINTS MAP				*/
-#define MAPXMIN MARGELEN
-#define MAPXMAX (MAPXMIN + MAPLENX)
-#define MAPYMIN (HUDYMAX + MARGELEN)
-#define MAPYMAX (MAPYMIN + MAPLENY)
+/*					POINTS MAP					*/
+#define MAPXMIN				MARGELEN
+#define MAPXMAX				(MAPXMIN + MAPLENX)
+#define MAPYMIN				(HUDYMAX + MARGELEN)
+#define MAPYMAX				(MAPYMIN + MAPLENY)
 
-/*				PRINTHUD				*/
-#define INHUDX (x >= HUDXMIN && x < HUDXMAX)
-#define INHUDY (y >= HUDYMIN && y < HUDYMAX)
-#define INHUD (INHUDX && INHUDY)
+/*					PRINTHUD					*/
+#define INHUDX				(x >= HUDXMIN && x < HUDXMAX)
+#define INHUDY				(y >= HUDYMIN && y < HUDYMAX)
+#define INHUD				(INHUDX && INHUDY)
 
-/*				PRINTMAP				*/
-#define INMAPX (x >= MAPXMIN && x < MAPXMAX)
-#define INMAPY (y >= MAPYMIN && y < MAPYMAX)
-#define INMAP (INMAPX && INMAPY)
+/*					PRINTMAP					*/
+#define INMAPX				(x >= MAPXMIN && x < MAPXMAX)
+#define INMAPY				(y >= MAPYMIN && y < MAPYMAX)
+#define INMAP				(INMAPX && INMAPY)
 
-/*				COLORS					*/
-#define COLOR_BACK 0x00444862	/* VIOLET FONCÉ	*/
-#define COLOR_HUD 0x009090a0	/* GRIS CLAIR	*/
-#define COLOR_MAP 0x009090a0	/* GRIS CLAIR	*/
+/*					COLORS						*/
+#define COLOR_BACK			0x00444862	/* VIOLET FONCÉ	*/
+#define COLOR_HUD			0x009090a0	/* GRIS CLAIR	*/
+#define COLOR_MAP			0x009090a0	/* GRIS CLAIR	*/
+#define COLOR_PLAYER		0x000099ff
+#define COLOR_ENNEMY		0x00cc0000
+#define COLOR_FRONT			0x00ffcc00
+#define COLOR_NEXT_PLAYER	0x00cceeff
+#define COLOR_NEXT_ENNEMY	0x00660000
 
-void	*init_affichage(t_filler *f)
+void	init_window(t_filler *f)
 {
-	void	*mlx;
-	void	*window;
 	int		x;
 	int		y;
 
 	(void)f;
-	mlx = mlx_init();
-	window = mlx_new_window(mlx, WINLENX, WINLENY, "Filler");
+	f->mlx = mlx_init();
+	f->window = mlx_new_window(f->mlx, WINLENX, WINLENY, "Filler");
 	y = RESET;
 	while (++y < WINLENY)
 	{
@@ -73,12 +78,31 @@ void	*init_affichage(t_filler *f)
 		while (++x < WINLENX)
 		{
 			if (INHUD)
-				mlx_pixel_put(mlx, window, x, y, COLOR_HUD);
+				mlx_pixel_put(f->mlx, f->window, x, y, COLOR_HUD);
 			else if (INMAP)
-				mlx_pixel_put(mlx, window, x, y, COLOR_MAP);
+				mlx_pixel_put(f->mlx, f->window, x, y, COLOR_MAP);
 			else
-				mlx_pixel_put(mlx, window, x, y, COLOR_BACK);
+				mlx_pixel_put(f->mlx, f->window, x, y, COLOR_BACK);
 		}
 	}
-	return (mlx);
+}
+
+void	print_point(t_filler *f, int x, int y, int8_t type)
+{
+	dprintf(f->fd, "%i | ",type);
+	const int color[5] = {COLOR_PLAYER, COLOR_ENNEMY, COLOR_NEXT_ENNEMY, COLOR_FRONT, COLOR_NEXT_PLAYER};
+	int i;
+	int j;
+
+	if (type > 4 || type < 0)
+		return ;
+	x = MARGECASE + MAPXMIN + (x * CASELEN);
+	y = MARGECASE + MAPYMIN + (y * CASELEN);
+	j = RESET;
+	while (++j < POINTLEN)
+	{
+		i = RESET;
+		while (++i < POINTLEN)
+			mlx_pixel_put(f->mlx, f->window, x + i, y + j, color[type]);
+	}
 }

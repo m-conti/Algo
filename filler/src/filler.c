@@ -163,10 +163,7 @@ void	parse_tab(t_filler *f, char *line)
 		//ft_tabdel((void**)tab, 1);	
 	}
 	if (!f->frontier)
-	{
-		init_affichage(f);
 		set_frontier(f);
-	}
 }
 
 int main(int ac, char **av)

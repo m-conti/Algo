@@ -53,6 +53,8 @@ void	init_turn(t_filler *f)
 	f->piece.x = 0;
 	f->piece.y = 0;
 	f->bestpos.n = 0;
+	f->player_territory = 0;
+	f->ennemy_territory = 0;
 }
 
 void	init_filler(t_filler *f)
@@ -181,14 +183,19 @@ int main(int ac, char **av)
 	init_filler(&f);
 	n = 1;
 	while (n)
-	{	
+	{
 		init_turn(&f);
 		parse_tab(&f, line);
 		update_frontier(&f, -1);
+		if (VISUAL == ON)
+		{
+			print_hud(&f);
+			mlx_do_sync(f.mlx);
+		}
 		get_next_line(0, &line);
 		build_piece(&f, line);
 		if (!(n = best_placement(&f, 0)))
-			break ;	
+			break ;
 		ft_printf("%i %i\n", f.bestpos.y, f.bestpos.x);
 		//ft_tabdel((void**)f.piece.tab, f.piece.ymax);
 		update_frontier(&f, 1);

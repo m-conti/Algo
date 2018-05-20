@@ -18,7 +18,7 @@ LIBFTPRINTF	= ft_printf/libftprintf.a
 OBJP	= $(addprefix $(OBJDIR)/, $(OBJ))
 INCP	= $(foreach dir, $(INCDIR), -I$(dir))
 
-MLXFLAG	= -L/usr/X11/lib -lmlx -lXext -lx11
+MLXFLAG	= -L/usr/local/lib -lmlx -framework OpenGL -framework AppKit
 
 all: printfcomp $(OBJDIR) $(NAME)
 
@@ -28,7 +28,7 @@ printfcomp:
 	make all -C ft_printf/
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(CC) $(MLXFLAG) $(CFLAGS) -c -o $@ $^ $(INCP)
+	$(CC) $(CFLAGS) -c -o $@ $^ $(INCP)
 
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)
@@ -43,4 +43,4 @@ fclean:
 	rm -f $(NAME)
 
 $(NAME): $(OBJP)
-	$(CC) $(CFLAGS) -o $@ $^ $(INCP) $(LIBFTPRINTF)
+	$(CC) $(CFLAGS) -o $@ $^ $(INCP) $(LIBFTPRINTF) $(MLXFLAG)

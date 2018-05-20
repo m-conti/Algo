@@ -15,7 +15,7 @@
 
 /*					TAILLE ANNEXE				*/
 #define MARGELEN			20
-#define POINTLEN			8
+#define POINTLEN			10
 #define MARGECASE			1
 #define CASELEN				(POINTLEN + 2 * MARGECASE)
 
@@ -24,7 +24,7 @@
 #define MAPLENX				(f->xmax * CASELEN)
 
 /*					TAILLE HUD					*/
-#define HUDLENY				200
+#define HUDLENY				80
 #define HUDLENX				(MAPLENX - 2 * MARGELEN)
 
 /*				TAILLE WINDOW			*/
@@ -58,7 +58,7 @@
 #define COLOR_HUD			0x009090a0	/* GRIS CLAIR	*/
 #define COLOR_MAP			0x009090a0	/* GRIS CLAIR	*/
 #define COLOR_PLAYER		0x000099ff
-#define COLOR_ENNEMY		0x00cc0000
+#define COLOR_ENNEMY		0x00ff0000
 #define COLOR_FRONT			0x00ffcc00
 #define COLOR_NEXT_PLAYER	0x00cceeff
 #define COLOR_NEXT_ENNEMY	0x00660000
@@ -68,7 +68,6 @@ void	init_window(t_filler *f)
 	int		x;
 	int		y;
 
-	(void)f;
 	f->mlx = mlx_init();
 	f->window = mlx_new_window(f->mlx, WINLENX, WINLENY, "Filler");
 	y = RESET;
@@ -89,7 +88,6 @@ void	init_window(t_filler *f)
 
 void	print_point(t_filler *f, int x, int y, int8_t type)
 {
-	dprintf(f->fd, "%i | ",type);
 	const int color[5] = {COLOR_PLAYER, COLOR_ENNEMY, COLOR_NEXT_ENNEMY, COLOR_FRONT, COLOR_NEXT_PLAYER};
 	int i;
 	int j;
@@ -106,3 +104,35 @@ void	print_point(t_filler *f, int x, int y, int8_t type)
 			mlx_pixel_put(f->mlx, f->window, x + i, y + j, color[type]);
 	}
 }
+
+void	print_hud(t_filler *f)
+{
+	int i;
+	int j;
+
+
+	j = HUDYMIN;
+	while (++j < HUDYMAX - 1)
+	{
+		i = HUDXMIN;
+		while (++i < HUDXMAX - 1)
+		{
+			if (i == (HUDLENX / 2) + HUDXMIN && i == ((HUDLENX + 1) / 2) + HUDXMIN)
+				mlx_pixel_put(f->mlx, f->window, i, j, COLOR_FRONT);
+			else if (i < HUDXMIN + (f->player_territory * HUDLENX) / (f->xmax * f->ymax))
+				mlx_pixel_put(f->mlx, f->window, i, j, COLOR_PLAYER);
+			else if (i < HUDXMIN + (f->territory * HUDLENX) / (f->xmax * f->ymax))
+				mlx_pixel_put(f->mlx, f->window, i, j, COLOR_NEXT_PLAYER);
+			else if (i >= HUDXMAX - (f->ennemy_territory * HUDLENX) / (f->xmax * f->ymax) - 1)
+				mlx_pixel_put(f->mlx, f->window, i, j, COLOR_ENNEMY);
+			else
+				mlx_pixel_put(f->mlx, f->window, i, j, COLOR_NEXT_ENNEMY);
+		}
+	}
+}
+
+
+
+
+
+

@@ -2,10 +2,13 @@
 # define FILLER_H
 
 # include <unistd.h>
+#include <mlx.h>
 # include <inttypes.h>
 # include <limits.h>
 # include "ft_printf.h"
 # define PLAYER_NAME "timmy.filler" //
+# define ON 1
+#define VISUAL 1
 
 typedef struct	s_piece
 {
@@ -34,9 +37,12 @@ typedef struct	s_filler
 	int16_t		(*tactic[2])(struct s_filler*);
 	char		**tab;
 	int			fd;
-
+	void		*mlx;
+	void		*window;
 	int8_t		**frontier;
 	int			territory;
+	int			player_territory;
+	int			ennemy_territory;
 }				t_filler;
 
 typedef struct	s_pos
@@ -46,7 +52,10 @@ typedef struct	s_pos
 	int			distance;
 }				t_pos;
 
-void			*init_affichage(t_filler *f);
+void			init_window(t_filler *f);
+void			print_point(t_filler *f, int x, int y, int8_t type);
+void			print_hud(t_filler *f);
+
 void			update_frontier(t_filler *f, int player_sign);
 void			fill_frontier(t_filler *f, int x, int y, int player_sign);
 void			set_frontier(t_filler *f);

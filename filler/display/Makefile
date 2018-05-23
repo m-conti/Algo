@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: tbehra <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2018/05/20 14:23:34 by tbehra            #+#    #+#              #
-#    Updated: 2018/05/22 15:22:41 by tbehra           ###   ########.fr        #
+#    Created: 2018/05/22 13:08:41 by tbehra            #+#    #+#              #
+#    Updated: 2018/05/22 13:44:19 by tbehra           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,28 +14,27 @@
 
 CC		= gcc
 CFLAGS	= -Wall -Werror -Wextra
-NAME	= tbehra.filler 
+NAME	= display
 
 SRCDIR	= src
 OBJDIR	= obj
 INCDIR	= include
 
-SRC		= filler.c parsing.c tactic.c frontier.c test_frontier.c write.c
+SRC		= display.c
 
 OBJ		= $(SRC:.c=.o)
 
-LIBFTPRINTF	= ft_printf/libftprintf.a
-LIBFT		= ft_printf/libft/libft.a
-
 OBJP	= $(addprefix $(OBJDIR)/, $(OBJ))
 INCP	= $(foreach dir, $(INCDIR), -I$(dir))
+LIBFT	= ../ft_printf/libft/libft.a
+LIBFTPRINTF	= ../ft_printf/libftprintf.a
 
-all: printfcomp $(OBJDIR) $(NAME)
+MLXP	= -I/usr/local/include
+MLX		= -L/usr/local/lib -lmlx -framework OpenGL -framework AppKit
+
+all: $(OBJDIR) $(NAME)
 
 re: fclean all
-
-printfcomp:
-	make all -C ft_printf/
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) -c -o $@ $^ $(INCP)
@@ -44,13 +43,11 @@ $(OBJDIR):
 	@mkdir -p $(OBJDIR)
 
 clean:
-	make clean -C ft_printf/
 	rm -rf $(OBJDIR)
 
 fclean:
-	make fclean -C ft_printf/
 	rm -rf $(OBJDIR)
 	rm -f $(NAME)
 
-$(NAME): $(OBJP)
-	$(CC) $(CFLAGS) -o $@ $^ $(INCP) $(LIBFTPRINTF) $(LIBFT)
+$(NAME): $(OBJP) $(LIBFT) $(LIBFTPRINTF)
+	$(CC) $(CFLAGS) -o $@ $^ $(INCP) $(MLXP) $(MLX) -I$(LIBFT) -I$(LIBFTPRINTF)

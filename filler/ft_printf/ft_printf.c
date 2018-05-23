@@ -1,92 +1,65 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print.c                                         :+:      :+:    :+:   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mconti <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/18 14:31:29 by tbehra            #+#    #+#             */
-/*   Updated: 2018/05/10 10:44:12 by tbehra           ###   ########.fr       */
+/*   Created: 2018/05/07 09:49:22 by mconti            #+#    #+#             */
+/*   Updated: 2018/05/07 09:49:27 by mconti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "ft_struct.h"
 
-void	*init_writer(t_writer *w)
+int		ft_printf(char *str, ...)
 {
-	ft_bzero(w->buf, BUFF_SIZE);
-	w->buf_i = 0;
-	w->len = 0;
-	return (w);
-}
+	t_param	p;
+	int		i;
 
-void	init_conv_spec(t_conv_spec *cs)
-{
-	cs->flags = 0;
-	ft_bzero(cs->prefix, 3);
-	cs->conversion = '\0';
-	cs->field_width = UNDEFINED;
-	cs->precision = UNDEFINED;
-	cs->len = UNDEFINED;
-	cs->nb_zeros_precision = 0;
-	cs->error = 0;
-	cs->padd.size = 0;
-	cs->padd.filler = UNDEFINED;
-	cs->padd.position = LEFT;
-}
-
-int		apply_conversion(t_writer *writer, t_conv_spec *cs, va_list ap,
-		void (*conversion[128])(t_writer*, t_conv_spec*, va_list))
-{
-	if (ft_strchr(CONVERSIONS, cs->conversion))
-		conversion[(int)cs->conversion](writer, cs, ap);
-	else
+	if (!str)
+		return (-1);
+	ft_start(&p);
+	i = 0;
+	va_start(p.ap, str);
+	while (*str)
 	{
-		cs->len = 1;
-		cs->padd.filler = (cs->flags & ZERO_FLAG &&
-				!(cs->flags & MINUS_FLAG)) ? '0' : ' ';
-		set_padding_spec(cs);
-		if (cs->padd.position == LEFT)
-			memset_padding_buf(writer, cs);
-		putchar_buf(writer, cs->conversion);
-		if (cs->padd.position == RIGHT)
-			memset_padding_buf(writer, cs);
-	}
-	return (1);
-}
-
-int		last_write_and_return(t_writer *w)
-{
-	if (w->buf_i > 0)
-		print_and_empty_buf(w);
-	return (w->len);
-}
-
-int		ft_printf(const char *format, ...)
-{
-	t_writer	writer;
-	t_conv_spec	cs;
-	void		(*conversion[128]) (t_writer*, t_conv_spec*, va_list);
-	va_list		ap;
-
-	va_start(ap, format);
-	build_tab_conv(conversion);
-	init_writer(&writer);
-	while (*format)
-	{
-		if (*format == '%')
+		ft_strtoprint(&p, str, (i = ft_index(str, '%')));
+		if (i >= 0)
 		{
-			if (!(*(format + 1)))
-				break ;
-			format += build_conv_spec(&cs, (char*)(format + 1));
-			apply_conversion(&writer, &cs, ap, conversion);
-			if (cs.error)
-				return (-1);
+			str = ft_chflag(&str[i + 1], &p, ft_indendpar(&str[i + 1], &p));
+			if (p.tr && p.tr != 16)
+				p.param = g_ft[(int)p.cast].cast(&p.ap);
+			g_ft[(int)p.tr].tr(&p);
 		}
-		else
-			putchar_buf(&writer, *format);
-		format++;
+		else if ((i = ft_strlen(str)))
+			str += i;
 	}
-	va_end(ap);
-	return (last_write_and_return(&writer));
+	va_end(p.ap);
+	ft_toprint(&p);
+	return (p.lr);
+}
+
+void	ft_toprint(t_param *p)
+{
+	write(1, p->str, p->lp);
+	p->lr += p->lp;
+	p->lp = 0;
+}
+
+void	ft_start(t_param *p)
+{
+	p->lr = 0;
+	p->lp = 0;
+}
+
+int		ft_setzero(t_param *p)
+{
+	p->param = 0;
+	p->pc = -1;
+	p->lg = 0;
+	p->flag = 0;
+	p->mlg = 0;
+	return (0);
 }

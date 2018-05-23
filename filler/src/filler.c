@@ -14,21 +14,17 @@
 
 
 #include <fcntl.h> // 
-#include <stdio.h>//
-void	ft_log(char *str, int fd)
-{
-	write(fd, str, ft_strlen(str));
-	write(fd, "\n", 1);
-}
 
-void	build_piece(t_filler *f, char *line)
+void	build_piece(t_filler *f, char **line)
 {
 	char	*pos;
 	int		r;
 
-	if (ft_strncmp(line, "Piece ", 6) != 0)
+	if (f->piece.tab)
+		f->piece.tab = (char**)ft_tabdel((void**)f->piece.tab, f->piece.ymax);
+	if (ft_strncmp(*line, "Piece ", 6) != 0)
 		return ; //error();
-	pos = ft_strchr(line, ' ') + 1;
+	pos = ft_strchr(*line, ' ') + 1;
 	if (!(ft_isdigit(*pos)))
 		return ; //ERROR
 	f->piece.ymax = ft_atoi(pos);
@@ -39,12 +35,10 @@ void	build_piece(t_filler *f, char *line)
 	if (!(f->piece.tab = (char**)malloc(sizeof(char*) * f->piece.ymax)))
 		return ; //ERREUR
 	r = -1;
+	ft_strdel(line);
 	while (++r < f->piece.ymax)
 	{
-		if (!(f->piece.tab[r] = (char*)malloc(sizeof(char) * f->piece.xmax)))
-			return ; //ERREUR
 		get_next_line(0, &(f->piece.tab[r]));
-//		ft_log(f->piece.tab[r], f->fd);
 	}
 }
 
@@ -110,10 +104,10 @@ void	parse_first_time(t_filler *f, char *line)
 		f->xmax = ft_atoi(plateau_line[2]);
 		if (!(f->ymax >= 2 || f->xmax >= 2))
 			return ; //error();
-		//ft_tabdel((void**)plateau_line, -1);
+		ft_tabdel((void**)plateau_line, -1);
 	}
 	else
-		return ; //error
+		ft_strdel(&line);
 	 // line with 01234567890123 if everything is as planned
 }
 
@@ -162,10 +156,17 @@ void	parse_tab(t_filler *f, char *line)
 		if (ft_atoi(tab[0]) != row)
 			return ; //error
 		f->tab[row] = tab[1];
-		//ft_tabdel((void**)tab, 1);	
+		ft_tabdel((void**)tab, 1);	
 	}
 	if (!f->frontier)
 		set_frontier(f);
+}
+
+void	free_all(t_filler *f)
+{
+	ft_tabdel((void**)f->piece.tab, f->piece.ymax);
+	ft_tabdel((void**)f->frontier, f->ymax);
+	ft_tabdel((void**)f->tab, f->ymax);
 }
 
 int main(int ac, char **av)
@@ -178,8 +179,8 @@ int main(int ac, char **av)
 	if (!(av))
 		return (ac);
 	//- ---- --- 
-	f.fd = open("/Users/mconti/42/algotim/filler/log",
-			O_CREAT | O_WRONLY | O_TRUNC);
+//	f.fd = open("/Users/mconti/42/algotim/filler/log",
+//			O_CREAT | O_WRONLY | O_TRUNC);
 	init_filler(&f);
 	n = 1;
 	while (n)
@@ -193,16 +194,17 @@ int main(int ac, char **av)
 			mlx_do_sync(f.mlx);
 		}
 		get_next_line(0, &line);
-		build_piece(&f, line);
-		if (!(n = best_placement(&f, 0)))
-			break ;
-		ft_printf("%i %i\n", f.bestpos.y, f.bestpos.x);
-		//ft_tabdel((void**)f.piece.tab, f.piece.ymax);
-		update_frontier(&f, 1);
-		while (get_next_line(0, &line) == 0)
-			;
-		ft_strdel(&line); // del line Plateau X X
+		build_piece(&f, &line);
+		if ((n = best_placement(&f, 0)))
+		{
+			ft_printf("%i %i\n", f.bestpos.y, f.bestpos.x);
+			update_frontier(&f, 1);
+			while (get_next_line(0, &line) == 0)
+				;
+			ft_strdel(&line); // del line Plateau X X
+		}
 	}
+	free_all(&f);
 	ft_printf("0 0\n");
 	//close(log_fd);
 	// FREE FRONTIER

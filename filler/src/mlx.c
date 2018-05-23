@@ -14,17 +14,17 @@
 #define RESET -1
 
 /*					TAILLE ANNEXE				*/
-#define MARGELEN			20
-#define POINTLEN			10
+#define MARGELEN			10
+#define POINTLEN			(200 / f->ymax)
 #define MARGECASE			1
-#define CASELEN				(POINTLEN + 2 * MARGECASE)
+#define CASELEN				(POINTLEN + MARGECASE)
 
 /*					TAILLE MAP					*/
-#define MAPLENY				(f->ymax * CASELEN)
-#define MAPLENX				(f->xmax * CASELEN)
+#define MAPLENY				(f->ymax * CASELEN + MARGECASE)
+#define MAPLENX				(f->xmax * CASELEN + MARGECASE)
 
 /*					TAILLE HUD					*/
-#define HUDLENY				80
+#define HUDLENY				40
 #define HUDLENX				(MAPLENX - 2 * MARGELEN)
 
 /*				TAILLE WINDOW			*/
@@ -55,8 +55,8 @@
 
 /*					COLORS						*/
 #define COLOR_BACK			0x00444862	/* VIOLET FONCÉ	*/
-#define COLOR_HUD			0x009090a0	/* GRIS CLAIR	*/
-#define COLOR_MAP			0x009090a0	/* GRIS CLAIR	*/
+#define COLOR_HUD			0x006a4444	/* GRIS CLAIR	*/
+#define COLOR_MAP			0x006a4444	/* GRIS CLAIR	*/
 #define COLOR_PLAYER		0x000099ff
 #define COLOR_ENNEMY		0x00ff0000
 #define COLOR_FRONT			0x00ffcc00

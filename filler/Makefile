@@ -2,11 +2,15 @@
 .PHONY: all re clean fclean
 
 CC		= gcc
+
 CFLAGS	= -Wall -Werror -Wextra
+
 NAME	= timmy.filler 
 
 SRCDIR	= src
+
 OBJDIR	= obj
+
 INCDIR	= include
 
 SRC		= filler.c tactic.c frontier.c test_frontier.c mlx.c
@@ -16,6 +20,7 @@ OBJ		= $(SRC:.c=.o)
 LIBFTPRINTF	= ft_printf/libftprintf.a
 
 OBJP	= $(addprefix $(OBJDIR)/, $(OBJ))
+
 INCP	= $(foreach dir, $(INCDIR), -I$(dir))
 
 MLXFLAG	= -L/usr/local/lib -lmlx -framework OpenGL -framework AppKit

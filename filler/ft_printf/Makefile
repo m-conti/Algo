@@ -1,64 +1,56 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: tbehra <marvin@42.fr>                      +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2018/04/21 16:22:15 by tbehra            #+#    #+#              #
-#    Updated: 2018/05/16 20:08:48 by tbehra           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME = libftprintf.a
 
-.PHONY: all re clean fclean
+SRC_PATH = .
 
-CC			= gcc
-CFLAGS		= -Wall -Werror -Wextra
-NAME		= libftprintf.a
-SRC			= parsing.c ft_printf.c tab_conv.c conv_base.c conv_char_str.c		\
-			  unicode.c conv_decimal_ints.c padding.c output.c help_conv_str.c
-OBJ_PATH	= ./obj/
-LFT_PATH 	= ./libft/
-LFT_SRC		= ft_lstiter.c ft_putendl.c ft_strequ.c ft_strnstr.c ft_lstmap.c 	\
-			  ft_putendl_fd.c ft_striter.c ft_strrchr.c ft_atoi.c ft_lstnew.c 	\
-			  ft_putnbr.c ft_striteri.c ft_strsplit.c ft_bzero.c ft_memalloc.c 	\
-			  ft_putnbr_fd.c ft_strjoin.c ft_strstr.c ft_isalnum.c ft_memccpy.c \
-			  ft_putstr.c ft_strlcat.c ft_strsub.c ft_isalpha.c ft_memchr.c 	\
-			  ft_putstr_fd.c ft_strlen.c ft_strtrim.c ft_isascii.c ft_memcmp.c 	\
-			  ft_strcat.c ft_strmap.c ft_tolower.c ft_isdigit.c ft_memcpy.c 	\
-			  ft_strchr.c ft_strmapi.c ft_toupper.c ft_isprint.c ft_memdel.c 	\
-			  ft_strclr.c ft_strncat.c  ft_itoa.c ft_memmove.c ft_strcmp.c 		\
-			  ft_strncmp.c ft_lstadd.c ft_memset.c ft_strcpy.c ft_strncpy.c 	\
-			  ft_lstdel.c ft_putchar.c ft_strdel.c ft_strnequ.c ft_lstdelone.c 	\
-			  ft_putchar_fd.c ft_strdup.c ft_strnew.c ft_lstrev.c ft_lstsize.c 	\
-			  ft_lstpush.c ft_lstcont.c ft_lstprint.c ft_iswhitespace.c 		\
-			  ft_itoa_base.c ft_lltoa_base.c ft_strtolower.c ft_ltoa.c 			\
-			  ft_lltoa.c ft_imaxtoa.c ft_umaxtoa.c ft_utoa_base.c 				\
-			  ft_umaxtoa_base.c ft_ultoa.c ft_ultoa_base.c ft_ltoa_base.c 		\
-			  ft_utoa.c ft_tabdel.c get_next_line.c
+OBJ_PATH = .
 
-LFT_SRCS 	= $(addprefix $(LFT_PATH), $(LFT_SRC))
-SRCS		= $(LFT_SRCS) $(SRC)
-OBJ_FILES	= $(LFT_SRC:.c=.o) $(SRC:.c=.o)
-OBJ			= $(addprefix $(OBJ_PATH), $(OBJ_FILES))
+INC_PATH = includes
+
+SRC_NAME =	ft_cast1.c		ft_cast2.c		ft_cast3.c		ft_cast4.c	\
+			ft_tr1.c		ft_tr2.c		ft_tr3.c		ft_annexe.c	\
+			ft_checkf.c		ft_printf.c
+
+OBJ_NAME =	$(SRC_NAME:.c=.o)
+
+INC_NAME = ft_printf.h		ft_struct.h		libft.h
+
+SRC = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
+
+OBJ = $(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
+
+INC = $(addprefix $(INC_PATH)/,$(INC_NAME))
+
+CPPFLAGS = -I $(INC_PATH)
+
+LDFLAGS = -Llibft
+
+LIB = libft/libft.a
+
+LDLIBS = -lft
+
+CC = gcc
+
+CFLAGS = -c -Wall -Wextra -Werror
+
+RM = rm -rf
+
+.PHONY: all, clean, fclean, re
+
+$(NAME): $(OBJ) $(INC)
+	(cd libft/ ; make all) 	
+	-cp $(LIB) ./$(NAME)
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(SRC)
+	ar -rc $@ $^
+	ranlib $@
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	ar rc $(NAME) $(OBJ)
-
-$(OBJ): $(SRCS)
-	@mkdir $(OBJ_PATH) 2> /dev/null || true
-	$(CC) $(CFLAGS) -c $(SRCS) && mv $(OBJ_FILES) $(OBJ_PATH)
-
 clean:
-	/bin/rm -f $(OBJ)
-	@rmdir $(OBJ_PATH) 2> /dev/null || true
+	$(RM) $(OBJ)
+	(cd libft/ ; make clean)
 
-fclean:
-	make clean
-	/bin/rm -f $(NAME)
+fclean: clean
+	$(RM) $(NAME)
+	(cd libft/ ; make fclean)
 
-re:
-	make fclean
-	make all
+re: fclean all

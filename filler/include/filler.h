@@ -5,6 +5,7 @@
 #include <mlx.h>
 # include <inttypes.h>
 # include <limits.h>
+#include <stdio.h>//
 # include "ft_printf.h"
 # define PLAYER_NAME "timmy.filler" //
 # define ON 1

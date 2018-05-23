@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mconti <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/03 19:13:01 by tbehra            #+#    #+#             */
-/*   Updated: 2018/04/03 19:48:29 by tbehra           ###   ########.fr       */
+/*   Created: 2018/04/05 02:51:53 by mconti            #+#    #+#             */
+/*   Updated: 2018/04/05 02:51:54 by mconti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,18 @@
 
 void	ft_putnbr(int nb)
 {
-	if (nb == -2147483648)
-	{
-		ft_putchar('-');
-		ft_putchar('2');
-		ft_putnbr(147483648);
-		return ;
-	}
+	unsigned int i;
+	unsigned int n;
+
 	if (nb < 0)
-	{
 		ft_putchar('-');
-		ft_putnbr(-nb);
-		return ;
-	}
-	if (nb < 10)
-		ft_putchar(nb % 10 + '0');
-	else
+	if (nb == 0)
+		ft_putchar('0');
+	n = ft_abs(nb);
+	i = ft_log(n, 10);
+	while (i-- > 0)
 	{
-		ft_putnbr(nb / 10);
-		ft_putchar(nb % 10 + '0');
+		ft_putchar((n / ft_power(10, i)) + 48);
+		n %= ft_power(10, i);
 	}
 }

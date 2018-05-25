@@ -111,8 +111,10 @@ void	fill_frontier(t_filler *f, int x, int y, int player_sign)
 
 	pre_fill = f->frontier[y][x];
 	if (f->tab[y][x] != '.')
+	{
 		f->frontier[y][x] = (f->tab[y][x] == f->player) ?
 			NEW_PLAYER_TERRITORY : NEW_ENNEMY_TERRITORY;
+	}
 	else if (X_ETOILE >= 0 && X_ETOILE < f->piece.xmax && Y_ETOILE >= 0 &&
 		Y_ETOILE < f->piece.ymax && f->piece.tab[Y_ETOILE][X_ETOILE] == '*')
 		f->frontier[y][x] = NEW_PLAYER_TERRITORY;
@@ -126,4 +128,6 @@ void	fill_frontier(t_filler *f, int x, int y, int player_sign)
 			f->territory++;
 		move_next_frontier(f, x, y, player_sign);
 	}
+	if (VISUAL == ON)
+		print_block(f, x, y, (f->frontier[y][x] % 2) + 3);
 }

@@ -25,17 +25,9 @@ void	find_coord(t_filler *f, int64_t *coord)
 			if (f->tab[y][x] != '.')
 			{
 				if (f->tab[y][x] == f->player)
-				{
-					if (VISUAL == ON)
-						print_block(f, x, y, 0);
 					*coord |= (y << TWO_BYTES) | x;
-				}
 				else if (*coord <= INT_MAX)
-				{
-					if (VISUAL == ON)
-						print_block(f, x, y, 1);
 					*coord |= (y << SIX_BYTES) | (x << FOUR_BYTES);
-				}
 			}
 	}
 }
@@ -76,6 +68,8 @@ void	set_frontier(t_filler *f)
 		{
 			f->frontier[y][x] = belongs_to_us(x, y, coord);
 			f->territory += (f->frontier[y][x] == PLAYER_TERRITORY);
+			if (VISUAL == ON)
+				print_block(f, x, y, f->frontier[y][x] + 3);
 		}
 	}
 }

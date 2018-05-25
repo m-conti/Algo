@@ -19,7 +19,7 @@
 # include "ft_printf.h"
 # include "visual.h"
 
-# define VISUAL 0
+# define VISUAL 1
 
 # define PNAME "Mconti"
 # define RESET -1
@@ -116,7 +116,6 @@ int16_t			fill_frontier_test(t_filler *f, int x, int y);
 void			init_block(t_filler *f);
 void			init_window(t_filler *f);
 void			print_block(t_filler *f, int x, int y, int8_t type);
-void			print_point(t_filler *f, int x, int y, int8_t type);
 void			print_hud(t_filler *f);
 int				check_around(t_filler *f, int i, int j, int b);
 int16_t			check_contact(t_filler *f);

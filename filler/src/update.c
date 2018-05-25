@@ -20,6 +20,8 @@ void	draw_frontier(t_filler *f, int x, int y)
 	|| (DOWN < f->ymax && (f->frontier[DOWN][x]) == PLAYER_TERRITORY))
 		return ;
 	f->frontier[y][x] = ENNEMY_TERRITORY;
+	if (VISUAL == ON)
+		print_block(f, x, y, f->frontier[y][x] + 3);
 }
 
 void	draw_print_frontier(t_filler *f)
@@ -35,9 +37,7 @@ void	draw_print_frontier(t_filler *f)
 		{
 			if (!f->frontier[y][x])
 				draw_frontier(f, x, y);
-			if (VISUAL == ON && f->tab[y][x] == '.')
-				print_block(f, x, y, f->frontier[y][x] + 3);
-			else
+			if (f->tab[y][x] != '.')
 			{
 				f->tab[y][x] == f->player ?
 				f->player_territory++ : f->ennemy_territory++;

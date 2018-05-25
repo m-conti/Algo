@@ -24,6 +24,33 @@ void	init_block(t_filler *f)
 	f->img_clr[4] = mlx_xpm_to_image(f->mlx, g_block_near_player, BLCX, BLCY);
 }
 
+void	print_head(t_filler *f)
+{
+	int			x;
+	int			y;
+	int			pixelx;
+	int			pixely;
+
+	y = RESET;
+	while (++y < 8)
+	{
+		pixely = (y * CASELEN) + HEADYMIN;
+		x = RESET;
+		while (++x < HEADNB)
+		{
+			pixelx = (x * CASELEN) + HEADXMIN;
+			if (g_filler_head[y][x])
+				mlx_put_image_to_window(f->mlx, f->window,
+				f->img_clr[g_filler_head[y][x] - 1], pixelx, pixely);
+		}
+	}
+	mlx_string_put(f->mlx, f->window, NAMEPX, NAMESY, COLOR_PLAYER, PNAME);
+	mlx_string_put(f->mlx, f->window, NAMEPX, NAMESY + 2, COLOR_FRONT, PNAME);
+	mlx_string_put(f->mlx, f->window, VSX, NAMESY, COLOR_FRONT, "VS");
+	mlx_string_put(f->mlx, f->window, NAMEEX, NAMESY, COLOR_ENNEMY, ENAME);
+	mlx_string_put(f->mlx, f->window, NAMEEX, NAMESY + 2, COLOR_FRONT, ENAME);
+}
+
 void	init_window(t_filler *f)
 {
 	int			x;
@@ -46,11 +73,7 @@ void	init_window(t_filler *f)
 				mlx_pixel_put(f->mlx, f->window, x, y, COLOR_BACK);
 		}
 	}
-	mlx_string_put(f->mlx, f->window, NAMEPX, NAMESY, COLOR_PLAYER, PNAME);
-	mlx_string_put(f->mlx, f->window, NAMEPX, NAMESY + 2, COLOR_FRONT, PNAME);
-	mlx_string_put(f->mlx, f->window, VSX, NAMESY, COLOR_FRONT, "VS");
-	mlx_string_put(f->mlx, f->window, NAMEEX, NAMESY, COLOR_ENNEMY, ENAME);
-	mlx_string_put(f->mlx, f->window, NAMEEX, NAMESY + 2, COLOR_FRONT, ENAME);
+	print_head(f);
 }
 
 void	print_block(t_filler *f, int x, int y, int8_t type)
@@ -58,29 +81,6 @@ void	print_block(t_filler *f, int x, int y, int8_t type)
 	x = MARGECASE + MAPXMIN + (x * CASELEN);
 	y = MARGECASE + MAPYMIN + (y * CASELEN);
 	mlx_put_image_to_window(f->mlx, f->window, f->img_clr[type], x, y);
-}
-
-void	print_point(t_filler *f, int x, int y, int8_t type)
-{
-	int			i;
-	int			j;
-	const int	color[5] = {COLOR_PLAYER,
-						COLOR_ENNEMY,
-						COLOR_NEXT_ENNEMY,
-						COLOR_FRONT,
-						COLOR_NEXT_PLAYER};
-
-	if (type > 4 || type < 0)
-		return ;
-	x = MARGECASE + MAPXMIN + (x * CASELEN);
-	y = MARGECASE + MAPYMIN + (y * CASELEN);
-	j = RESET;
-	while (++j < POINTLEN)
-	{
-		i = RESET;
-		while (++i < POINTLEN)
-			mlx_pixel_put(f->mlx, f->window, x + i, y + j, color[type]);
-	}
 }
 
 void	print_hud(t_filler *f)

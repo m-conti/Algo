@@ -24,7 +24,7 @@
 /*
 **				LENGHT ANNEXE
 */
-# define MARGELEN			20
+# define MARGELEN			40
 # define POINTLEN			10
 # define MARGECASE			1
 # define CASELEN			(POINTLEN + MARGECASE)
@@ -34,10 +34,10 @@
 **					POS NAMES
 */
 # define ENAME				"Ennemy"
-# define NAMEPX				HUDXMIN - MARGELEN
-# define NAMEEX				HUDXMAX - 2 * MARGELEN
-# define VSX				HUDXMIN + (HUDLENX / 2) - (MARGELEN / 2)
-# define NAMESY				HUDYMIN - MARGELEN
+# define NAMEPX				HUDXMIN - 20
+# define NAMEEX				HUDXMAX - 40
+# define VSX				HUDXMIN + (HUDLENX / 2) - 10
+# define NAMESY				HUDYMIN - (MARGELEN / 2)
 
 /*
 **					LENGHT MAP
@@ -49,20 +49,20 @@
 **					LENGHT HUD
 */
 # define HUDLENY			40
-# define HUDLENX			(MAPLENX - 2 * MARGELEN)
+# define HUDLENX			(MAPLENX - MARGELEN)
 
 /*
 **					LENGHT WINDOW
 */
-# define WINLENY			(MAPLENY + HUDLENY + 3 * MARGELEN)
-# define WINLENX			(MAPLENX + 2 * MARGELEN)
+# define WINLENY			(MAPYMAX + MARGELEN)
+# define WINLENX			(MAPXMAX + MARGELEN)
 
 /*
 **					POS HUD
 */
-# define HUDXMIN			(2 * MARGELEN)
+# define HUDXMIN			((3 * MARGELEN) / 2)
 # define HUDXMAX			(HUDXMIN + HUDLENX)
-# define HUDYMIN			MARGELEN
+# define HUDYMIN			(HEADYMAX + MARGELEN)
 # define HUDYMAX			(HUDYMIN + HUDLENY)
 
 /*
@@ -86,6 +86,17 @@
 # define INMAPX				(x >= MAPXMIN && x < MAPXMAX)
 # define INMAPY				(y >= MAPYMIN && y < MAPYMAX)
 # define INMAP				(INMAPX && INMAPY)
+
+/*
+**					HEADER
+*/
+# define HEADNB				(f->xmax >= 38 ? 44 : 17)
+# define HEADLENX			(HEADNB * CASELEN)
+# define HEADLENY			(8 * CASELEN)
+# define HEADXMIN			(MAPXMIN + MAPLENX / 2) - (HEADLENX / 2)
+# define HEADXMAX			(MAPXMIN + MAPLENX / 2) + (HEADLENX / 2)
+# define HEADYMIN			(MARGELEN / 2)
+# define HEADYMAX			(HEADYMIN + HEADLENY)
 
 /*
 **					COLORS

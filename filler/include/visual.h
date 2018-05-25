@@ -90,7 +90,7 @@
 /*
 **					HEADER
 */
-# define HEADNB				(f->xmax >= 38 ? 44 : 17)
+# define HEADNB				(f->xmax >= 38 ? 45 : 17)
 # define HEADLENX			(HEADNB * CASELEN)
 # define HEADLENY			(8 * CASELEN)
 # define HEADXMIN			(MAPXMIN + MAPLENX / 2) - (HEADLENX / 2)

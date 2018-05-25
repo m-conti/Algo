@@ -46,7 +46,6 @@ void	ft_tr_ln(t_param *p)
 	int	*len;
 
 	len = (int*)p->param;
-
 	if (len != NULL)
 		*len = p->lp + p->lr;
 }

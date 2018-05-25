@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_struct.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mconti <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 17:51:21 by mconti            #+#    #+#             */
 /*   Updated: 2018/04/20 17:51:22 by mconti           ###   ########.fr       */

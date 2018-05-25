@@ -1,5 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tactic.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/25 01:40:10 by mconti            #+#    #+#             */
+/*   Updated: 2018/05/25 01:40:12 by mconti           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "filler.h"
-// STRATEGIE REMPLISSAGE || CHECK CONTACT
+
+int		check_around(t_filler *f, int i, int j, int b)
+{
+	if (f->piece.y + j + 1 >= f->piece.ymax ||
+		f->tab[f->piece.y + j + 1][f->piece.x + i] != '.')
+		b++;
+	if (f->piece.y + j - 1 < 0 ||
+		f->tab[f->piece.y + j - 1][f->piece.x + i] != '.')
+		b++;
+	if (f->piece.x + i + 1 >= f->piece.xmax ||
+		f->tab[f->piece.y + j][f->piece.x + i + 1] != '.')
+		b++;
+	if (f->piece.x + i - 1 < 0 ||
+		f->tab[f->piece.y + j][f->piece.x + i - 1] != '.')
+		b++;
+	return (b);
+}
 
 int16_t	check_contact(t_filler *f)
 {
@@ -7,30 +35,19 @@ int16_t	check_contact(t_filler *f)
 	int j;
 	int b;
 
-	j = 0;
+	j = RESET;
 	b = 0;
-	while (j < f->piece.ymax)
+	while (++j < f->piece.ymax)
 	{
-		i = 0;
-		while (i < f->piece.xmax)
-		{
+		i = RESET;
+		while (++i < f->piece.xmax)
 			if (f->piece.tab[j][i] == '*')
 			{
 				if (f->piece.y + j < 0 || f->piece.y + j >= f->ymax
 					|| f->piece.x + i < 0 || f->piece.x + i >= f->xmax)
 					return (0);
-				if (f->piece.y + j + 1 >= f->piece.ymax || f->tab[f->piece.y + j + 1][f->piece.x + i] != '.')
-					b++;
-				if (f->piece.y + j - 1 < 0 || f->tab[f->piece.y + j - 1][f->piece.x + i] != '.')
-					b++;
-				if (f->piece.x + i + 1 >= f->piece.xmax || f->tab[f->piece.y + j][f->piece.x + i + 1] != '.')
-					b++;
-				if (f->piece.x + i - 1 < 0 || f->tab[f->piece.y + j][f->piece.x + i - 1] != '.')
-					b++;
+				b = check_around(f, i, j, b);
 			}
-			i++;
-		}
-		j++;
 	}
 	return (b);
 }
@@ -41,11 +58,11 @@ int8_t	check_placement(t_filler *f)
 	int j;
 	int b;
 
-	j = 0;
+	j = RESET;
 	b = 0;
-	while (j < f->piece.ymax && !(i = 0))
+	while (++j < f->piece.ymax && (i = RESET))
 	{
-		while (i < f->piece.xmax)
+		while (++i < f->piece.xmax)
 		{
 			if (f->piece.tab[j][i] == '*')
 			{
@@ -59,9 +76,7 @@ int8_t	check_placement(t_filler *f)
 			}
 			if (b > 1)
 				return (0);
-			i++;
 		}
-		j++;
 	}
 	return (b == 1);
 }

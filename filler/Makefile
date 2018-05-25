@@ -1,27 +1,31 @@
 
 .PHONY: all re clean fclean
 
-CC		= gcc
+CC		=	gcc
 
-CFLAGS	= -Wall -Werror -Wextra
+CFLAGS	=	-Wall -Werror -Wextra
 
-NAME	= timmy.filler 
+NAME	=	mconti.filler 
 
-SRCDIR	= src
+SRCDIR	=	src
 
-OBJDIR	= obj
+OBJDIR	=	obj
 
-INCDIR	= include
+INCDIR	=	include
 
-SRC		= filler.c tactic.c frontier.c test_frontier.c mlx.c
+SRC		=	filler.c		tactic.c		frontier.c		test_frontier.c		mlx.c	\
+			init.c			find_player.c	update.c
 
-OBJ		= $(SRC:.c=.o)
+OBJ		=	$(SRC:.c=.o)
 
-LIBFTPRINTF	= ft_printf/libftprintf.a
+INC		=	filler.h		ft_printf.h		ft_struct.h		get_next_line.h		libft.h	\
+			visual.h		images.h
 
-OBJP	= $(addprefix $(OBJDIR)/, $(OBJ))
+LIBFTPRINTF	=	ft_printf/libftprintf.a
 
-INCP	= $(foreach dir, $(INCDIR), -I$(dir))
+OBJP	=	$(addprefix $(OBJDIR)/, $(OBJ))
+
+INCP	=	$(foreach dir, $(INCDIR), -I$(dir))
 
 MLXFLAG	= -L/usr/local/lib -lmlx -framework OpenGL -framework AppKit
 

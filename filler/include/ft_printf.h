@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mconti <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/14 17:48:13 by mconti            #+#    #+#             */
 /*   Updated: 2018/04/14 17:48:15 by mconti           ###   ########.fr       */

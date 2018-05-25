@@ -5,125 +5,48 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/16 17:35:36 by tbehra            #+#    #+#             */
-/*   Updated: 2018/05/18 18:02:33 by tbehra           ###   ########.fr       */
+/*   Created: 2018/05/16 17:35:36 by mconti            #+#    #+#             */
+/*   Updated: 2018/05/18 18:02:33 by mconti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 
-
-#include <fcntl.h> // 
-
-void	build_piece(t_filler *f, char **line)
+int8_t	build_piece(t_filler *f, char **line)
 {
 	char	*pos;
 	int		r;
 
+	get_next_line(0, line);
 	if (f->piece.tab)
 		f->piece.tab = (char**)ft_tabdel((void**)f->piece.tab, f->piece.ymax);
 	if (ft_strncmp(*line, "Piece ", 6) != 0)
-		return ; //error();
+		return (ERROR);
 	pos = ft_strchr(*line, ' ') + 1;
 	if (!(ft_isdigit(*pos)))
-		return ; //ERROR
+		return (ERROR);
 	f->piece.ymax = ft_atoi(pos);
 	pos = ft_strchr(pos, ' ') + 1;
 	if (!(ft_isdigit(*pos)))
-		return ; //error
+		return (ERROR);
 	f->piece.xmax = ft_atoi(pos);
 	if (!(f->piece.tab = (char**)malloc(sizeof(char*) * f->piece.ymax)))
-		return ; //ERREUR
-	r = -1;
+		return (ERROR);
+	r = RESET;
 	ft_strdel(line);
 	while (++r < f->piece.ymax)
-	{
 		get_next_line(0, &(f->piece.tab[r]));
-	}
+	return (SUCCESS);
 }
 
-void	init_turn(t_filler *f)
-{
-	f->piece.x = 0;
-	f->piece.y = 0;
-	f->bestpos.n = 0;
-	f->player_territory = 0;
-	f->ennemy_territory = 0;
-}
-
-void	init_filler(t_filler *f)
-{
-	f->player = '\0';
-	f->ennemy = '\0';
-	f->piece.tab = NULL;
-	f->tab = NULL;
-	f->frontier = NULL;
-	f->tactic[0] = &update_frontier_test; //&check_territory;
-	f->tactic[1] = &check_contact;
-}	
-
-/*void	free_piece_tab(t_piece *p)
-{
-	int i;
-
-	if (p->piece)
-	{
-		i = 0;
-		while (i < p->ymax)
-		{
-			free(p->piece[i]);
-			i++;
-		}
-	}
-	//ft_memdel((void**)p->piece);
-}*/
-
-void	parse_first_time(t_filler *f, char *line)
-{
-	char **plateau_line;
-	
-	if ((get_next_line(0, &line) != 1))
-		return ; //error
-	if (ft_strncmp("$$$ exec p1", line, 11) == 0)
-		f->player = 'O';
-	else if (ft_strncmp("$$$ exec p2", line, 11) == 0)
-		f->player = 'X';
-	else
-		return ; //error
-	ft_strdel(&line);
-	if ((get_next_line(0, &line) != 1))
-		return ; //error
-	if (ft_strncmp("Plateau ", line, 8) == 0)
-	{
-		if (!(plateau_line = ft_strsplit(line, ' ')))
-			return ; //error
-		ft_strdel(&line);
-		if (!(plateau_line[1] && plateau_line[2]))
-			return ; //error();
-		f->ymax = ft_atoi(plateau_line[1]);
-		f->xmax = ft_atoi(plateau_line[2]);
-		if (!(f->ymax >= 2 || f->xmax >= 2))
-			return ; //error();
-		ft_tabdel((void**)plateau_line, -1);
-	}
-	else
-		ft_strdel(&line);
-	 // line with 01234567890123 if everything is as planned
-}
-
-/*
-** init_free_tab mallocs f->tab if it doesn't exist,
-** and free every line for further use
-*/
-
-void	init_free_tab(t_filler *f)
+int8_t	init_free_tab(t_filler *f, char *line)
 {
 	int i;
 
 	if (!(f->tab))
 	{
-		if(!(f->tab = (char**)malloc(sizeof(char*) * f->ymax)))
-			return ; //error
+		if (!(f->tab = (char**)malloc(sizeof(char*) * f->ymax)))
+			return (ERROR);
 	}
 	else
 	{
@@ -134,79 +57,73 @@ void	init_free_tab(t_filler *f)
 			i++;
 		}
 	}
+	get_next_line(0, &line);
+	ft_strdel(&line);
+	return (SUCCESS);
 }
 
-void	parse_tab(t_filler *f, char *line)
+int8_t	parse_tab(t_filler *f, char *line)
 {
 	int		row;
 	char	**tab;
 
+	init_turn(f);
 	if (!f->player)
-		parse_first_time(f, line);
-	init_free_tab(f);
-	get_next_line(0, &line); //lecture line 012345674152058
-	ft_strdel(&line); // del line 01234567890123 if we didn't mess up 
-	row = -1;
+		if (parse_first_time(f, line))
+			return (ERROR);
+	if (init_free_tab(f, line))
+		return (ERROR);
+	row = RESET;
 	while (++row < f->ymax)
 	{
 		get_next_line(0, &line);
 		if (!(tab = ft_strsplit(line, ' ')))
-			return ; //error
+			return (ERROR);
 		ft_strdel(&line);
-		if (ft_atoi(tab[0]) != row)
-			return ; //error
+		if (ft_atoi(tab[0]) != row || tab[2])
+			return (ERROR);
 		f->tab[row] = tab[1];
-		ft_tabdel((void**)tab, 1);	
+		ft_tabdel((void**)tab, 1);
 	}
 	if (!f->frontier)
 		set_frontier(f);
+	update_frontier(f, -1);
+	return (SUCCESS);
 }
 
-void	free_all(t_filler *f)
+int		free_all(t_filler *f)
 {
 	ft_tabdel((void**)f->piece.tab, f->piece.ymax);
 	ft_tabdel((void**)f->frontier, f->ymax);
 	ft_tabdel((void**)f->tab, f->ymax);
+	ft_printf("0 0\n");
+	return (SUCCESS);
 }
 
-int main(int ac, char **av)
+int		main(void)
 {
 	char		*line;
 	t_filler	f;
 	int16_t		n;
 
-	//sert a rien
-	if (!(av))
-		return (ac);
-	//- ---- --- 
-//	f.fd = open("/Users/mconti/42/algotim/filler/log",
-//			O_CREAT | O_WRONLY | O_TRUNC);
 	init_filler(&f);
 	n = 1;
 	while (n)
 	{
-		init_turn(&f);
-		parse_tab(&f, line);
-		update_frontier(&f, -1);
+		if (parse_tab(&f, line))
+			return (ERROR);
 		if (VISUAL == ON)
-		{
 			print_hud(&f);
-			mlx_do_sync(f.mlx);
-		}
-		get_next_line(0, &line);
-		build_piece(&f, &line);
+		if (build_piece(&f, &line))
+			return (ERROR);
 		if ((n = best_placement(&f, 0)))
 		{
 			ft_printf("%i %i\n", f.bestpos.y, f.bestpos.x);
 			update_frontier(&f, 1);
 			while (get_next_line(0, &line) == 0)
 				;
-			ft_strdel(&line); // del line Plateau X X
+			ft_strdel(&line);
 		}
 	}
-	free_all(&f);
-	ft_printf("0 0\n");
-	//close(log_fd);
-	// FREE FRONTIER
-	return (0);
+	return (free_all(&f));
 }

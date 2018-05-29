@@ -23,7 +23,21 @@ void	check_status_nb_ant(t_anthill *ant)
 
 void	check_status_room(t_anthill *ant)
 {
+	char	**spliter;
 
+	spliter = ft_strsplit(ant->current_line, ' ');
+	if (spliter[1] && spliter[2])
+	{
+		if (spliter[0][0] == 'L')
+			error(HELL_ROOM);
+		new_room(ant, spliter);
+	}
+	else
+	{
+		ant->parstatus = TUBE_CHECK;
+		check_status_tube(ant);
+	}
+	ft_tabdel((void**)spliter, -1);
 }
 
 void	check_status_tube(t_anthill *ant)

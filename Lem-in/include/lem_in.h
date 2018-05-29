@@ -13,6 +13,8 @@
 # define WRONG_ANT_NUMBER	2
 # define MULTIPLE_START		3
 # define MULTIPLE_END		4
+# define SAME_ROOM_NAME		5
+# define HELL_ROOM			666
 
 /*
 **		PARSE_STATUS

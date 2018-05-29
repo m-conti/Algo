@@ -14,6 +14,10 @@
 # define MULTIPLE_START		3
 # define MULTIPLE_END		4
 # define SAME_ROOM_NAME		5
+# define SAME_ROOM_POSITION	6
+# define MALLOC_ERROR		7
+# define BAD_POSITION		8
+# define FATAL_ERROR		2000
 # define HELL_ROOM			666
 
 /*
@@ -29,7 +33,9 @@ typedef struct			s_room
 	s_room				*next;
 	int					*links;
 	int					nb_links;
-	uint8_t				type;
+	int					x;
+	int					y;
+	uint8_t				type; //seems useless
 	uint8_t				ant;
 }						t_room;
 

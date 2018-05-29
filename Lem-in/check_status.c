@@ -26,7 +26,7 @@ void	check_status_room(t_anthill *ant)
 	char	**spliter;
 
 	spliter = ft_strsplit(ant->current_line, ' ');
-	if (spliter[1] && spliter[2])
+	if (spliter[1] && spliter[2] && !spliter[3])
 	{
 		if (spliter[0][0] == 'L')
 			error(HELL_ROOM);
@@ -42,7 +42,12 @@ void	check_status_room(t_anthill *ant)
 
 void	check_status_tube(t_anthill *ant)
 {
+	char **spliter;
 
+	spliter = ft_strsplit(ant->current_line, '-');
+	if (!spliter[0] || !spliter[1] || spliter[2])
+		error(FATAL_ERROR);
+	
 }
 
 void	check_command(t_anthill *ant)

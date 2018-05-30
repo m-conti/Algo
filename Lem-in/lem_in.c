@@ -2,6 +2,7 @@
 
 void	init_anthill(t_anthill *ant)
 {
+	ant->stop = 0;
 	ant->hill = NULL;
 	ant->nb_ant = 0;
 	ant->nb_room = 0;
@@ -22,16 +23,19 @@ void	check_line(t_anthill *ant)
 		ant->check_status[ant->parstatus](ant);
 	else if (ant->current_line[1] == '#')
 		check_command(ant);
-	add_string(ant);
+	if (!ant->stop)
+		ant->lines = ft_joinfree(ant->lines, ant->current_line, 3);
+	else
+		ft_strdel(&line);
 }
 
 void	parse(t_anthill *ant)
 {
 	int		ret;
 
-	while ((ret = get_next_line(0, &ant->current_line)))
+	while (!ant->stop && (ret = get_next_line(0, &ant->current_line)))
 	{
-		if (ret != 1)
+		if (ret < 1)
 			error(GNL_ERROR);
 		check_line(ant);
 	}
@@ -43,5 +47,6 @@ int		main(void)
 
 	init_anthill(&ant);
 	parse(&ant);
+	check_info(&ant);
 	return (0);
 }

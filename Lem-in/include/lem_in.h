@@ -4,6 +4,7 @@
 # include "ft_printf.h"
 
 # define RESET_COUNT		-1
+# define SIZE_LINKS			1 //pour faire chier
 
 /*
 **			ERROR
@@ -16,9 +17,12 @@
 # define SAME_ROOM_NAME		5
 # define SAME_ROOM_POSITION	6
 # define MALLOC_ERROR		7
-# define BAD_POSITION		8
-# define FATAL_ERROR		2000
+# define INVALID_ROOM		8
+# define NO_ESCAPE			9
+# define ROOM_NOT_FOUND		404 // retiré
 # define HELL_ROOM			666
+# define FREEDOM			1984
+# define FATAL_ERROR		2000 // retiré
 
 /*
 **		PARSE_STATUS
@@ -39,20 +43,15 @@ typedef struct			s_room
 	uint8_t				ant;
 }						t_room;
 
-typedef struct			s_strings
-{
-	char				*str;
-	struct s_strings	*next;
-}						t_strings;
-
 typedef struct			s_anthill
 {
+	uint8_t				stop;
 	t_room				*hill;
 	int					nb_ant;
 	int					nb_room;
 	int					start;
 	int					end;
-	t_strings			*lines;
+	char				*lines;
 	int					parstatus;
 	void				check_status[3](struct s_anthill*, char*);
 	char				*current_line;

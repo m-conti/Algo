@@ -44,11 +44,11 @@ void	build_roads(t_anthill *ant)
 {
 	int		i;
 	calc_nmax_road(ant);
-	ant->
 	if (!(ant->path.distance = (int*)ft_memalloc(sizeof(int) * ant->nb_room)) ||
 		!(ant->path.prev_room = (int*)ft_memalloc(sizeof(int) * ant->nb_room)))
 		error(MALLOC_ERROR);
-	while ()
+	find_road(ant);
+	make_road(ant);
 }
 
 int		main(void)

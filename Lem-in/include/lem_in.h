@@ -6,6 +6,7 @@
 # define RESET_COUNT		-1
 # define SIZE_LINKS			1 //pour faire chier
 # define FREE_BOTH			3
+# define ERROR				0
 
 /*
 **			ERROR
@@ -41,7 +42,7 @@ typedef struct			s_room
 	int					x;
 	int					y;
 	uint8_t				type; //seems useless
-	uint16_t			ant;
+	uint16_t			occupied;
 }						t_room;
 
 typedef	struct			s_road
@@ -67,11 +68,17 @@ typedef struct			s_anthill
 	int					end;
 	char				*lines;
 	t_path				path;
-	t_road				*rome;
+	t_road				*road;
 	int					parstatus;
 	void				check_status[3](struct s_anthill*, char*);
 	char				*current_line;
 	int					nmax_road;
 }						t_anthill;
+
+typedef struct 			s_queue;
+{
+	int					d;
+	struct s_queue		*next;
+}						t_queue;
 
 #endif

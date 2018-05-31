@@ -5,6 +5,7 @@
 
 # define RESET_COUNT		-1
 # define SIZE_LINKS			1 //pour faire chier
+# define FREE_BOTH			3
 
 /*
 **			ERROR
@@ -34,14 +35,27 @@
 typedef struct			s_room
 {
 	char				*name;
-	s_room				*next;
+	struct s_room		*next;
 	int					*links;
 	int					nb_links;
 	int					x;
 	int					y;
 	uint8_t				type; //seems useless
-	uint8_t				ant;
+	uint16_t			ant;
 }						t_room;
+
+typedef	struct			s_road
+{
+	int					*rooms;
+	int					len;
+	struct s_road		*next;
+}						t_road;
+
+typedef struct			s_path
+{
+	int					*distance;
+	int					*prev_room;
+}						t_path;
 
 typedef struct			s_anthill
 {
@@ -52,9 +66,12 @@ typedef struct			s_anthill
 	int					start;
 	int					end;
 	char				*lines;
+	t_path				path;
+	t_road				*rome;
 	int					parstatus;
 	void				check_status[3](struct s_anthill*, char*);
 	char				*current_line;
+	int					nmax_road;
 }						t_anthill;
 
 #endif

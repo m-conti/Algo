@@ -15,30 +15,40 @@ void	init_anthill(t_anthill *ant)
 	ant->check_status[TUBE_CHECK] = &check_status_tube;
 }
 
-void	check_line(t_anthill *ant)
-{
-	if (!ant->currentline[0])
-		error(EMPTY_LINE);
-	if (ant->current_line[0] != '#')
-		ant->check_status[ant->parstatus](ant);
-	else if (ant->current_line[1] == '#')
-		check_command(ant);
-	if (!ant->stop)
-		ant->lines = ft_joinfree(ant->lines, ant->current_line, 3);
-	else
-		ft_strdel(&line);
-}
-
 void	parse(t_anthill *ant)
 {
 	int		ret;
 
 	while (!ant->stop && (ret = get_next_line(0, &ant->current_line)))
 	{
-		if (ret < 1)
+		if (ret == -1)
 			error(GNL_ERROR);
-		check_line(ant);
+		if (!ant->currentline[0])
+			error(EMPTY_LINE);
+		if (ant->current_line[0] != '#')
+			ant->check_status[ant->parstatus](ant);
+		else if (ant->current_line[1] == '#')
+			check_command(ant);
+		if (!ant->stop)
+		{
+			if (!(ant->lines =
+				ft_joinfree(ant->lines, ant->current_line, FREE_BOTH)))
+				error(MALLOC_ERROR);
+		}
+		else
+			ft_strdel(&line);
 	}
+}
+
+void	build_roads(t_anthill *ant)
+{
+	int		i;
+	calc_nmax_road(ant);
+	ant->
+	if (!(ant->path.distance = (int*)ft_memalloc(sizeof(int) * ant->nb_room)) ||
+		!(ant->path.prev_room = (int*)ft_memalloc(sizeof(int) * ant->nb_room)))
+		error(MALLOC_ERROR);
+	while ()
 }
 
 int		main(void)
@@ -47,6 +57,6 @@ int		main(void)
 
 	init_anthill(&ant);
 	parse(&ant);
-	check_info(&ant);
+	build_road(&ant);
 	return (0);
 }

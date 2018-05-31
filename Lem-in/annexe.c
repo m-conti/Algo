@@ -34,7 +34,8 @@ void	reorganize_hill(t_anthill *ant)
 	t_room	*tmp;
 	int		i;
 
-	if (ant->start == ant->nb_room || ant->end == ant->nb_room)
+	if (ant->start == ant->nb_room || ant->end == ant->nb_room ||
+		ant->start == -1 || ant->end == -1)
 		error(NO_ESCAPE);
 	if (ant->end == ant->start)
 		error(FREEDOM);

@@ -1,3 +1,4 @@
+
 #include "lem_in.h"
 
 void	init_anthill(t_anthill *ant)
@@ -15,6 +16,14 @@ void	init_anthill(t_anthill *ant)
 	ant->check_status[TUBE_CHECK] = &check_status_tube;
 }
 
+void	add_line_to_print(t_anthill *ant)
+{
+	if (!(ant->lines = ft_joinfree(ant->lines, "\n", FREE_FIRST)))
+		error(MALLOC_ERROR);
+	if (!(ant->lines = ft_joinfree(ant->lines, ant->current_line, FREE_BOTH)))
+		error(MALLOC_ERROR);
+}
+
 void	parse(t_anthill *ant)
 {
 	int		ret;
@@ -30,25 +39,47 @@ void	parse(t_anthill *ant)
 		else if (ant->current_line[1] == '#')
 			check_command(ant);
 		if (!ant->stop)
-		{
-			if (!(ant->lines =
-				ft_joinfree(ant->lines, ant->current_line, FREE_BOTH)))
-				error(MALLOC_ERROR);
-		}
+			add_line_to_print(ant);
 		else
 			ft_strdel(&line);
 	}
 }
 
-void	build_roads(t_anthill *ant)
+void	path_zero(t_anthill ant)
 {
 	int		i;
-	calc_nmax_road(ant);
-	if (!(ant->path.distance = (int*)ft_memalloc(sizeof(int) * ant->nb_room)) ||
-		!(ant->path.prev_room = (int*)ft_memalloc(sizeof(int) * ant->nb_room)))
-		error(MALLOC_ERROR);
+
+	i = RESET_COUNT;
+	while (++i < ant->nb_room)
+	{
+		ant->path.distance[i] = 0;
+		ant->path.prev_room[i] = 0;
+	}
+}
+
+void	build_roads(t_anthill *ant)
+{
+	int		n;
+	t_road	*road;
+
 	find_road(ant);
-	make_road(ant);
+	if (!(road = make_road(ant, n)))
+		error(NO_ESCAPE);
+	ant->road = road;
+	n = 1;
+	while (road && n < ant->nmax_road)
+	{
+		path_zero(ant);
+		find_road(ant);
+		if (road = make_road(ant, n))
+		{
+			add_road(ant, road);
+			n++;
+		}
+	}
+	ant->nmax_road = n;
+	free(ant->path.distance);
+	free(ant->path.prev_room);
 }
 
 int		main(void)
@@ -57,6 +88,9 @@ int		main(void)
 
 	init_anthill(&ant);
 	parse(&ant);
+	calc_nmax_road(&ant);
 	build_road(&ant);
+	ft_putendl(ant.lines);
+
 	return (0);
 }

@@ -4,7 +4,8 @@
 # include "ft_printf.h"
 
 # define RESET_COUNT		-1
-# define SIZE_LINKS			1 //pour faire chier
+# define SIZE_LINKS			10 //pour faire chier
+# define FREE_FIRST			1
 # define FREE_BOTH			3
 # define ERROR				0
 
@@ -49,6 +50,7 @@ typedef	struct			s_road
 {
 	int					*rooms;
 	int					len;
+	int					check;
 	struct s_road		*next;
 }						t_road;
 

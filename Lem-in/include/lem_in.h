@@ -9,9 +9,6 @@
 # define FREE_BOTH			3
 # define ERROR				0
 
-
-# define SIZE_ROAD			10
-
 /*
 **			ERROR
 */
@@ -52,6 +49,8 @@ typedef struct			s_room
 	int					y;
 	uint8_t				type; //seems useless
 	uint16_t			occupied;
+
+	int					route_number; //
 }						t_room;
 
 typedef	struct			s_road
@@ -125,4 +124,16 @@ int						is_room_name(t_anthill *ant, char *name, int *room);
 void					increase_links(t_anthill *ant, int room);
 void					add_links(t_anthill *ant, int room1, int room2);
 void					error(int err_nb);
+
+void					assign_rooms_to_routes(t_anthill *ant);
+int						propagate(t_room *room, t_anthill *ant, int **finished);
+int						can_overwrite(int orig_route, t_room *room, t_anthill *ant, int **finished);
+int						still_a_road(t_room *room, t_anthill *ant, int init_rn);
+
+void					show_rooms(t_anthill *ant);
+
+void					add_to_queue(t_queue *q, int content);
+t_queue					*next_element(t_queue *q);
+t_queue					*create_queue(int content);
+t_queue					*path_room(t_anthill *ant, t_queue *rooms_to_check);
 #endif

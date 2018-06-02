@@ -33,7 +33,6 @@ void	parse(t_anthill *ant)
 
 	while (!ant->stop && (ret = get_next_line(0, &(ant->current_line))))
 	{
-		ft_printf("Reading string |%s|\n", ant->current_line);
 		if (ret == -1)
 			error(GNL_ERROR);
 		if (!(ant->current_line[0]))
@@ -86,6 +85,8 @@ void	build_roads(t_anthill *ant)
 	free(ant->path.prev_room);
 }
 
+
+
 int		main(void)
 {
 	t_anthill	ant;
@@ -93,9 +94,15 @@ int		main(void)
 	init_anthill(&ant);
 	parse(&ant);
 	calc_nmax_road(&ant);
-	build_roads(&ant);
+
+	assign_rooms_to_routes(&ant);
+	show_rooms(&ant);
+	
+	//build_roads(&ant);
 	ft_putendl(ant.lines);
 
+
+	/*
 	int i = 0;
 	ft_printf("Start: %s\n",ant.hill[ant.start].name);
 	ft_printf("End: %s\n",ant.hill[ant.end].name);
@@ -103,6 +110,6 @@ int		main(void)
 	{
 		ft_printf("%s\n",ant.hill[ant.road->rooms[i]].name);
 		i++;
-	}
+	}*/
 	return (0);
 }

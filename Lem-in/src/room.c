@@ -8,6 +8,7 @@ void	init_room(t_room *room, char *name, int x, int y)
 	room->x = x;
 	room->y = y;
 	room->next = NULL;
+	room->route_number = 0;
 }
 
 int		ft_isvalidnum(char *s)

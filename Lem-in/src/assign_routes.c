@@ -22,20 +22,20 @@ int		still_a_road(t_room *room, t_anthill *ant, int init_rn)
 	return (0);
 }
 
-int		can_overwrite(int orig_route, t_room *room, t_anthill *ant, int **finished)
+int		can_overwrite(int orig_route, t_room *room, t_anthill *ant, int *finished)
 {
-	ft_printf("Conditions can overwrite: %i %i %i\n", !*finished[orig_route], *finished[room->route_number-1], still_a_road(room, ant, room->route_number));
-
-	ft_printf("room route:%i\n", room->route_number - 1);
-
-	if ((!*finished[orig_route] &&
-		*finished[room->route_number -1 ]) &&
+	ft_printf("Can_overwrite call: %i, %i, %i\n",
+			!(finished[orig_route]),
+			finished[room->route_number - 1],
+			still_a_road(room, ant, room->route_number));
+	if ((!(finished[orig_route]) &&
+		finished[room->route_number -1 ]) &&
 		still_a_road(room, ant, room->route_number))
 		return (1);
 	return (0);
 }	
 
-int		propagate(t_room *room, t_anthill *ant, int **finished)
+int		propagate(t_room *room, t_anthill *ant, int *finished)
 {
 	int		ln;
 	int		change;
@@ -47,18 +47,23 @@ int		propagate(t_room *room, t_anthill *ant, int **finished)
 		while (++ln < room->nb_links)
 		{
 			next = &ant->hill[room->links[ln]];
-			ft_printf("%i %i %i\n", !next->route_number,  can_overwrite(room->route_number -1, next, ant, finished), next == &ant->hill[ant->end]);
-
+			ft_printf("Appel Propagate\ntry to put route: %d in room %d; Conds: %i, %i, %i, %i\n",
+				room->route_number, room->links[ln],
+				(!next->route_number),
+				can_overwrite(room->route_number, next, ant, finished),
+				(next == &ant->hill[ant->end]),
+				(!(next == &ant->hill[ant->start])));
+		
 			if (((!next->route_number)
-				|| can_overwrite(room->route_number -1, next, ant, finished)
+				|| can_overwrite(room->route_number, next, ant, finished)
 				|| (next == &ant->hill[ant->end]))
 				&& (!(next == &ant->hill[ant->start])))
 			{
 				if (next == &ant->hill[ant->end])
 				{
-					if (!(*finished[room->route_number -1]))
+					if (!(finished[room->route_number -1]))
 					{
-						*finished[room->route_number -1] = 1;
+						finished[room->route_number -1] = 1;
 						change = 1;
 					}
 				}
@@ -87,7 +92,7 @@ void	assign_rooms_to_routes(t_anthill* ant)
 	{
 		n_roads = ant->hill[ant->start].nb_links;
 		ft_printf("n_roads:%i\n", n_roads);
-		finished = ft_memalloc(n_roads);
+		finished = (int*)ft_memalloc(sizeof(int) * n_roads);
 		i = RESET_COUNT;
 		while (++i < n_roads)
 			ant->hill[ant->hill[ant->start].links[i]].route_number = i + 1;
@@ -99,7 +104,7 @@ void	assign_rooms_to_routes(t_anthill* ant)
 		i = RESET_COUNT;
 		while (++i < ant->nb_room)
 		{
-			if (propagate(&ant->hill[i], ant, &finished))
+			if (propagate(&ant->hill[i], ant, finished))
 				change = 1;
 		}
 	}

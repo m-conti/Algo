@@ -126,8 +126,8 @@ void					add_links(t_anthill *ant, int room1, int room2);
 void					error(int err_nb);
 
 void					assign_rooms_to_routes(t_anthill *ant);
-int						propagate(t_room *room, t_anthill *ant, int **finished);
-int						can_overwrite(int orig_route, t_room *room, t_anthill *ant, int **finished);
+int						propagate(t_room *room, t_anthill *ant, int *finished);
+int						can_overwrite(int orig_route, t_room *room, t_anthill *ant, int *finished);
 int						still_a_road(t_room *room, t_anthill *ant, int init_rn);
 
 void					show_rooms(t_anthill *ant);

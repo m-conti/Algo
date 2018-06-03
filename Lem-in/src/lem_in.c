@@ -60,31 +60,6 @@ void	path_zero(t_anthill *ant)
 	}
 }
 
-void	build_roads(t_anthill *ant)
-{
-	int		n;
-	t_road	*road;
-
-	find_road(ant);
-	if (!(road = make_road(ant, 0)))
-		error(NO_ESCAPE);
-	ant->road = road;
-	n = 1;
-	while (road && n < ant->nmax_road)
-	{
-		path_zero(ant);
-		find_road(ant);
-		if ((road = make_road(ant, n)))
-		{
-			add_road(ant, road);
-			n++;
-		}
-	}
-	ant->nmax_road = n;
-	free(ant->path.distance);
-	free(ant->path.prev_room);
-}
-
 int		main(void)
 {
 	t_anthill	ant;
@@ -96,7 +71,6 @@ int		main(void)
 	assign_rooms_to_routes(&ant);
 	show_rooms(&ant);
 	
-	//build_roads(&ant);
 	build_fastest_roads(&ant);
 	ft_putendl(ant.lines);
 

@@ -24,3 +24,28 @@ void	show_rooms(t_anthill* ant)
 
 	}
 }
+
+void	show_roads(t_anthill* ant)
+{
+	t_road	*cur;
+	int		i;
+	int		j;
+
+	cur = ant->road;
+	i = 1;
+	while (cur)
+	{
+		ft_printf("Road %i\n", i);
+		j = RESET_COUNT;
+		while (++j < cur->len)
+		{
+			if (j == 0)
+				ft_printf("%s (%i)", ant->hill[cur->rooms[j]].name, cur->rooms[j]);
+			else
+				ft_printf("->%s (%i)", ant->hill[cur->rooms[j]].name, cur->rooms[j]);
+		}
+		ft_printf("\n\n");
+		i++;
+		cur = cur->next;
+	}
+}

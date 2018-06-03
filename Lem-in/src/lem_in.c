@@ -85,8 +85,6 @@ void	build_roads(t_anthill *ant)
 	free(ant->path.prev_room);
 }
 
-
-
 int		main(void)
 {
 	t_anthill	ant;
@@ -99,6 +97,7 @@ int		main(void)
 	show_rooms(&ant);
 	
 	//build_roads(&ant);
+	build_fastest_roads(&ant);
 	ft_putendl(ant.lines);
 
 

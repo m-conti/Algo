@@ -82,6 +82,7 @@ typedef struct			s_anthill
 	void				(*check_status[3])(struct s_anthill*);
 	char				*current_line;
 	int					nmax_road;
+	int					*finished_roads;
 }						t_anthill;
 
 typedef struct          s_queue
@@ -105,7 +106,7 @@ void					add_road(t_anthill *ant, t_road *road);
 void					find_road(t_anthill *ant);
 void					set_occupied(t_anthill *ant, int room);
 t_road					*make_road(t_anthill *ant, int check);
-t_road					*new_road(t_anthill *ant);
+t_road					*new_road(t_anthill *ant, int len_road);
 t_queue					*add_queue(int room, t_road *road);
 t_queue					*next_queue(t_queue *queue);
 t_queue					*trace_roads(t_anthill *ant,
@@ -126,14 +127,18 @@ void					add_links(t_anthill *ant, int room1, int room2);
 void					error(int err_nb);
 
 void					assign_rooms_to_routes(t_anthill *ant);
-int						propagate(t_room *room, t_anthill *ant, int *finished);
-int						can_overwrite(int orig_route, t_room *room, t_anthill *ant, int *finished);
+int						propagate(t_room *room, t_anthill *ant);
+int						can_overwrite(int orig_route, t_room *room, t_anthill *ant);
 int						still_a_road(t_room *room, t_anthill *ant, int init_rn);
 
 void					show_rooms(t_anthill *ant);
+void					show_roads(t_anthill *ant);
 
 void					add_to_queue(t_queue *q, int content);
 t_queue					*next_element(t_queue *q);
 t_queue					*create_queue(int content);
 t_queue					*path_room(t_anthill *ant, t_queue *rooms_to_check);
+
+void					build_fastest_roads(t_anthill *ant);
+int						dijkstra(t_anthill *ant, int road_to_build);
 #endif

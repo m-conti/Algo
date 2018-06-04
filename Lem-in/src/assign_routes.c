@@ -95,17 +95,16 @@ int		propagate(t_room *room, t_anthill *ant)
 
 void	assign_rooms_to_routes(t_anthill* ant)
 {
-	int n_roads;
 	int i;
 	int	change;
 
 	if (ant->nmax_road > 1)
 	{
-		n_roads = ant->hill[ant->start].nb_links;
-		if (!(ant->finished_roads = (int*)ft_memalloc(sizeof(int) * n_roads)))
+		ant->n_roads = ant->hill[ant->start].nb_links;
+		if (!(ant->finished_roads = (int*)ft_memalloc(sizeof(int) * ant->n_roads)))
 			error(MALLOC_ERROR);
 		i = RESET_COUNT;
-		while (++i < n_roads)
+		while (++i < ant->n_roads)
 			ant->hill[ant->hill[ant->start].links[i]].route_number = i + 1;
 		change = 1;
 		while (change)
@@ -119,7 +118,7 @@ void	assign_rooms_to_routes(t_anthill* ant)
 			}
 		}
 		i = RESET_COUNT;
-		while (++i < n_roads)
+		while (++i < ant->n_roads)
 			ft_printf("finished[%i]: %i\n", i, ant->finished_roads[i]);
 	}
 }

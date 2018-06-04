@@ -82,6 +82,7 @@ typedef struct			s_anthill
 	void				(*check_status[3])(struct s_anthill*);
 	char				*current_line;
 	int					nmax_road;
+	int					n_roads;
 	int					*finished_roads;
 }						t_anthill;
 

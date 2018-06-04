@@ -93,19 +93,22 @@ void	build_fastest_roads(t_anthill *ant)
 {
 	int i;
 	t_road	*road;
+	uint8_t	first;
 
 	if (ant->nmax_road == 1)
 		ant->road = build_road(ant, new_road(ant, dijkstra(ant, 0)));
 	else
 	{
+		first = 1;
 		i = RESET_COUNT;
-		while (++i < ant->nmax_road)
+		while (++i < ant->n_roads)
 		{
 			if (ant->finished_roads[i])
 			{
-				if (i == 0)
+				if (first)
 				{
-					ant->road = build_road(ant, new_road(ant, dijkstra(ant, 1)));
+					first = 0;
+					ant->road = build_road(ant, new_road(ant, dijkstra(ant, i + 1)));
 					road = ant->road;
 				}
 				else

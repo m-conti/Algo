@@ -71,8 +71,8 @@ void	increase_links(t_anthill *ant, int room)
 	int		i;
 
 	tmp = ant->hill[room].links;
-	if (!(ant->hill[room].links = (int*)malloc
-		(sizeof(int) * ant->hill[room].nb_links + SIZE_LINKS)))
+	if (!(ant->hill[room].links = (int*)ft_memalloc
+		(sizeof(int) * (ant->hill[room].nb_links + SIZE_LINKS))))
 		error(MALLOC_ERROR);
 	i = RESET_COUNT;
 	while (++i < ant->hill[room].nb_links)

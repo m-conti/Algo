@@ -67,7 +67,7 @@ void	new_room(t_anthill *ant, char **sp)
 				break ;
 			current_room = current_room->next;
 		}
-		if (!(current_room->next = (t_room*)malloc(sizeof(t_room))))
+		if (!(current_room->next = (t_room*)ft_memalloc(sizeof(t_room))))
 			error(MALLOC_ERROR);
 		init_room(current_room->next, name, p.x, p.y);
 	}

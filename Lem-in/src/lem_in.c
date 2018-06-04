@@ -5,7 +5,7 @@ void	init_anthill(t_anthill *ant)
 {
 	ant->stop = 0;
 	ant->hill = NULL;
-	if (!(ant->hill = (t_room*)malloc(sizeof(t_room))))
+	if (!(ant->hill = (t_room*)ft_memalloc(sizeof(t_room))))
 		error(MALLOC_ERROR);
 	ant->hill->name = NULL;
 	ant->nb_ant = 0;

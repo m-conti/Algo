@@ -55,7 +55,8 @@ void	check_status_tube(t_anthill *ant)
 		ant->stop = 1;
 		return ;
 	}
-	add_links(ant, room1, room2);
+	if (ft_strcmp(spliter[0], spliter[1]))
+		add_links(ant, room1, room2);
 }
 
 void	check_command(t_anthill *ant)

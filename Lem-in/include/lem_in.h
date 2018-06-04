@@ -4,7 +4,7 @@
 # include "ft_printf.h"
 
 # define RESET_COUNT		-1
-# define SIZE_LINKS			20
+# define SIZE_LINKS			20	
 # define FREE_FIRST			1
 # define FREE_BOTH			3
 # define ERROR				0
@@ -49,6 +49,9 @@ typedef struct			s_room
 	int					y;
 	uint8_t				type; //seems useless
 	uint16_t			occupied;
+
+
+	int					len_from_start;
 
 	int					route_number; //
 }						t_room;

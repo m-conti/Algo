@@ -55,13 +55,10 @@ int		dijkstra(t_anthill *ant, int road_to_build)
 				ft_memdel((void**)&q); //je sais pas si c'est necessaire
 				break ;
 			}
-			ft_printf("len: %d, q room: %d, i:%d, q link[i]:%i, road_to_build:%i\n",
-					len_road, q->room, i, ant->hill[q->room].links[i], road_to_build);
 			if ((ant->hill[ant->hill[q->room].links[i]].route_number == road_to_build)
 					&& (!visited[ant->hill[q->room].links[i]]))
 			{
 				ant->hill[ant->hill[q->room].links[i]].len_from_start = len_road + 1;
-				ft_printf("now I add %s to %d in route %d\n", ant->hill[ant->hill[q->room].links[i]].name, q->room, road_to_build);
 				add_to_queue(q, ant->hill[q->room].links[i]);
 				visited[ant->hill[q->room].links[i]] = 1;
 				ant->path.prev_room[ant->hill[q->room].links[i]] = q->room;
@@ -94,9 +91,11 @@ void	build_fastest_roads(t_anthill *ant)
 {
 	int i;
 	t_road	*road;
+	int		tmp;
 
 	road = NULL;
-	if (ant->nmax_road == 1)
+	tmp = 0;
+	if (ant->nmax_road == 1 && ++tmp)
 		ant->road = build_road(ant, new_road(ant, dijkstra(ant, 0)));
 	else
 	{
@@ -105,6 +104,7 @@ void	build_fastest_roads(t_anthill *ant)
 		{
 			if (ant->finished_roads[i])
 			{
+				tmp++;
 				if (!road)
 				{
 					ant->road = build_road(ant, new_road(ant, dijkstra(ant, i + 1)));
@@ -116,5 +116,6 @@ void	build_fastest_roads(t_anthill *ant)
 			}
 		}
 	}
+	ant->n_roads = tmp;
 	show_roads(ant);
 }

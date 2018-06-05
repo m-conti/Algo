@@ -64,8 +64,6 @@ int		propagate(t_room *room, t_anthill *ant)
 		while (++ln < room->nb_links)
 		{
 			next = &ant->hill[room->links[ln]];
-			ft_printf("Appel Propagate, try to put route %d in room %s\n", 
-				room->route_number, ant->hill[room->links[ln]].name);//
 			if (((next->route_number == 0)
 				|| can_overwrite(room->route_number - 1, next, ant)
 				|| (next == &ant->hill[ant->end]))
@@ -78,14 +76,12 @@ int		propagate(t_room *room, t_anthill *ant)
 					{
 						ant->finished_roads[room->route_number - 1] = 1; // on peut pas faire ça il faut la mettre ant->finished_road[i] = room->route_number sinon on segfault si on trouve pas les premieres routes;
 						change = 1;
-						ft_printf(": route %d finished\n", room->route_number);
 					}
 				}
 				else
 				{
 					change = 1;
 					next->route_number = room->route_number;
-					ft_printf(": success\n");
 				}
 			}
 		}

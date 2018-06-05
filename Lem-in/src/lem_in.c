@@ -69,9 +69,27 @@ int		main(void)
 	calc_nmax_road(&ant);
 
 	assign_rooms_to_routes(&ant);
-	show_rooms(&ant);
+//	show_rooms(&ant);
 	
 	build_fastest_roads(&ant);
+	sorting_roads(&ant);
+	int i = -1;
+	int j;
+	t_road *cur;
+	while (++i < ant.n_roads && (cur = &ant.road[i]))
+	{
+		j = -1;
+		while (++j < cur->len)
+		{
+			if (j == 0)
+				ft_printf("%5s", ant.hill[cur->rooms[j]].name);
+			else
+				ft_printf("->%5s", ant.hill[cur->rooms[j]].name);
+		}
+		ft_printf(" || %20i", cur->len);
+		ft_printf("\n");
+	}
+	print_solution(&ant);
 	//ft_putendl(ant.lines);
 
 

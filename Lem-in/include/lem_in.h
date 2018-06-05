@@ -48,7 +48,7 @@ typedef struct			s_room
 	int					x;
 	int					y;
 	uint8_t				type; //seems useless
-	uint16_t			occupied;
+	uint16_t			ant;
 
 
 	int					len_from_start;
@@ -61,6 +61,7 @@ typedef	struct			s_road
 	int					*rooms;
 	int					len;
 	int					check;
+	int					nb_ants_to_open;
 	struct s_road		*next;
 }						t_road;
 
@@ -145,4 +146,7 @@ t_queue					*path_room(t_anthill *ant, t_queue *rooms_to_check);
 
 void					build_fastest_roads(t_anthill *ant);
 int						dijkstra(t_anthill *ant, int road_to_build);
+
+void					sorting_roads(t_anthill *ant);
+void					print_solution(t_anthill *ant);
 #endif

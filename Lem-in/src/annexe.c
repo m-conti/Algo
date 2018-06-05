@@ -1,31 +1,43 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   annexe.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/06/05 18:03:59 by tbehra            #+#    #+#             */
+/*   Updated: 2018/06/05 18:41:15 by tbehra           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
-char	*get_room_name(char	*src)
+int		ft_isvalidnum(char *s)
 {
-	int		i;
-	int		space_invader;
+	int i;
 
-	space_invader = 0;
-	if (!src && !src[0])
-		return (NULL);
-	i = ft_strlen(src) - 1;
-	while (src[i] == ' ')
-		i--;
-	while(space_invader < 2 && i > 0)
-		if (i > 0 && src[i--] == ' ')
-			space_invader++;
-	return (ft_strsub(src, 0, i + 1));
+	i = 0;
+	if (!s)
+		return (0);
+	if (s[0] == '-' || s[0] == '+')
+		i++;
+	while (s[i])
+	{
+		if (!(ft_isdigit(s[i])))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
-void	room_copy(t_anthill *ant, t_room *room, int n)
+int		ft_tablen(char **split)
 {
-	ant->hill[n].name = room->name;
-	ant->hill[n].x = room->x;
-	ant->hill[n].y = room->y;
-	ant->hill[n].links = NULL;
-	ant->hill[n].next = NULL;
-	ant->hill[n].occupied = 0;
-	free(room);
+	int len;
+
+	len = 0;
+	while (split[len])
+		len++;
+	return (len);
 }
 
 void	reorganize_hill(t_anthill *ant)
@@ -35,13 +47,13 @@ void	reorganize_hill(t_anthill *ant)
 	int		i;
 
 	if (ant->start == ant->nb_room || ant->end == ant->nb_room ||
-		ant->start == -1 || ant->end == -1)
+			ant->start == -1 || ant->end == -1)
 		error(NO_ESCAPE);
 	if (ant->end == ant->start)
 		error(FREEDOM);
 	room = ant->hill;
 	i = 0;
-	if (!(ant->hill = (t_room*)malloc(sizeof(t_room) * ant->nb_room)))
+	if (!(ant->hill = (t_room*)ft_memalloc(sizeof(t_room) * ant->nb_room)))
 		error(MALLOC_ERROR);
 	while (i < ant->nb_room)
 	{
@@ -51,31 +63,14 @@ void	reorganize_hill(t_anthill *ant)
 	}
 }
 
-int		is_room_name(t_anthill *ant, char *name, int *room)
-{
-	int i;
-
-	i = 0;
-	while (i < ant->nb_room)
-	{
-		if (!(ft_strcmp(ant->hill[i].name, name)))
-		{
-			*room = i;
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
 void	increase_links(t_anthill *ant, int room)
 {
 	int		*tmp;
 	int		i;
 
 	tmp = ant->hill[room].links;
-	if (!(ant->hill[room].links = (int*)malloc
-		(sizeof(int) * ant->hill[room].nb_links + SIZE_LINKS)))
+	if (!(ant->hill[room].links = (int*)ft_memalloc(sizeof(int)
+					* (ant->hill[room].nb_links + SIZE_LINKS))))
 		error(MALLOC_ERROR);
 	i = RESET_COUNT;
 	while (++i < ant->hill[room].nb_links)
@@ -100,13 +95,9 @@ void	add_links(t_anthill *ant, int room1, int room2)
 			already_linked = 1;
 	if (!already_linked)
 	{
-		ant->hill[room1].links[ant->hill[room1].nb_links++] = room2;
-		ant->hill[room2].links[ant->hill[room2].nb_links++] = room1;
+		ant->hill[room1].links[ant->hill[room1].nb_links] = room2;
+		ant->hill[room1].nb_links++;
+		ant->hill[room2].links[ant->hill[room2].nb_links] = room1;
+		ant->hill[room2].nb_links++;
 	}
-}
-
-void	error(int err_nb)
-{
-	ft_printf("Error n %d\n", err_nb);
-	exit(1);
 }

@@ -1,11 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   assign_routes.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/06/05 18:45:52 by tbehra            #+#    #+#             */
+/*   Updated: 2018/06/05 19:10:14 by tbehra           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
+int		check_all_links(t_anthill *ant, int init_rn, int *visited, t_queue *q)
+{
+	int i;
+
+	i = RESET_COUNT;
+	while (++i < ant->hill[q->room].nb_links)
+	{
+		if (ant->hill[q->room].links[i] == ant->end)
+			return (1);
+		if ((ant->hill[ant->hill[q->room].links[i]].route_number == init_rn)
+				&& (!visited[ant->hill[q->room].links[i]]))
+		{
+			add_to_queue(q, ant->hill[q->room].links[i]);
+			visited[ant->hill[q->room].links[i]] = 1;
+		}
+	}
+	return (0);
+}
 
 int		still_a_road(t_room *room, t_anthill *ant, int init_rn)
 {
 	t_queue	*q;
-	int		i;
-	int	*visited;
+	int		*visited;
 
 	if (!(visited = (int*)ft_memalloc(sizeof(int) * ant->nb_room)))
 		error(MALLOC_ERROR);
@@ -18,39 +47,28 @@ int		still_a_road(t_room *room, t_anthill *ant, int init_rn)
 			free(visited);
 			return (1);
 		}
-		i = RESET_COUNT;
-		while (++i < ant->hill[q->room].nb_links)
+		if (check_all_links(ant, init_rn, visited, q))
 		{
-			if (ant->hill[q->room].links[i] == ant->end)
-			{
-				free(visited);
-				//Free tous les q...
-				room->route_number = init_rn;
-				return (1);
-			}
-			if ((ant->hill[ant->hill[q->room].links[i]].route_number == init_rn)
-					&& (!visited[ant->hill[q->room].links[i]]))
-			{
-				add_to_queue(q, ant->hill[q->room].links[i]);
-				visited[ant->hill[q->room].links[i]] = 1;
-			}
+			free(visited);
+			room->route_number = init_rn;
+			return (1);
 		}
 		q = next_element(q);
 	}
 	room->route_number = init_rn;
-	free(q); //verif
+	free(q);
 	free(visited);
 	return (0);
 }
 
 int		can_overwrite(int orig_route_num, t_room *room, t_anthill *ant)
 {
-	if ((!(ant->finished_roads[orig_route_num]) &&
-		ant->finished_roads[room->route_number - 1]) &&
-		still_a_road(room, ant, room->route_number))
+	if ((!(ant->finished_roads[orig_route_num]) && room->route_number > 0 &&
+				ant->finished_roads[room->route_number - 1]) &&
+			still_a_road(room, ant, room->route_number))
 		return (1);
 	return (0);
-}	
+}
 
 int		propagate(t_room *room, t_anthill *ant)
 {
@@ -60,52 +78,47 @@ int		propagate(t_room *room, t_anthill *ant)
 
 	change = 0;
 	ln = RESET_COUNT;
-	if (room->route_number > 0)
+	if (room->route_number > 0 && room->route_number <= ant->nmax_road)
 		while (++ln < room->nb_links)
 		{
 			next = &ant->hill[room->links[ln]];
-			ft_printf("Appel Propagate, try to put route %d in room %d\n", 
-				room->route_number, room->links[ln]);//
 			if (((next->route_number == 0)
-				|| can_overwrite(room->route_number - 1, next, ant)
-				|| (next == &ant->hill[ant->end]))
-				&& (!(next == &ant->hill[ant->start]))
-				&& !(ant->finished_roads[room->route_number - 1]))
+						|| can_overwrite(room->route_number - 1, next, ant)
+						|| (next == &ant->hill[ant->end]))
+					&& (!(next == &ant->hill[ant->start]))
+					&& !(ant->finished_roads[room->route_number - 1]))
 			{
 				if (next == &ant->hill[ant->end])
 				{
-					if (!(ant->finished_roads[room->route_number -1]))
+					if (!(ant->finished_roads[room->route_number - 1]))
 					{
-						ant->finished_roads[room->route_number -1] = 1;
+						ant->finished_roads[room->route_number - 1] = 1;
 						change = 1;
-						ft_printf(": route %d finished\n", room->route_number);
 					}
 				}
 				else
 				{
 					change = 1;
 					next->route_number = room->route_number;
-					ft_printf(": success\n");
 				}
 			}
 		}
 	return (change);
 }
 
-
-void	assign_rooms_to_routes(t_anthill* ant)
+void	assign_rooms_to_routes(t_anthill *ant)
 {
-	int n_roads;
 	int i;
 	int	change;
 
 	if (ant->nmax_road > 1)
 	{
-		n_roads = ant->hill[ant->start].nb_links;
-		if (!(ant->finished_roads = (int*)ft_memalloc(sizeof(int) * n_roads)))
+		ant->n_roads = ant->hill[ant->start].nb_links;
+		if (!(ant->finished_roads =
+					(int*)ft_memalloc(sizeof(int) * ant->n_roads)))
 			error(MALLOC_ERROR);
 		i = RESET_COUNT;
-		while (++i < n_roads)
+		while (++i < ant->n_roads)
 			ant->hill[ant->hill[ant->start].links[i]].route_number = i + 1;
 		change = 1;
 		while (change)
@@ -113,14 +126,11 @@ void	assign_rooms_to_routes(t_anthill* ant)
 			change = 0;
 			i = RESET_COUNT;
 			while (++i < ant->nb_room)
-			{
 				if (propagate(&ant->hill[i], ant))
 					change = 1;
-			}
 		}
 		i = RESET_COUNT;
-		while (++i < n_roads)
+		while (++i < ant->n_roads)
 			ft_printf("finished[%i]: %i\n", i, ant->finished_roads[i]);
 	}
 }
-

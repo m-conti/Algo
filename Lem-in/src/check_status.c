@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_status.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/06/05 18:44:51 by tbehra            #+#    #+#             */
+/*   Updated: 2018/06/05 18:45:22 by tbehra           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "lem_in.h"
 
@@ -51,27 +62,23 @@ void	check_status_tube(t_anthill *ant)
 		(!is_room_name(ant, spliter[0], &room1)) ||
 		(!is_room_name(ant, spliter[1], &room2)))
 	{
-		//ft_printf("%s\n%s\n%s\n", spliter[0], spliter[1], spliter[2]);
 		ant->stop = 1;
 		return ;
 	}
-	add_links(ant, room1, room2);
+	if (ft_strcmp(spliter[0], spliter[1]))
+		add_links(ant, room1, room2);
 }
 
 void	check_command(t_anthill *ant)
 {
 	if (!ft_strcmp(&ant->current_line[2], "start"))
 	{
-		if (ant->start != -1)
-			error(MULTIPLE_START);
-		else
+		if (ant->start == -1)
 			ant->start = ant->nb_room;
 	}
 	else if (!ft_strcmp(&ant->current_line[2], "end"))
 	{
-		if (ant->end != -1)
-			error(MULTIPLE_END);
-		else
+		if (ant->end == -1)
 			ant->end = ant->nb_room;
 	}
 }

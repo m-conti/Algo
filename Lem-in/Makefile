@@ -6,7 +6,7 @@
 #    By: tbehra <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/02 14:00:49 by tbehra            #+#    #+#              #
-#    Updated: 2018/06/03 21:18:07 by tbehra           ###   ########.fr        #
+#    Updated: 2018/06/05 18:01:39 by tbehra           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ OBJDIR	= obj
 INCDIR	= include
 
 SRC		= annexe.c check_status.c lem_in.c road.c room.c display.c		\
-		  assign_routes.c queue.c
+		  assign_routes.c queue.c print.c
 
 OBJ		= $(SRC:.c=.o)
 

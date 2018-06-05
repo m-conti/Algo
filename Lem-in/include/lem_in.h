@@ -4,10 +4,12 @@
 # include "ft_printf.h"
 
 # define RESET_COUNT		-1
-# define SIZE_LINKS			10
+# define SIZE_LINKS			20	
 # define FREE_FIRST			1
 # define FREE_BOTH			3
 # define ERROR				0
+
+# define DEBUG				0
 
 /*
 **			ERROR
@@ -21,10 +23,8 @@
 # define SAME_ROOM_POSITION	6
 # define INVALID_ROOM		8
 # define NO_ESCAPE			9
-# define ROOM_NOT_FOUND		404 // retiré
 # define HELL_ROOM			666
 # define FREEDOM			1984
-# define FATAL_ERROR		2000 // retiré
 
 /*
 **		PARSE_STATUS
@@ -47,10 +47,9 @@ typedef struct			s_room
 	int					nb_links;
 	int					x;
 	int					y;
-	uint8_t				type; //seems useless
-	uint16_t			occupied;
-
-	int					route_number; //
+	uint16_t			ant;
+	int					len_from_start;
+	int					route_number;
 }						t_room;
 
 typedef	struct			s_road
@@ -58,6 +57,7 @@ typedef	struct			s_road
 	int					*rooms;
 	int					len;
 	int					check;
+	int					nb_ants_to_open;
 	struct s_road		*next;
 }						t_road;
 
@@ -82,6 +82,7 @@ typedef struct			s_anthill
 	void				(*check_status[3])(struct s_anthill*);
 	char				*current_line;
 	int					nmax_road;
+	int					n_roads;
 	int					*finished_roads;
 }						t_anthill;
 
@@ -141,4 +142,9 @@ t_queue					*path_room(t_anthill *ant, t_queue *rooms_to_check);
 
 void					build_fastest_roads(t_anthill *ant);
 int						dijkstra(t_anthill *ant, int road_to_build);
+
+void					sorting_roads(t_anthill *ant);
+void					print_solution(t_anthill *ant);
+int						ft_isvalidnum(char *s);
+int						ft_tablen(char **split);
 #endif

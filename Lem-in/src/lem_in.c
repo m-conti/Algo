@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lem_in.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/06/05 18:41:27 by tbehra            #+#    #+#             */
+/*   Updated: 2018/06/05 19:05:57 by tbehra           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "lem_in.h"
 
@@ -5,7 +16,7 @@ void	init_anthill(t_anthill *ant)
 {
 	ant->stop = 0;
 	ant->hill = NULL;
-	if (!(ant->hill = (t_room*)malloc(sizeof(t_room))))
+	if (!(ant->hill = (t_room*)ft_memalloc(sizeof(t_room))))
 		error(MALLOC_ERROR);
 	ant->hill->name = NULL;
 	ant->nb_ant = 0;
@@ -48,16 +59,12 @@ void	parse(t_anthill *ant)
 	}
 }
 
-void	path_zero(t_anthill *ant)
+void	error(int err_nb)
 {
-	int		i;
-
-	i = RESET_COUNT;
-	while (++i < ant->nb_room)
-	{
-		ant->path.distance[i] = 0;
-		ant->path.prev_room[i] = 0;
-	}
+	if (DEBUG)
+		ft_printf("Error n %d\n", err_nb);
+	ft_printf("ERROR\n");
+	exit(1);
 }
 
 int		main(void)
@@ -67,22 +74,11 @@ int		main(void)
 	init_anthill(&ant);
 	parse(&ant);
 	calc_nmax_road(&ant);
-
 	assign_rooms_to_routes(&ant);
-	show_rooms(&ant);
-	
 	build_fastest_roads(&ant);
+	sorting_roads(&ant);
 	ft_putendl(ant.lines);
-
-
-	/*
-	int i = 0;
-	ft_printf("Start: %s\n",ant.hill[ant.start].name);
-	ft_printf("End: %s\n",ant.hill[ant.end].name);
-	while (i < ant.road->len)
-	{
-		ft_printf("%s\n",ant.hill[ant.road->rooms[i]].name);
-		i++;
-	}*/
+	print_solution(&ant);
+	//free_all()
 	return (0);
 }

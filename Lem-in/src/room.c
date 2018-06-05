@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   room.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/06/05 18:28:51 by tbehra            #+#    #+#             */
+/*   Updated: 2018/06/05 18:38:38 by tbehra           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "lem_in.h"
 
@@ -9,34 +20,6 @@ void	init_room(t_room *room, char *name, int x, int y)
 	room->y = y;
 	room->next = NULL;
 	room->route_number = 0;
-}
-
-int		ft_isvalidnum(char *s)
-{
-	int i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	if (s[0] == '-' || s[0] == '+')
-		i++;
-	while (s[i])
-	{
-		if (!(ft_isdigit(s[i])))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int		ft_tablen(char **split)
-{
-	int len;
-
-	len = 0;
-	while (split[len])
-		len++;
-	return (len);
 }
 
 void	new_room(t_anthill *ant, char **sp)
@@ -67,8 +50,50 @@ void	new_room(t_anthill *ant, char **sp)
 				break ;
 			current_room = current_room->next;
 		}
-		if (!(current_room->next = (t_room*)malloc(sizeof(t_room))))
+		if (!(current_room->next = (t_room*)ft_memalloc(sizeof(t_room))))
 			error(MALLOC_ERROR);
 		init_room(current_room->next, name, p.x, p.y);
 	}
+}
+
+char    *get_room_name(char *src)
+{
+	int     i;
+	int     space_invader;
+
+	space_invader = 0;
+	if (!src && !src[0])
+		return (NULL);
+	i = ft_strlen(src) - 1;
+	while (src[i] == ' ')
+		i--;
+	while (space_invader < 2 && i > 0)
+		if (i > 0 && src[i--] == ' ')
+			space_invader++;
+	return (ft_strsub(src, 0, i + 1));
+}
+
+void    room_copy(t_anthill *ant, t_room *room, int n)
+{
+	ant->hill[n].name = room->name;
+	ant->hill[n].x = room->x;
+	ant->hill[n].y = room->y;
+	free(room);
+}
+
+int     is_room_name(t_anthill *ant, char *name, int *room)
+{
+	int i;
+
+	i = 0;
+	while (i < ant->nb_room)
+	{
+		if (!(ft_strcmp(ant->hill[i].name, name)))
+		{
+			*room = i;
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }

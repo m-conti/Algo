@@ -32,8 +32,7 @@ void	init_anthill(t_anthill *ant)
 
 void	init_room(t_room *room, char *name, int x, int y)
 {
-	if (!(room->name = ft_strdup(name)))
-		error(MALLOC_ERROR);
+	room->name = name;
 	room->x = x;
 	room->y = y;
 	room->next = NULL;

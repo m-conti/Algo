@@ -1,57 +1,56 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: tbehra <marvin@42.fr>                      +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2018/05/20 15:08:42 by tbehra            #+#    #+#              #
-#    Updated: 2018/05/20 15:08:44 by tbehra           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME = libftprintf.a
 
-.PHONY: all re clean fclean
+SRC_PATH = .
 
-CC      = gcc
-CFLAGS  = -Wall -Werror -Wextra
-NAME	= libftprintf.a
+OBJ_PATH = .
 
-SRCDIR  = src
-OBJDIR  = obj
-INCDIR	= include
+INC_PATH = includes
 
-SRC		= parsing.c ft_printf.c tab_conv.c conv_base.c conv_char_str.c		\
-		  unicode.c conv_decimal_ints.c padding.c output.c help_conv_str.c
+SRC_NAME =	ft_cast1.c		ft_cast2.c		ft_cast3.c		ft_cast4.c	\
+			ft_tr1.c		ft_tr2.c		ft_tr3.c		ft_annexe.c	\
+			ft_checkf.c		ft_printf.c
 
-OBJ     = $(SRC:.c=.o)
+OBJ_NAME =	$(SRC_NAME:.c=.o)
 
-LIBFT   = -Llibft/ -lft
-LIBFTP	= ./libft
+INC_NAME = ft_printf.h		ft_struct.h		libft.h
 
-OBJP    = $(addprefix $(OBJDIR)/, $(OBJ))
-INCP    = $(foreach dir, $(INCDIR), -I$(dir))
+SRC = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
 
-all: libftcomp $(OBJDIR) $(NAME)
+OBJ = $(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
 
-re: fclean all
+INC = $(addprefix $(INC_PATH)/,$(INC_NAME))
 
-libftcomp:
-	    make all -C $(LIBFTP)
+CPPFLAGS = -I $(INC_PATH)
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
-	    $(CC) $(CFLAGS) -c -o $@ $^ $(INCP)
+LDFLAGS = -Llibft
 
-$(OBJDIR):
-	    @mkdir -p $(OBJDIR)
+LIB = libft/libft.a
+
+LDLIBS = -lft
+
+CC = gcc
+
+CFLAGS = -c -Wall -Wextra -Werror
+
+RM = rm -rf
+
+.PHONY: all, clean, fclean, re
+
+$(NAME): $(OBJ) $(INC)
+	(cd libft/ ; make all) 	
+	-cp $(LIB) ./$(NAME)
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(SRC)
+	ar -rc $@ $^
+	ranlib $@
+
+all: $(NAME)
 
 clean:
-	    make clean -C $(LIBFTP)
-		rm -rf $(OBJDIR)
+	$(RM) $(OBJ)
+	(cd libft/ ; make clean)
 
-fclean:
-	    make fclean -C $(LIBFTP)
-		rm -rf $(OBJDIR)
-		rm -f $(NAME)
+fclean: clean
+	$(RM) $(NAME)
+	(cd libft/ ; make fclean)
 
-$(NAME): $(OBJP) 
-	    ar rc $(NAME) $(OBJP)
+re: fclean all

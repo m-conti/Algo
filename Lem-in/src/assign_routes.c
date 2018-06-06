@@ -49,12 +49,12 @@ int		still_a_road(t_room *room, t_anthill *ant, int init_rn)
 			free(visited);
 			if (check)
 				room->route_number = init_rn;
+			q = free_all_queue(q);
 			return (1);
 		}
 		q = next_element(q);
 	}
 	room->route_number = init_rn;
-	free(q);
 	free(visited);
 	return (0);
 }
@@ -120,8 +120,8 @@ void	assign_rooms_to_routes(t_anthill *ant)
 				if (propagate(&ant->hill[i], ant))
 					change = 1;
 		}
-		i = RESET_COUNT;
-		while (++i < ant->n_roads)
-			ft_printf("finished[%i]: %i\n", i, ant->finished_roads[i]);
+//		i = RESET_COUNT;
+//		while (++i < ant->n_roads)
+//			ft_printf("finished[%i]: %i\n", i, ant->finished_roads[i]);
 	}
 }

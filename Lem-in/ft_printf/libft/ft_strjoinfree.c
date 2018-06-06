@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoinfree.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mconti <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/02 13:32:06 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/02 15:05:09 by tbehra           ###   ########.fr       */
+/*   Created: 2018/04/12 20:22:30 by mconti            #+#    #+#             */
+/*   Updated: 2018/04/12 20:22:31 by mconti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoinfree(char *s1, char *s2, int opt)
+char	*ft_strjoinfree(char *s1, char *s2, t_byte opt)
 {
 	char *dest;
 

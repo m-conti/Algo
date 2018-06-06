@@ -36,7 +36,7 @@ void	parse(t_anthill *ant)
 			check_command(ant);
 		if (!ant->stop)
 			add_line_to_print(ant);
-		ft_strdel(&(ant->current_line));
+		ft_strdel(&ant->current_line);
 	}
 }
 
@@ -54,8 +54,6 @@ void	free_all(t_anthill *ant)
 
 	ft_strdel(&ant->lines);
 	ft_memdel((void**)&ant->finished_roads);
-	ft_memdel((void**)&ant->path.distance);
-	//ft_memdel((void**)&ant->path.prev_room);
 	i = RESET_COUNT;
 	while (++i < ant->n_roads)
 	{

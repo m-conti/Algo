@@ -24,7 +24,7 @@ int	dijkstra_core(t_anthill *ant, t_queue **q, int *visited, int road_to_build)
 		if (ant->hill[(*q)->room].links[i] == ant->end)
 		{
 			ant->path.prev_room[ant->end] = (*q)->room;
-			free_all_queue(q);
+			*q = free_all_queue(*q);
 			break ;
 		}
 		if ((ant->hill[ant->hill[(*q)->room].links[i]].route_number

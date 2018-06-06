@@ -45,16 +45,15 @@ t_queue	*create_queue(int content)
 	return (queue);
 }
 
-void	free_all_queue(t_queue **queue)
+void	*free_all_queue(t_queue *queue)
 {
 	t_queue	*tmp;
 
-	if (!queue)
-		return ;
-	while (*queue)
+	while (queue)
 	{
-		tmp = (*queue)->next;
-		free(*queue);
-		*queue = tmp;
+		tmp = queue->next;
+		free(queue);
+		queue = tmp;
 	}
+	return (NULL);
 }

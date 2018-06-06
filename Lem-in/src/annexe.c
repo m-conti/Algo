@@ -6,29 +6,11 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 18:03:59 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/06 19:33:43 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/06 20:11:18 by mconti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
-int		ft_isvalidnum(char *s)
-{
-	int i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	if (s[0] == '-' || s[0] == '+')
-		i++;
-	while (s[i])
-	{
-		if (!(ft_isdigit(s[i])))
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 int		ft_tablen(char **split)
 {

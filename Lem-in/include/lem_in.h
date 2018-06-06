@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 18:45:12 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/06 19:21:47 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/06 20:12:34 by mconti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define MULTIPLE_END		4
 # define SAME_ROOM_NAME		5
 # define SAME_ROOM_POSITION	6
+# define MALLOC_ERROR		7
 # define INVALID_ROOM		8
 # define NO_ESCAPE			9
 # define HELL_ROOM			666
@@ -75,7 +76,6 @@ typedef	struct			s_road
 
 typedef struct			s_path
 {
-	int					*distance;
 	int					*prev_room;
 }						t_path;
 
@@ -101,7 +101,6 @@ typedef struct			s_anthill
 typedef struct			s_queue
 {
 	int					room;
-	t_road				*road;
 	struct s_queue		*next;
 }						t_queue;
 
@@ -146,7 +145,7 @@ int						still_a_road(t_room *room, t_anthill *ant, int init_rn);
 void					show_rooms(t_anthill *ant);
 void					show_roads(t_anthill *ant);
 
-void					free_all_queue(t_queue **queue);
+void					*free_all_queue(t_queue *queue);
 void					add_to_queue(t_queue *q, int content);
 t_queue					*next_element(t_queue *q);
 t_queue					*create_queue(int content);
@@ -156,7 +155,6 @@ int						dijkstra(t_anthill *ant, int road_to_build);
 
 void					sorting_roads(t_anthill *ant);
 void					print_solution(t_anthill *ant);
-int						ft_isvalidnum(char *s);
 int						ft_tablen(char **split);
 
 #endif

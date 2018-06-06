@@ -1,0 +1,495 @@
+diff -r Maps/Bfs_one_path/-Nothing Result/-Nothing
+0a1
+> Error n 1
+diff -r Maps/Bfs_one_path/-dev-null Result/-dev-null
+0a1
+> Error n 9
+diff -r Maps/Bfs_one_path/-dev-urandom Result/-dev-urandom
+0a1
+> Error n 2
+diff -r Maps/Bfs_one_path/1.map Result/1.map
+8,107c8
+< L1-end 
+< L2-end 
+< L3-end 
+< L4-end 
+< L5-end 
+< L6-end 
+< L7-end 
+< L8-end 
+< L9-end 
+< L10-end 
+< L11-end 
+< L12-end 
+< L13-end 
+< L14-end 
+< L15-end 
+< L16-end 
+< L17-end 
+< L18-end 
+< L19-end 
+< L20-end 
+< L21-end 
+< L22-end 
+< L23-end 
+< L24-end 
+< L25-end 
+< L26-end 
+< L27-end 
+< L28-end 
+< L29-end 
+< L30-end 
+< L31-end 
+< L32-end 
+< L33-end 
+< L34-end 
+< L35-end 
+< L36-end 
+< L37-end 
+< L38-end 
+< L39-end 
+< L40-end 
+< L41-end 
+< L42-end 
+< L43-end 
+< L44-end 
+< L45-end 
+< L46-end 
+< L47-end 
+< L48-end 
+< L49-end 
+< L50-end 
+< L51-end 
+< L52-end 
+< L53-end 
+< L54-end 
+< L55-end 
+< L56-end 
+< L57-end 
+< L58-end 
+< L59-end 
+< L60-end 
+< L61-end 
+< L62-end 
+< L63-end 
+< L64-end 
+< L65-end 
+< L66-end 
+< L67-end 
+< L68-end 
+< L69-end 
+< L70-end 
+< L71-end 
+< L72-end 
+< L73-end 
+< L74-end 
+< L75-end 
+< L76-end 
+< L77-end 
+< L78-end 
+< L79-end 
+< L80-end 
+< L81-end 
+< L82-end 
+< L83-end 
+< L84-end 
+< L85-end 
+< L86-end 
+< L87-end 
+< L88-end 
+< L89-end 
+< L90-end 
+< L91-end 
+< L92-end 
+< L93-end 
+< L94-end 
+< L95-end 
+< L96-end 
+< L97-end 
+< L98-end 
+< L99-end 
+< L100-end 
+---
+> toutes d'un coup bim
+diff -r Maps/Bfs_one_path/10_lots_of_comments.map Result/10_lots_of_comments.map
+103c103
+< L50-end 
+\ No newline at end of file
+---
+> L50-end 
+diff -r Maps/Bfs_one_path/2.map Result/2.map
+110c110
+< L100-end 
+\ No newline at end of file
+---
+> L100-end 
+diff -r Maps/Bfs_one_path/20.map Result/20.map
+91,191c91,142
+< L1-1 
+< L1-16 L2-1 
+< L2-16 L3-1 
+< L3-16 L4-1 
+< L4-16 L5-1 
+< L5-16 L6-1 
+< L6-16 L7-1 
+< L7-16 L8-1 
+< L8-16 L9-1 
+< L9-16 L10-1 
+< L10-16 L11-1 
+< L11-16 L12-1 
+< L12-16 L13-1 
+< L13-16 L14-1 
+< L14-16 L15-1 
+< L15-16 L16-1 
+< L16-16 L17-1 
+< L17-16 L18-1 
+< L18-16 L19-1 
+< L19-16 L20-1 
+< L20-16 L21-1 
+< L21-16 L22-1 
+< L22-16 L23-1 
+< L23-16 L24-1 
+< L24-16 L25-1 
+< L25-16 L26-1 
+< L26-16 L27-1 
+< L27-16 L28-1 
+< L28-16 L29-1 
+< L29-16 L30-1 
+< L30-16 L31-1 
+< L31-16 L32-1 
+< L32-16 L33-1 
+< L33-16 L34-1 
+< L34-16 L35-1 
+< L35-16 L36-1 
+< L36-16 L37-1 
+< L37-16 L38-1 
+< L38-16 L39-1 
+< L39-16 L40-1 
+< L40-16 L41-1 
+< L41-16 L42-1 
+< L42-16 L43-1 
+< L43-16 L44-1 
+< L44-16 L45-1 
+< L45-16 L46-1 
+< L46-16 L47-1 
+< L47-16 L48-1 
+< L48-16 L49-1 
+< L49-16 L50-1 
+< L50-16 L51-1 
+< L51-16 L52-1 
+< L52-16 L53-1 
+< L53-16 L54-1 
+< L54-16 L55-1 
+< L55-16 L56-1 
+< L56-16 L57-1 
+< L57-16 L58-1 
+< L58-16 L59-1 
+< L59-16 L60-1 
+< L60-16 L61-1 
+< L61-16 L62-1 
+< L62-16 L63-1 
+< L63-16 L64-1 
+< L64-16 L65-1 
+< L65-16 L66-1 
+< L66-16 L67-1 
+< L67-16 L68-1 
+< L68-16 L69-1 
+< L69-16 L70-1 
+< L70-16 L71-1 
+< L71-16 L72-1 
+< L72-16 L73-1 
+< L73-16 L74-1 
+< L74-16 L75-1 
+< L75-16 L76-1 
+< L76-16 L77-1 
+< L77-16 L78-1 
+< L78-16 L79-1 
+< L79-16 L80-1 
+< L80-16 L81-1 
+< L81-16 L82-1 
+< L82-16 L83-1 
+< L83-16 L84-1 
+< L84-16 L85-1 
+< L85-16 L86-1 
+< L86-16 L87-1 
+< L87-16 L88-1 
+< L88-16 L89-1 
+< L89-16 L90-1 
+< L90-16 L91-1 
+< L91-16 L92-1 
+< L92-16 L93-1 
+< L93-16 L94-1 
+< L94-16 L95-1 
+< L95-16 L96-1 
+< L96-16 L97-1 
+< L97-16 L98-1 
+< L98-16 L99-1 
+< L99-16 L100-1 
+< L100-16 
+\ No newline at end of file
+---
+> L1-0 L2-1 
+> L1-8 L3-0 L2-16 L4-1 
+> L1-16 L3-8 L5-0 L4-16 L6-1 
+> L3-16 L5-8 L7-0 L6-16 L8-1 
+> L5-16 L7-8 L9-0 L8-16 L10-1 
+> L7-16 L9-8 L11-0 L10-16 L12-1 
+> L9-16 L11-8 L13-0 L12-16 L14-1 
+> L11-16 L13-8 L15-0 L14-16 L16-1 
+> L13-16 L15-8 L17-0 L16-16 L18-1 
+> L15-16 L17-8 L19-0 L18-16 L20-1 
+> L17-16 L19-8 L21-0 L20-16 L22-1 
+> L19-16 L21-8 L23-0 L22-16 L24-1 
+> L21-16 L23-8 L25-0 L24-16 L26-1 
+> L23-16 L25-8 L27-0 L26-16 L28-1 
+> L25-16 L27-8 L29-0 L28-16 L30-1 
+> L27-16 L29-8 L31-0 L30-16 L32-1 
+> L29-16 L31-8 L33-0 L32-16 L34-1 
+> L31-16 L33-8 L35-0 L34-16 L36-1 
+> L33-16 L35-8 L37-0 L36-16 L38-1 
+> L35-16 L37-8 L39-0 L38-16 L40-1 
+> L37-16 L39-8 L41-0 L40-16 L42-1 
+> L39-16 L41-8 L43-0 L42-16 L44-1 
+> L41-16 L43-8 L45-0 L44-16 L46-1 
+> L43-16 L45-8 L47-0 L46-16 L48-1 
+> L45-16 L47-8 L49-0 L48-16 L50-1 
+> L47-16 L49-8 L51-0 L50-16 L52-1 
+> L49-16 L51-8 L53-0 L52-16 L54-1 
+> L51-16 L53-8 L55-0 L54-16 L56-1 
+> L53-16 L55-8 L57-0 L56-16 L58-1 
+> L55-16 L57-8 L59-0 L58-16 L60-1 
+> L57-16 L59-8 L61-0 L60-16 L62-1 
+> L59-16 L61-8 L63-0 L62-16 L64-1 
+> L61-16 L63-8 L65-0 L64-16 L66-1 
+> L63-16 L65-8 L67-0 L66-16 L68-1 
+> L65-16 L67-8 L69-0 L68-16 L70-1 
+> L67-16 L69-8 L71-0 L70-16 L72-1 
+> L69-16 L71-8 L73-0 L72-16 L74-1 
+> L71-16 L73-8 L75-0 L74-16 L76-1 
+> L73-16 L75-8 L77-0 L76-16 L78-1 
+> L75-16 L77-8 L79-0 L78-16 L80-1 
+> L77-16 L79-8 L81-0 L80-16 L82-1 
+> L79-16 L81-8 L83-0 L82-16 L84-1 
+> L81-16 L83-8 L85-0 L84-16 L86-1 
+> L83-16 L85-8 L87-0 L86-16 L88-1 
+> L85-16 L87-8 L89-0 L88-16 L90-1 
+> L87-16 L89-8 L91-0 L90-16 L92-1 
+> L89-16 L91-8 L93-0 L92-16 L94-1 
+> L91-16 L93-8 L95-0 L94-16 L96-1 
+> L93-16 L95-8 L97-0 L96-16 L98-1 
+> L95-16 L97-8 L98-16 L99-1 
+> L97-16 L99-16 L100-1 
+> L100-16 
+diff -r Maps/Bfs_one_path/5.map Result/5.map
+119c119
+< L100-end 
+\ No newline at end of file
+---
+> L100-end 
+diff -r Maps/Bfs_one_path/9_path_depth_10_ants.map Result/9_path_depth_10_ants.map
+2996,3010c2996,3010
+< L1-713 L2-701 
+< L1-525 L2-713 L3-701 
+< L1-661 L2-525 L3-713 L4-701 
+< L1-428 L2-661 L3-525 L4-713 L5-701 
+< L1-344 L2-428 L3-661 L4-525 L5-713 L6-701 
+< L1-32 L2-344 L3-428 L4-661 L5-525 L6-713 L7-701 
+< L1-52 L2-32 L3-344 L4-428 L5-661 L6-525 L7-713 L8-701 
+< L1-end L2-52 L3-32 L4-344 L5-428 L6-661 L7-525 L8-713 L9-701 
+< L2-end L3-52 L4-32 L5-344 L6-428 L7-661 L8-525 L9-713 L10-701 
+< L3-end L4-52 L5-32 L6-344 L7-428 L8-661 L9-525 L10-713 
+< L4-end L5-52 L6-32 L7-344 L8-428 L9-661 L10-525 
+< L5-end L6-52 L7-32 L8-344 L9-428 L10-661 
+< L6-end L7-52 L8-32 L9-344 L10-428 
+< L7-end L8-52 L9-32 L10-344 
+< L8-end L9-52 L10-32 
+---
+> L1-388 L2-701 
+> L1-633 L2-388 L3-701 
+> L1-824 L2-633 L3-388 L4-701 
+> L1-434 L2-824 L3-633 L4-388 L5-701 
+> L1-968 L2-434 L3-824 L4-633 L5-388 L6-701 
+> L1-756 L2-968 L3-434 L4-824 L5-633 L6-388 L7-701 
+> L1-52 L2-756 L3-968 L4-434 L5-824 L6-633 L7-388 L8-701 
+> L1-end L2-52 L3-756 L4-968 L5-434 L6-824 L7-633 L8-388 L9-701 
+> L2-end L3-52 L4-756 L5-968 L6-434 L7-824 L8-633 L9-388 L10-701 
+> L3-end L4-52 L5-756 L6-968 L7-434 L8-824 L9-633 L10-388 
+> L4-end L5-52 L6-756 L7-968 L8-434 L9-824 L10-633 
+> L5-end L6-52 L7-756 L8-968 L9-434 L10-824 
+> L6-end L7-52 L8-756 L9-968 L10-434 
+> L7-end L8-52 L9-756 L10-968 
+> L8-end L9-52 L10-756 
+3012c3012
+< L10-end 
+\ No newline at end of file
+---
+> L10-end 
+diff -r Maps/Bfs_one_path/9_path_depth_2_ants.map Result/9_path_depth_2_ants.map
+2996,3002c2996,3002
+< L1-713 L2-701 
+< L1-525 L2-713 
+< L1-661 L2-525 
+< L1-428 L2-661 
+< L1-344 L2-428 
+< L1-32 L2-344 
+< L1-52 L2-32 
+---
+> L1-388 L2-701 
+> L1-633 L2-388 
+> L1-824 L2-633 
+> L1-434 L2-824 
+> L1-968 L2-434 
+> L1-756 L2-968 
+> L1-52 L2-756 
+3004c3004
+< L2-end 
+\ No newline at end of file
+---
+> L2-end 
+diff -r Maps/Bfs_one_path/9_path_depth_4_ants.map Result/9_path_depth_4_ants.map
+2996,3004c2996,3004
+< L1-713 L2-701 
+< L1-525 L2-713 L3-701 
+< L1-661 L2-525 L3-713 L4-701 
+< L1-428 L2-661 L3-525 L4-713 
+< L1-344 L2-428 L3-661 L4-525 
+< L1-32 L2-344 L3-428 L4-661 
+< L1-52 L2-32 L3-344 L4-428 
+< L1-end L2-52 L3-32 L4-344 
+< L2-end L3-52 L4-32 
+---
+> L1-388 L2-701 
+> L1-633 L2-388 L3-701 
+> L1-824 L2-633 L3-388 L4-701 
+> L1-434 L2-824 L3-633 L4-388 
+> L1-968 L2-434 L3-824 L4-633 
+> L1-756 L2-968 L3-434 L4-824 
+> L1-52 L2-756 L3-968 L4-434 
+> L1-end L2-52 L3-756 L4-968 
+> L2-end L3-52 L4-756 
+3006c3006
+< L4-end 
+\ No newline at end of file
+---
+> L4-end 
+diff -r Maps/Bfs_one_path/9_path_depth_8_ants.map Result/9_path_depth_8_ants.map
+2996,3008c2996,3008
+< L1-713 L2-701 
+< L1-525 L2-713 L3-701 
+< L1-661 L2-525 L3-713 L4-701 
+< L1-428 L2-661 L3-525 L4-713 L5-701 
+< L1-344 L2-428 L3-661 L4-525 L5-713 L6-701 
+< L1-32 L2-344 L3-428 L4-661 L5-525 L6-713 L7-701 
+< L1-52 L2-32 L3-344 L4-428 L5-661 L6-525 L7-713 L8-701 
+< L1-end L2-52 L3-32 L4-344 L5-428 L6-661 L7-525 L8-713 
+< L2-end L3-52 L4-32 L5-344 L6-428 L7-661 L8-525 
+< L3-end L4-52 L5-32 L6-344 L7-428 L8-661 
+< L4-end L5-52 L6-32 L7-344 L8-428 
+< L5-end L6-52 L7-32 L8-344 
+< L6-end L7-52 L8-32 
+---
+> L1-388 L2-701 
+> L1-633 L2-388 L3-701 
+> L1-824 L2-633 L3-388 L4-701 
+> L1-434 L2-824 L3-633 L4-388 L5-701 
+> L1-968 L2-434 L3-824 L4-633 L5-388 L6-701 
+> L1-756 L2-968 L3-434 L4-824 L5-633 L6-388 L7-701 
+> L1-52 L2-756 L3-968 L4-434 L5-824 L6-633 L7-388 L8-701 
+> L1-end L2-52 L3-756 L4-968 L5-434 L6-824 L7-633 L8-388 
+> L2-end L3-52 L4-756 L5-968 L6-434 L7-824 L8-633 
+> L3-end L4-52 L5-756 L6-968 L7-434 L8-824 
+> L4-end L5-52 L6-756 L7-968 L8-434 
+> L5-end L6-52 L7-756 L8-968 
+> L6-end L7-52 L8-756 
+3010c3010
+< L8-end 
+\ No newline at end of file
+---
+> L8-end 
+diff -r Maps/Bfs_one_path/9_path_depth_9_ants.map Result/9_path_depth_9_ants.map
+2996,3009c2996,3009
+< L1-713 L2-701 
+< L1-525 L2-713 L3-701 
+< L1-661 L2-525 L3-713 L4-701 
+< L1-428 L2-661 L3-525 L4-713 L5-701 
+< L1-344 L2-428 L3-661 L4-525 L5-713 L6-701 
+< L1-32 L2-344 L3-428 L4-661 L5-525 L6-713 L7-701 
+< L1-52 L2-32 L3-344 L4-428 L5-661 L6-525 L7-713 L8-701 
+< L1-end L2-52 L3-32 L4-344 L5-428 L6-661 L7-525 L8-713 L9-701 
+< L2-end L3-52 L4-32 L5-344 L6-428 L7-661 L8-525 L9-713 
+< L3-end L4-52 L5-32 L6-344 L7-428 L8-661 L9-525 
+< L4-end L5-52 L6-32 L7-344 L8-428 L9-661 
+< L5-end L6-52 L7-32 L8-344 L9-428 
+< L6-end L7-52 L8-32 L9-344 
+< L7-end L8-52 L9-32 
+---
+> L1-388 L2-701 
+> L1-633 L2-388 L3-701 
+> L1-824 L2-633 L3-388 L4-701 
+> L1-434 L2-824 L3-633 L4-388 L5-701 
+> L1-968 L2-434 L3-824 L4-633 L5-388 L6-701 
+> L1-756 L2-968 L3-434 L4-824 L5-633 L6-388 L7-701 
+> L1-52 L2-756 L3-968 L4-434 L5-824 L6-633 L7-388 L8-701 
+> L1-end L2-52 L3-756 L4-968 L5-434 L6-824 L7-633 L8-388 L9-701 
+> L2-end L3-52 L4-756 L5-968 L6-434 L7-824 L8-633 L9-388 
+> L3-end L4-52 L5-756 L6-968 L7-434 L8-824 L9-633 
+> L4-end L5-52 L6-756 L7-968 L8-434 L9-824 
+> L5-end L6-52 L7-756 L8-968 L9-434 
+> L6-end L7-52 L8-756 L9-968 
+> L7-end L8-52 L9-756 
+3011c3011
+< L9-end 
+\ No newline at end of file
+---
+> L9-end 
+diff -r Maps/Bfs_one_path/err_3_coordinates.map Result/err_3_coordinates.map
+0a1
+> Error n 9
+diff -r Maps/Bfs_one_path/err_duplicate.map Result/err_duplicate.map
+0a1
+> Error n 5
+diff -r Maps/Bfs_one_path/err_empty.map Result/err_empty.map
+0a1
+> Error n 9
+diff -r Maps/Bfs_one_path/err_letter_in_coordinate.map Result/err_letter_in_coordinate.map
+0a1
+> Error n 8
+diff -r Maps/Bfs_one_path/err_link_to_unknown_room.map Result/err_link_to_unknown_room.map
+0a1
+> Error n 9
+diff -r Maps/Bfs_one_path/err_no_ants.map Result/err_no_ants.map
+0a1
+> Error n 2
+diff -r Maps/Bfs_one_path/err_no_ants2.map Result/err_no_ants2.map
+0a1
+> Error n 2
+diff -r Maps/Bfs_one_path/err_no_ants3.map Result/err_no_ants3.map
+0a1
+> Error n 2
+diff -r Maps/Bfs_one_path/err_no_end.map Result/err_no_end.map
+0a1
+> Error n 9
+diff -r Maps/Bfs_one_path/err_no_end2.map Result/err_no_end2.map
+0a1
+> Error n 9
+diff -r Maps/Bfs_one_path/err_no_links.map Result/err_no_links.map
+0a1
+> Error n 9
+diff -r Maps/Bfs_one_path/err_no_rooms.map Result/err_no_rooms.map
+0a1
+> Error n 9
+diff -r Maps/Bfs_one_path/err_no_start.map Result/err_no_start.map
+0a1
+> Error n 9
+diff -r Maps/Bfs_one_path/err_no_start2.map Result/err_no_start2.map
+0a1
+> Error n 9
+diff -r Maps/Bfs_one_path/err_start_end_same.map Result/err_start_end_same.map
+0a1
+> Error n 1984
+diff -r Maps/Bfs_one_path/err_too_few_ants.map Result/err_too_few_ants.map
+0a1
+> Error n 2
+diff -r Maps/Bfs_one_path/err_too_many_ants.map Result/err_too_many_ants.map
+0a1
+> Error n 2

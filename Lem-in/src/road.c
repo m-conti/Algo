@@ -16,9 +16,6 @@ void	calc_nmax_road(t_anthill *ant)
 {
 	int max;
 
-	if (!(ant->path.distance = (int*)ft_memalloc(sizeof(int) * ant->nb_room)) ||
-		!(ant->path.prev_room = (int*)ft_memalloc(sizeof(int) * ant->nb_room)))
-		error(MALLOC_ERROR);
 	max = ant->nb_ant;
 	if (ant->hill[ant->start].nb_links < max)
 		max = ant->hill[ant->start].nb_links;
@@ -35,7 +32,6 @@ t_road	*new_road(t_anthill *ant, int len_road)
 
 	if (!(new_road = (t_road*)ft_memalloc(sizeof(t_road))))
 		error(MALLOC_ERROR);
-	new_road->next = NULL;
 	if (!(new_road->rooms = ft_memalloc(sizeof(int) * len_road)))
 		error(MALLOC_ERROR);
 	new_road->rooms[0] = ant->start;
@@ -85,5 +81,5 @@ void	build_fastest_roads(t_anthill *ant)
 					road = road->next;
 			}
 	ant->n_roads = tmp;
-	show_roads(ant);
+//	show_roads(ant);
 }

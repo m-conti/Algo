@@ -3,36 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mconti <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/03 17:31:47 by tbehra            #+#    #+#             */
-/*   Updated: 2018/04/11 18:05:09 by tbehra           ###   ########.fr       */
+/*   Created: 2018/04/04 16:04:24 by mconti            #+#    #+#             */
+/*   Updated: 2018/04/04 16:04:27 by mconti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+int	ft_atoi(char *str)
 {
-	int	sign;
-	int	res;
-	int	i;
+	unsigned long	r;
+	int				n;
+	int				a;
 
-	sign = 1;
-	res = 0;
-	i = 0;
-	while (ft_iswhitespace(str[i]))
-		i++;
-	if (str[i] == '-' || str[i] == '+')
+	r = 0;
+	n = 1;
+	a = 0;
+	while (str[a] == ' ' || str[a] == '\t' || str[a] == '\v' || str[a] == '\r'
+	|| str[a] == '\n' || str[a] == '\f')
+		a++;
+	if (str[a] == '-')
+		n = -1;
+	if (str[a] == '+' || str[a] == '-')
+		a++;
+	while (str[a] - 48 >= 0 && str[a] - 48 <= 9)
 	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
+		if ((r = r * 10 + str[a++] - 48) > 9223372036854775807)
+			return (n > 0 ? -1 : 0);
 	}
-	while ((int)ft_isdigit(str[i]))
-	{
-		res = str[i] - '0' + res * 10;
-		i++;
-	}
-	return (sign * res);
+	a = r * n;
+	return (a);
 }

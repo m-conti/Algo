@@ -6,33 +6,15 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 18:41:27 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/05 19:05:57 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/06 19:47:59 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void	init_anthill(t_anthill *ant)
-{
-	ant->stop = 0;
-	ant->hill = NULL;
-	if (!(ant->hill = (t_room*)ft_memalloc(sizeof(t_room))))
-		error(MALLOC_ERROR);
-	ant->hill->name = NULL;
-	ant->nb_ant = 0;
-	ant->nb_room = 0;
-	ant->start = -1;
-	ant->end = -1;
-	ant->lines = NULL;
-	ant->parstatus = NB_ANT_CHECK;
-	ant->check_status[NB_ANT_CHECK] = &check_status_nb_ant;
-	ant->check_status[ROOM_CHECK] = &check_status_room;
-	ant->check_status[TUBE_CHECK] = &check_status_tube;
-}
-
 void	add_line_to_print(t_anthill *ant)
 {
-	if (!(ant->lines = ft_strjoinfree(ant->lines, ant->current_line, 3)))
+	if (!(ant->lines = ft_strjoinfree(ant->lines, ant->current_line, 1)))
 		error(MALLOC_ERROR);
 	if (!(ant->lines = ft_strjoinfree(ant->lines, "\n", 1)))
 		error(MALLOC_ERROR);
@@ -54,8 +36,7 @@ void	parse(t_anthill *ant)
 			check_command(ant);
 		if (!ant->stop)
 			add_line_to_print(ant);
-		else
-			ft_strdel(&(ant->current_line));
+		ft_strdel(&(ant->current_line));
 	}
 }
 
@@ -65,6 +46,31 @@ void	error(int err_nb)
 		ft_printf("Error n %d\n", err_nb);
 	ft_printf("ERROR\n");
 	exit(1);
+}
+
+void	free_all(t_anthill *ant)
+{
+	int		i;
+
+	ft_strdel(&ant->lines);
+	ft_memdel((void**)&ant->finished_roads);
+	ft_memdel((void**)&ant->path.distance);
+	//ft_memdel((void**)&ant->path.prev_room);
+	i = RESET_COUNT;
+	while (++i < ant->n_roads)
+	{
+		ft_memdel((void**)&ant->road[i].rooms);
+		ft_memdel((void**)&ant->road[i]);
+	}
+	ft_memdel((void**)&ant->road);
+	i = RESET_COUNT;
+	while (++i < ant->nb_room)
+	{
+		ft_strdel(&ant->hill[i].name);
+		ft_memdel((void**)&ant->hill[i].links);
+		ft_memdel((void**)&ant->hill[i]);
+	}
+	ft_memdel((void**)&ant->hill);
 }
 
 int		main(void)
@@ -79,6 +85,6 @@ int		main(void)
 	sorting_roads(&ant);
 	ft_putendl(ant.lines);
 	print_solution(&ant);
-	//free_all()
+	free_all(&ant);
 	return (0);
 }

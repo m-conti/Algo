@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 18:44:51 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/05 18:45:22 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/06 19:37:47 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,13 @@ void	check_status_tube(t_anthill *ant)
 		(!is_room_name(ant, spliter[0], &room1)) ||
 		(!is_room_name(ant, spliter[1], &room2)))
 	{
+		ft_tabdel((void**)spliter, -1);
 		ant->stop = 1;
 		return ;
 	}
 	if (ft_strcmp(spliter[0], spliter[1]))
 		add_links(ant, room1, room2);
+	ft_tabdel((void**)spliter, -1);
 }
 
 void	check_command(t_anthill *ant)

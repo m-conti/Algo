@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lem_in.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/06/06 18:45:12 by tbehra            #+#    #+#             */
+/*   Updated: 2018/06/06 19:21:47 by tbehra           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LEM_IN_H
 # define LEM_IN_H
 
 # include "ft_printf.h"
 
 # define RESET_COUNT		-1
-# define SIZE_LINKS			20	
+# define SIZE_LINKS			8
 # define FREE_FIRST			1
 # define FREE_BOTH			3
 # define ERROR				0
@@ -86,23 +98,21 @@ typedef struct			s_anthill
 	int					*finished_roads;
 }						t_anthill;
 
-typedef struct          s_queue
+typedef struct			s_queue
 {
-	int                 room;
-	t_road              *road;
-	struct s_queue      *next;
-}                       t_queue;
+	int					room;
+	t_road				*road;
+	struct s_queue		*next;
+}						t_queue;
 
 void					init_anthill(t_anthill *ant);
 void					add_line_to_print(t_anthill *ant);
 void					parse(t_anthill *ant);
-void					path_zero(t_anthill *ant);
 void					build_roads(t_anthill *ant);
 void					calc_nmax_road(t_anthill *ant);
 void					add_to_queue(t_queue *q, int content);
 t_queue					*next_element(t_queue *q);
 t_queue					*create_queue(int content);
-t_queue					*path_room(t_anthill *ant, t_queue *rooms_to_check);
 void					add_road(t_anthill *ant, t_road *road);
 void					find_road(t_anthill *ant);
 void					set_occupied(t_anthill *ant, int room);
@@ -129,16 +139,17 @@ void					error(int err_nb);
 
 void					assign_rooms_to_routes(t_anthill *ant);
 int						propagate(t_room *room, t_anthill *ant);
-int						can_overwrite(int orig_route, t_room *room, t_anthill *ant);
+int						can_overwrite(int orig_route,
+						t_room *room, t_anthill *ant);
 int						still_a_road(t_room *room, t_anthill *ant, int init_rn);
 
 void					show_rooms(t_anthill *ant);
 void					show_roads(t_anthill *ant);
 
+void					free_all_queue(t_queue **queue);
 void					add_to_queue(t_queue *q, int content);
 t_queue					*next_element(t_queue *q);
 t_queue					*create_queue(int content);
-t_queue					*path_room(t_anthill *ant, t_queue *rooms_to_check);
 
 void					build_fastest_roads(t_anthill *ant);
 int						dijkstra(t_anthill *ant, int road_to_build);
@@ -147,4 +158,5 @@ void					sorting_roads(t_anthill *ant);
 void					print_solution(t_anthill *ant);
 int						ft_isvalidnum(char *s);
 int						ft_tablen(char **split);
+
 #endif

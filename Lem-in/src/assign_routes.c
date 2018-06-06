@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 18:45:52 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/05 19:10:14 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/06 17:38:32 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int		still_a_road(t_room *room, t_anthill *ant, int init_rn)
 {
 	t_queue	*q;
 	int		*visited;
+	int		check;
 
 	if (!(visited = (int*)ft_memalloc(sizeof(int) * ant->nb_room)))
 		error(MALLOC_ERROR);
@@ -42,15 +43,12 @@ int		still_a_road(t_room *room, t_anthill *ant, int init_rn)
 	q = create_queue(ant->start);
 	while (q)
 	{
-		if (q->room == ant->end)
+		if ((q->room == ant->end) ||
+				(check = check_all_links(ant, init_rn, visited, q)))
 		{
 			free(visited);
-			return (1);
-		}
-		if (check_all_links(ant, init_rn, visited, q))
-		{
-			free(visited);
-			room->route_number = init_rn;
+			if (check)
+				room->route_number = init_rn;
 			return (1);
 		}
 		q = next_element(q);
@@ -79,28 +77,21 @@ int		propagate(t_room *room, t_anthill *ant)
 	change = 0;
 	ln = RESET_COUNT;
 	if (room->route_number > 0 && room->route_number <= ant->nmax_road)
-		while (++ln < room->nb_links)
+		while (++ln < room->nb_links && (next = &ant->hill[room->links[ln]]))
 		{
-			next = &ant->hill[room->links[ln]];
-			if (((next->route_number == 0)
-						|| can_overwrite(room->route_number - 1, next, ant)
-						|| (next == &ant->hill[ant->end]))
-					&& (!(next == &ant->hill[ant->start]))
-					&& !(ant->finished_roads[room->route_number - 1]))
+			if (((next->route_number == 0) || (next == &ant->hill[ant->end])
+				|| can_overwrite(room->route_number - 1, next, ant))
+				&& (!(next == &ant->hill[ant->start]))
+				&& !(ant->finished_roads[room->route_number - 1]))
 			{
 				if (next == &ant->hill[ant->end])
 				{
-					if (!(ant->finished_roads[room->route_number - 1]))
-					{
+					if (!(ant->finished_roads[room->route_number - 1])
+							&& (change = 1))
 						ant->finished_roads[room->route_number - 1] = 1;
-						change = 1;
-					}
 				}
-				else
-				{
-					change = 1;
+				else if ((change = 1))
 					next->route_number = room->route_number;
-				}
 			}
 		}
 	return (change);

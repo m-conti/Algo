@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 19:13:44 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/05 19:14:17 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/06 19:46:55 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,18 @@ t_queue	*create_queue(int content)
 	queue->room = content;
 	queue->next = NULL;
 	return (queue);
+}
+
+void	free_all_queue(t_queue **queue)
+{
+	t_queue	*tmp;
+
+	if (!queue)
+		return ;
+	while (*queue)
+	{
+		tmp = (*queue)->next;
+		free(*queue);
+		*queue = tmp;
+	}
 }

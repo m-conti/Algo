@@ -6,20 +6,24 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 18:28:51 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/05 18:38:38 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/06 17:55:20 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void	init_room(t_room *room, char *name, int x, int y)
+void	check_duplicate_rooms(char *name, t_room **current_room, t_point p)
 {
-	if (!(room->name = ft_strdup(name)))
-		error(MALLOC_ERROR);
-	room->x = x;
-	room->y = y;
-	room->next = NULL;
-	room->route_number = 0;
+	while (1)
+	{
+		if (!ft_strcmp((*current_room)->name, name))
+			error(SAME_ROOM_NAME);
+		if ((*current_room)->x == p.x && (*current_room)->y == p.y)
+			error(SAME_ROOM_POSITION);
+		if (!(*current_room)->next)
+			break ;
+		(*current_room) = (*current_room)->next;
+	}
 }
 
 void	new_room(t_anthill *ant, char **sp)
@@ -40,26 +44,17 @@ void	new_room(t_anthill *ant, char **sp)
 		init_room(current_room, name, p.x, p.y);
 	else
 	{
-		while (1)
-		{
-			if (!ft_strcmp(current_room->name, name))
-				error(SAME_ROOM_NAME);
-			if (current_room->x == p.x && current_room->y == p.y)
-				error(SAME_ROOM_POSITION);
-			if (!current_room->next)
-				break ;
-			current_room = current_room->next;
-		}
+		check_duplicate_rooms(name, &current_room, p);
 		if (!(current_room->next = (t_room*)ft_memalloc(sizeof(t_room))))
 			error(MALLOC_ERROR);
 		init_room(current_room->next, name, p.x, p.y);
 	}
 }
 
-char    *get_room_name(char *src)
+char	*get_room_name(char *src)
 {
-	int     i;
-	int     space_invader;
+	int	i;
+	int	space_invader;
 
 	space_invader = 0;
 	if (!src && !src[0])
@@ -73,7 +68,7 @@ char    *get_room_name(char *src)
 	return (ft_strsub(src, 0, i + 1));
 }
 
-void    room_copy(t_anthill *ant, t_room *room, int n)
+void	room_copy(t_anthill *ant, t_room *room, int n)
 {
 	ant->hill[n].name = room->name;
 	ant->hill[n].x = room->x;
@@ -81,7 +76,7 @@ void    room_copy(t_anthill *ant, t_room *room, int n)
 	free(room);
 }
 
-int     is_room_name(t_anthill *ant, char *name, int *room)
+int		is_room_name(t_anthill *ant, char *name, int *room)
 {
 	int i;
 

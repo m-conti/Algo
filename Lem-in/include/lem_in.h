@@ -74,11 +74,6 @@ typedef	struct			s_road
 	struct s_road		*next;
 }						t_road;
 
-typedef struct			s_path
-{
-	int					*prev_room;
-}						t_path;
-
 typedef struct			s_anthill
 {
 	uint8_t				stop;
@@ -88,7 +83,7 @@ typedef struct			s_anthill
 	int					start;
 	int					end;
 	char				*lines;
-	t_path				path;
+	int					*path;
 	t_road				*road;
 	int					parstatus;
 	void				(*check_status[3])(struct s_anthill*);

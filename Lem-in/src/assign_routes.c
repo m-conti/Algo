@@ -120,8 +120,5 @@ void	assign_rooms_to_routes(t_anthill *ant)
 				if (propagate(&ant->hill[i], ant))
 					change = 1;
 		}
-//		i = RESET_COUNT;
-//		while (++i < ant->n_roads)
-//			ft_printf("finished[%i]: %i\n", i, ant->finished_roads[i]);
 	}
 }

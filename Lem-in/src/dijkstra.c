@@ -23,7 +23,7 @@ int	dijkstra_core(t_anthill *ant, t_queue **q, int *visited, int road_to_build)
 	{
 		if (ant->hill[(*q)->room].links[i] == ant->end)
 		{
-			ant->path.prev_room[ant->end] = (*q)->room;
+			ant->path[ant->end] = (*q)->room;
 			*q = free_all_queue(*q);
 			break ;
 		}
@@ -35,7 +35,7 @@ int	dijkstra_core(t_anthill *ant, t_queue **q, int *visited, int road_to_build)
 				len_road + 1;
 			add_to_queue(*q, ant->hill[(*q)->room].links[i]);
 			visited[ant->hill[(*q)->room].links[i]] = 1;
-			ant->path.prev_room[ant->hill[(*q)->room].links[i]] = (*q)->room;
+			ant->path[ant->hill[(*q)->room].links[i]] = (*q)->room;
 		}
 	}
 	return (len_road);
@@ -48,7 +48,7 @@ int	dijkstra(t_anthill *ant, int road_to_build)
 	int		len_road;
 
 	if (!(visited = (int*)ft_memalloc(sizeof(int) * ant->nb_room)) ||
-		!(ant->path.prev_room = (int*)ft_memalloc(sizeof(int) * ant->nb_room)))
+		!(ant->path = (int*)ft_memalloc(sizeof(int) * ant->nb_room)))
 		error(MALLOC_ERROR);
 	q = create_queue(ant->start);
 	while (q && q->room != ant->end)

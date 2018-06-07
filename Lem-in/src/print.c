@@ -29,11 +29,13 @@ void	print_new_leaving(t_anthill *ant, int *n_ant, t_road *road)
 {
 	ant->hill[road->rooms[0]].ant = ++*n_ant;
 	if (!ant->stop)
-		ft_printf("L%i-%s", ant->hill[road->rooms[0]].ant,
-				ant->hill[road->rooms[0]].name);
+		ft_printf("L\033[31m%i\033[0m-\033[33m%s\033[0m",
+			ant->hill[road->rooms[0]].ant,
+			ant->hill[road->rooms[0]].name);
 	else
-		ft_printf(" L%i-%s", ant->hill[road->rooms[0]].ant,
-				ant->hill[road->rooms[0]].name);
+		ft_printf(" L\033[31m%i\033[0m-\033[33m%s\033[0m",
+			ant->hill[road->rooms[0]].ant,
+			ant->hill[road->rooms[0]].name);
 	ant->stop = 1;
 }
 
@@ -48,11 +50,13 @@ int		forward_in_road(t_anthill *ant, int *n_ant, t_road *road)
 		{
 			ant->hill[road->rooms[i + 1]].ant = ant->hill[road->rooms[i]].ant;
 			if (!ant->stop)
-				ft_printf("L%i-%s", ant->hill[road->rooms[i]].ant,
-						ant->hill[road->rooms[i + 1]].name);
+				ft_printf("L\033[31m%i\033[0m-\033[33m%s\033[0m",
+					ant->hill[road->rooms[i]].ant,
+					ant->hill[road->rooms[i + 1]].name);
 			else
-				ft_printf(" L%i-%s", ant->hill[road->rooms[i]].ant,
-						ant->hill[road->rooms[i + 1]].name);
+				ft_printf(" L\033[31m%i\033[0m-\033[33m%s\033[0m",
+					ant->hill[road->rooms[i]].ant,
+					ant->hill[road->rooms[i + 1]].name);
 			ant->hill[road->rooms[i]].ant = 0;
 			ant->stop = 1;
 		}
@@ -75,16 +79,17 @@ void	print_solution(t_anthill *ant)
 	if (ant->road[0].len == 1)
 	{
 		i = 1;
-		ft_printf("L%i-%s", i, ant->hill[ant->end]);
+		ft_printf("L\033[31m%i\033[0m-\033[33m%s\033[0m", i,
+			ant->hill[ant->end]);
 		while (++i < ant->nb_ant)
-			ft_printf(" L%i-%s", i, ant->hill[ant->end]);
+			ft_printf(" L\033[31m%i\033[0m-\033[33m%s\033[0m", i,
+				ant->hill[ant->end]);
 		ft_putchar('\n');
 		return ;
 	}
 	set_ants_to_open(ant);
-	while (last)
+	while (last && !(ant->stop = 0))
 	{
-		ant->stop = 0;
 		i = ant->n_roads;
 		while (--i >= 0)
 			last = forward_in_road(ant, &n_ant, &ant->road[i]);

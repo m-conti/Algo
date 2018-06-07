@@ -49,9 +49,9 @@ t_road	*build_road(t_anthill *ant, t_road *r)
 		if (i == r->len - 1)
 			r->rooms[i] = ant->end;
 		else
-			r->rooms[i] = ant->path.prev_room[r->rooms[i + 1]];
+			r->rooms[i] = ant->path[r->rooms[i + 1]];
 	}
-	free(ant->path.prev_room);
+	free(ant->path);
 	return (r);
 }
 
@@ -81,5 +81,4 @@ void	build_fastest_roads(t_anthill *ant)
 					road = road->next;
 			}
 	ant->n_roads = tmp;
-//	show_roads(ant);
 }

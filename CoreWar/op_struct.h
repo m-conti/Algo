@@ -3,7 +3,7 @@
 
 typedef	uint32_t	t_reg;
 typedef uint16_t	t_index;
-typedef uint16_t	t_cycle;
+typedef uint32_t	t_cycle;
 
 typedef	struct		s_op
 {

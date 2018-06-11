@@ -1,0 +1,20 @@
+10
+##start
+deb 0 0
+un 1 1
+dos 2 2
+tres 3 3 
+ein 4 3 
+zwei 5 3 
+drei 6 3 
+##end
+fin 7 5
+deb-un
+deb-ein
+un-dos
+dos-tres
+ein-tres
+ein-zwei
+zwei-drei
+drei-fin
+tres-fin

@@ -23,6 +23,14 @@ typedef struct		s_player
 	t_reg			reg[16];
 }					t_player;
 
+typedef struct		s_process
+{
+	int				player_num;
+	uint8_t			carry;
+	uint16_t		pc;
+	int				registres[REG_NUMBER];	
+}					t_process;
+
 typedef	struct		s_core
 {
 	t_process		*process;

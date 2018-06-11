@@ -3,7 +3,7 @@
 
 typedef	uint32_t	t_reg;
 typedef uint16_t	t_index;
-typedef uint16_t	t_cycle;
+typedef uint32_t	t_cycle;
 
 typedef	struct		s_op
 {
@@ -21,13 +21,14 @@ typedef struct		s_player
 {
 	header_t		header;
 	t_reg			reg[16];
-	t_index			*process;
 }					t_player;
 
 typedef	struct		s_core
 {
+	t_process		*process;
 	t_player		player[4];
 	uint8_t			arena[MEM_SIZE];
+	void			(*fc_op[16])(t_core*, t_process*);
 }					t_core;
 
 #endif

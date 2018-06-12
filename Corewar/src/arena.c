@@ -1,10 +1,25 @@
 
 #include "op_struct.h"
 
-/*
+
 int		option(char *opt)
 {
-	const char opt[] = "v"
+	const char	all_opt[27] = "abcdefghijklmnopqrstuvwxyz";
+	uint		ret;
+	int			i;
+	uint		test;
+
+	ret = 0;
+	i = 0;
+	while (opt[i])
+	{
+		if ((test = ft_index(all_opt, opt[i++])) < 0)
+			error(UNKNOWN_OPT);
+		ret |= 1 << test;
+	}
+	if (ret & ~OUR_OPT)
+		error(UNKNOWN_OPT);
+	return (ret);
 }
 
 void	read_champ(int fd, t_player *champ)
@@ -34,7 +49,7 @@ void	read_champ(int fd, t_player *champ)
 		error(SIZEOF_CHAMP);
 }
 
-void	place_champion(t_core *core, char *file_cor)
+int		take_champion(t_core *core, char *file_cor)
 {
 	int		fd;
 	int		i;
@@ -47,15 +62,54 @@ void	place_champion(t_core *core, char *file_cor)
 	if ((fd = open(file_cor, O_RDONLY)) < 0)
 		error(FAIL_OPEN) ;
 	read_champ(fd, core->player[i])
+	return (1);
 }
-*/
+
+void	place_champion(t_core *core, t_player *player, int pos)
+{
+	int i;
+
+	i = 0;
+	while (i < player->header.prog_size)
+	{
+		core->arena[pos + i] = player->champ_core[i];
+		i++;
+	}
+	ft_memdel((void**)&player->champ_core);
+}
+
+void	make_arena(t_core *core, int nb_player)
+{
+	int		i;
+
+	i = 0;
+	while (i < nb_player)
+	{
+		place_champion(core, &core->player[i], (i * (MEM_SIZE / nb_player)));
+		i++;
+	}
+}
+
 int		main(int ac, char **av)
 {
 	t_core	core;
+	int		i;
+	int		opt;
+	int		nb_player;
 
-	if (!ac)
-		av = NULL;
+	ft_printf("%i", sizeof(core));
+	i = 0;
+	nb_player = 0;
 	ft_bzero((void*)&core, sizeof(t_core));
-	ft_printf("%p", core.player);
+	while (++i < ac)
+	{
+		if (av[i][0] == '-')
+			opt |= option(av[i]);
+		else
+			nb_player += take_champion(&core, av[i]);
+	}
+	if (!nb_player)
+		error(NO_CHAMP);
+	make_arena(&core, nb_player);
 	return (0);
 }

@@ -11,13 +11,13 @@ typedef uint32_t	t_cycle;
 typedef	struct		s_op
 {
 	char			*name;
-	uint8_t			nb_arg : 0x3;
+	uint8_t			nb_arg;
 	t_arg_type		*arg_type;
-	uint8_t			op_index : 0x5;
+	uint8_t			op_index;
 	t_cycle			cycle_to_launch;
 	char			*comment;
-	uint8_t			octet_codage_param : 0x1;
-	uint8_t			mod_direct : 0x1;
+	uint8_t			octet_codage_param;
+	uint8_t			mod_direct;
 }					t_op;
 
 typedef struct		s_player
@@ -30,6 +30,7 @@ typedef struct		s_player
 typedef struct		s_process
 {
 	uint8_t			player;
+	uint8_t			param[3];
 }					t_process;
 
 typedef	struct		s_core

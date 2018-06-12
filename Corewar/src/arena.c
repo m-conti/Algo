@@ -2,12 +2,35 @@
 #include "op_struct.h"
 
 
+void	error(int error)
+{
+	ft_printf("error : %i\n", error);
+	exit(1);
+}
+
+int		cmp_magic(unsigned char *magic)
+{
+	int			i;
+	uint32_t	cmp;
+
+	i = 0;
+	cmp = 0x18;
+	while (i < 4)
+	{
+		if (magic[i] != ((COREWAR_EXEC_MAGIC >> cmp) & 0xFF))
+			return (0);
+		cmp -= 8;
+		i++;
+	}
+	return (1);
+}
+
 int		option(char *opt)
 {
 	const char	all_opt[27] = "abcdefghijklmnopqrstuvwxyz";
-	uint		ret;
+	uint32_t	ret;
 	int			i;
-	uint		test;
+	int			test;
 
 	ret = 0;
 	i = 0;
@@ -22,30 +45,44 @@ int		option(char *opt)
 	return (ret);
 }
 
-void	read_champ(int fd, t_player *champ)
+uint32_t	take_len(char *str)
 {
-	int		ret;
-	char	buf[2048];
+	uint32_t nb;
+
+	nb = str[7];
+	nb += str[6] << 8;
+	nb += str[5] << 0x10;
+	nb += str[4] << 0x18;
+	return (nb);
+}
+
+void		read_champ(int fd, t_player *champ)
+{
+	char		buf[2048];
+	int i;
 
 	if (read(fd, buf, 4) < 4)
 		error(SIZEOF_COR);
-	if (!cmp_magic(buf))
+	if (!cmp_magic((unsigned char*)buf))
 		error(FAKE_MAGIC);
 	if (read(fd, buf, 128) < 128)
 		error(SIZEOF_COR);
-	ft_strcpy(buf, champ->header.prog_name);
+	ft_strcpy(champ->header.prog_name, buf);
 	if (read(fd, buf, 8) < 8)
 		error(SIZEOF_COR);
-	if ((champ->header.prog_size = (uint*)buf[1]) < 1 || (uint*)buf[1] > 682)
+	champ->header.prog_size = take_len(buf);
+	if (!champ->header.prog_size || champ->header.prog_size > CHAMP_MAX_SIZE)
 		error(SIZEOF_HEAD_PROG_SIZE);
 	if (read(fd, buf, 2048) < 2048)
-		error(SIZEOF_COR); 
-	ft_strcpy(buf, champ->header.prog_comment);
+		error(SIZEOF_COR);
+	ft_strcpy(champ->header.comment, buf);
+	if (read(fd, buf, 4) < 4)
+		error(SIZEOF_COR);
 	if (read(fd, buf, champ->header.prog_size)
 		< champ->header.prog_size)
 		error(SIZEOF_CHAMP);
 	champ->champ_core = ft_memdup(buf, champ->header.prog_size);
-	if (read(fd, buf, 1) > 0)
+	if ((i = read(fd, buf, 10)) > 0)
 		error(SIZEOF_CHAMP);
 }
 
@@ -60,14 +97,14 @@ int		take_champion(t_core *core, char *file_cor)
 	if (core->player[i].champ_core)
 		error(TOO_MANY_CHAMP);
 	if ((fd = open(file_cor, O_RDONLY)) < 0)
-		error(FAIL_OPEN) ;
-	read_champ(fd, core->player[i])
+		error(FAIL_OPEN);
+	read_champ(fd, &core->player[i]);
 	return (1);
 }
 
 void	place_champion(t_core *core, t_player *player, int pos)
 {
-	int i;
+	unsigned int i;
 
 	i = 0;
 	while (i < player->header.prog_size)
@@ -97,9 +134,9 @@ int		main(int ac, char **av)
 	int		opt;
 	int		nb_player;
 
-	ft_printf("%i", sizeof(core));
 	i = 0;
 	nb_player = 0;
+	opt = 0;
 	ft_bzero((void*)&core, sizeof(t_core));
 	while (++i < ac)
 	{
@@ -111,5 +148,7 @@ int		main(int ac, char **av)
 	if (!nb_player)
 		error(NO_CHAMP);
 	make_arena(&core, nb_player);
+	t_player *champ = &core.player[0];
+	ft_printf("name = %s\ncomment = %s\nsize = %u\n",champ->header.prog_name,champ->header.comment,champ->header.prog_size);
 	return (0);
 }

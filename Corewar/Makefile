@@ -24,7 +24,8 @@ SRC		= arena.c
 
 OBJ		= $(SRC:.c=.o)
 
-INC		= op.h	op_struct.h	ft_printf.h	ft_struct.h	get_next_line.h	libft.h
+INC		= op.h		op_struct.h		ft_printf.h	ft_struct.h	get_next_line.h	\
+		  libft.h	coredefine.h
 
 LIBFTPRINTF	= ft_printf/libftprintf.a
 LIBFT		= ft_printf/libft/libft.a

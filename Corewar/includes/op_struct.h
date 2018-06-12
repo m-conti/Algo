@@ -1,8 +1,10 @@
 #ifndef OP_STRUCT_H
 # define OP_STRUCT_H
 
-#include "ft_printf.h"
-#include "op.h"
+# include "ft_printf.h"
+# include "op.h"
+# include "coredefine.h"
+# include <fcntl.h>
 
 typedef	uint32_t	t_reg;
 typedef uint16_t	t_index;

@@ -147,6 +147,7 @@ int		main(int ac, char **av)
 	}
 	if (!nb_player)
 		error(NO_CHAMP);
+	core.nb_player = nb_player;
 	make_arena(&core, nb_player);
 	t_player *champ = &core.player[0];
 	ft_printf("name = %s\ncomment = %s\nsize = %u\n",champ->header.prog_name,champ->header.comment,champ->header.prog_size);

@@ -43,6 +43,7 @@ typedef struct		s_process
 typedef	struct		s_core
 {
 	t_process		*process;
+	unsigned int	nb_player;
 	t_player		player[4];
 	uint8_t			arena[MEM_SIZE];
 	void			(*fc_op[16])(struct s_core*, t_process*);

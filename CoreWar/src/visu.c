@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 13:39:30 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/12 16:02:43 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/12 16:42:24 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,43 +35,54 @@ void print_line(uint8_t arena[MEM_SIZE], int row, t_visu *v)
 	int i;
 
 	i = 0;
+	
+	mvaddch(row, 0, '*');
 	while (i < v->n_char_row)
 	{
-		mvprintw(row, i * 3, "%.2x ", arena[(row * v->n_char_row)+i]);
+		mvprintw(2 + row, 2 + i * 3, "%.2x ", arena[(row * v->n_char_row)+i]);
 		i++;
 	}
+	if (v->ncol >= N_CHAR_ROW_MAX * 3 + 2)
+		mvaddch(row, N_CHAR_ROW_MAX * 3 + 2, '*');
 }
 
 void	init_visu(t_visu *v)
 {
+	int offset_col;
+
+	offset_col = 4;
 	getmaxyx(stdscr, v->nrow, v->ncol);
 	v->n_displayed_lines = (v->nrow > N_LINES_MAX) ? N_LINES_MAX : v->nrow;
-	v->n_char_row = (v->ncol / 3 > N_CHAR_ROW_MAX) ? N_CHAR_ROW_MAX : v->ncol / 3;
+	v->n_char_row = ((v->ncol - offset_col) / 3 > N_CHAR_ROW_MAX)
+		? N_CHAR_ROW_MAX : (v->ncol - offset_col) / 3;
 }
 
-int print_arena(t_core *core)
+//int print_arena(t_core *core)
+int main()
 {
 	t_visu visu;
-	//uint9_t arena[MEM_SIZE];
+	int i;
+	uint8_t arena[MEM_SIZE];
 
-	/*
-	int i = 0;
-	while (i < 4096)
+	i = 0;
+	while (i < MEM_SIZE) 
 	{
 		if (i < 610 || (i >= 2048 && i < 2658))
 			arena[i] = ((i*(i+252))%3 + i*124) % 255;
 		else
 			arena[i] = 0;
 		i++;
-	}*/
+	}
 
 	initscr();			
 	init_visu(&visu);
 	
 	i = -1;
+	while (++i < visu.ncol)
+		addch('*');
+	i = -1;
 	while (++i < visu.n_displayed_lines)
-		print_line(core->arena, i, &visu);
-//	mvprintw(visu.nrow/2,(visu.ncol-ft_strlen(mesg))/2,"%s", line);
+		print_line(arena, i, &visu);
  	
 	raw();
 	keypad(stdscr, TRUE);		
@@ -80,5 +91,5 @@ int print_arena(t_core *core)
 	getch();			
 	endwin();			
 
-	return 0;
+	return (0);
 }

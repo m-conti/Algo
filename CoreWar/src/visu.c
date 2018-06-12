@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 13:39:30 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/12 16:42:24 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/12 17:45:41 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,22 @@ void print_line(uint8_t arena[MEM_SIZE], int row, t_visu *v)
 
 	i = 0;
 	
-	mvaddch(row, 0, '*');
+	mvaddch(2 + row, 0, '*');
 	while (i < v->n_char_row)
 	{
-		mvprintw(2 + row, 2 + i * 3, "%.2x ", arena[(row * v->n_char_row)+i]);
+		mvprintw(2 + row, 3 + i * 3, "%.2x ", arena[(row * v->n_char_row)+i]);
 		i++;
 	}
-	if (v->ncol >= N_CHAR_ROW_MAX * 3 + 2)
-		mvaddch(row, N_CHAR_ROW_MAX * 3 + 2, '*');
+	if (v->ncol >= N_CHAR_ROW_MAX * 3 + 4)
+		mvaddch(2 + row, N_CHAR_ROW_MAX * 3 + 4, '*');
 }
 
 void	init_visu(t_visu *v)
 {
 	int offset_col;
 
-	offset_col = 4;
+	initscr();
+	offset_col = 6;
 	getmaxyx(stdscr, v->nrow, v->ncol);
 	v->n_displayed_lines = (v->nrow > N_LINES_MAX) ? N_LINES_MAX : v->nrow;
 	v->n_char_row = ((v->ncol - offset_col) / 3 > N_CHAR_ROW_MAX)
@@ -73,17 +74,26 @@ int main()
 			arena[i] = 0;
 		i++;
 	}
-
-	initscr();			
 	init_visu(&visu);
-	
 	i = -1;
 	while (++i < visu.ncol)
-		addch('*');
+		mvaddch(0, i, '*');
+	mvaddch(1, 0, '*');
+	if (visu.ncol >= N_CHAR_ROW_MAX * 3 + 4)
+		mvaddch(1, N_CHAR_ROW_MAX * 3 + 4, '*');
 	i = -1;
 	while (++i < visu.n_displayed_lines)
 		print_line(arena, i, &visu);
- 	
+
+	if (visu.nrow >= visu.n_displayed_lines + 2)
+	{
+		mvaddch(visu.n_displayed_lines + 2, 0, '*');
+		if (visu.ncol >= N_CHAR_ROW_MAX * 3 + 4)
+			mvaddch(visu.n_displayed_lines + 2, N_CHAR_ROW_MAX * 3 + 4, '*');
+		i = -1;
+		while (++i < visu.ncol)
+			mvaddch(visu.n_displayed_lines + 3, i, '*');
+	}
 	raw();
 	keypad(stdscr, TRUE);		
 	noecho();			

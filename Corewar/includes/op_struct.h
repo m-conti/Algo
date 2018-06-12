@@ -32,7 +32,8 @@ typedef struct		s_player
 typedef struct		s_process
 {
 	uint8_t			player;
-	uint8_t			param[3];
+	uint8_t			param_type[3];
+	uint8_t			param_len[3];
 }					t_process;
 
 typedef	struct		s_core
@@ -42,5 +43,7 @@ typedef	struct		s_core
 	uint8_t			arena[MEM_SIZE];
 	void			(*fc_op[16])(struct s_core*, t_process*);
 }					t_core;
+
+int print_arena(t_core *core);
 
 #endif

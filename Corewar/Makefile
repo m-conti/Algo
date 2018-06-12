@@ -20,7 +20,7 @@ SRCDIR	= src
 OBJDIR	= obj
 INCDIR	= includes
 
-SRC		= arena.c
+SRC		= arena.c	visu.c
 
 OBJ		= $(SRC:.c=.o)
 
@@ -57,4 +57,4 @@ fclean:
 	rm -f $(NAME)
 
 $(NAME): $(OBJP)
-	$(CC) $(CFLAGS) -o $@ $^ $(INCRULE) $(LIBFTPRINTF) $(LIBFT)
+	$(CC) $(CFLAGS) -o $@ $^ $(INCRULE) $(LIBFTPRINTF) $(LIBFT) -lncurses

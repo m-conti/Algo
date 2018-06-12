@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 13:39:30 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/12 19:48:03 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/12 20:02:15 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,6 @@ typedef struct		s_visu
 	uint8_t			colors[MEM_SIZE];
 }					t_visu;
 
-//Taille du programme d'un joueur : dans player->header
-//depart du joueur : MEM_SIZE/nb_joueurs
-
-
 void print_line(t_core *core, int row, t_visu *v)
 {
 	int	i;
@@ -42,9 +38,9 @@ void print_line(t_core *core, int row, t_visu *v)
 	mvaddch(2 + row, 0, '*');
 	while (i < v->n_char_row)
 	{
-		attron(COLOR_PAIR(v->colors[(row * v->n_char_row)+i]));
-		mvprintw(2 + row, 3 + i * 3, "%.2x ", core->arena[(row * v->n_char_row)+i]);
-		attroff(COLOR_PAIR(v->colors[(row * v->n_char_row)+i]));
+		attron(COLOR_PAIR(v->colors[(row * v->n_char_row) + i]));
+		mvprintw(2 + row, 3 + i * 3, "%.2x ", core->arena[(row * v->n_char_row) + i]);
+		attroff(COLOR_PAIR(v->colors[(row * v->n_char_row) + i]));
 		i++;
 	}
 	if (v->ncol >= N_CHAR_ROW_MAX * 3 + 4)
@@ -60,20 +56,18 @@ void	init_colors_visu(t_core *core, t_visu *v)
 	cur_col = COLOR_PAIR_P1;
 	while (i < MEM_SIZE)
 	{
-		if (i == core->player[0].header.prog_size)
+		if ((i == core->player[0].header.prog_size) || (core->nb_player >= 2 &&
+			i == MEM_SIZE / core->nb_player + core->player[1].header.prog_size) ||
+			(core->nb_player >= 3 && i == (MEM_SIZE / core->nb_player) * 2 +
+			core->player[2].header.prog_size) || (core->nb_player == 4 &&
+			i == (MEM_SIZE / core->nb_player) * 3 + core->player[3].header.prog_size))
 			cur_col = 1;
 		if (core->nb_player >= 2 && i == MEM_SIZE / core->nb_player)
 			cur_col = COLOR_PAIR_P2;
-		if (core->nb_player >= 2 && i == MEM_SIZE / core->nb_player + core->player[1].header.prog_size)
-			cur_col = 1;
 		if (core->nb_player >= 3 && i == (MEM_SIZE / core->nb_player) * 2)
 			cur_col = COLOR_PAIR_P3;
-		if (core->nb_player >= 3 && i == (MEM_SIZE / core->nb_player) * 2 + core->player[2].header.prog_size)
-			cur_col = 1;
 		if (core->nb_player == 4 && i == (MEM_SIZE / core->nb_player) * 3)
 			cur_col = COLOR_PAIR_P4;
-		if (core->nb_player == 4 && i == (MEM_SIZE / core->nb_player) * 3 + core->player[3].header.prog_size)
-			cur_col = 1;
 		v->colors[i] = cur_col;
 		i++;
 	}

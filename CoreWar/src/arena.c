@@ -111,5 +111,7 @@ int		main(int ac, char **av)
 	if (!nb_player)
 		error(NO_CHAMP);
 	make_arena(&core, nb_player);
+
+	print_arena(&core);
 	return (0);
 }

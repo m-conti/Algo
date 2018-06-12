@@ -6,12 +6,13 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 13:39:30 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/12 15:31:32 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/12 16:02:43 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ncurses.h>
 #include "../includes/libft.h"
+#include "../includes/op_struct.h"
 
 
 #define N_CHAR_ROW_MAX 64
@@ -29,7 +30,7 @@ typedef struct		s_visu
 }					t_visu;
 
 
-void print_line(unsigned char *arena, int row, t_visu *v)
+void print_line(uint8_t arena[MEM_SIZE], int row, t_visu *v)
 {
 	int i;
 
@@ -48,13 +49,12 @@ void	init_visu(t_visu *v)
 	v->n_char_row = (v->ncol / 3 > N_CHAR_ROW_MAX) ? N_CHAR_ROW_MAX : v->ncol / 3;
 }
 
-int main()
+int print_arena(t_core *core)
 {
-	int ch;
-	unsigned char arena[4096];
 	t_visu visu;
-	int n_lines;
+	//uint9_t arena[MEM_SIZE];
 
+	/*
 	int i = 0;
 	while (i < 4096)
 	{
@@ -63,14 +63,14 @@ int main()
 		else
 			arena[i] = 0;
 		i++;
-	}
+	}*/
 
 	initscr();			
 	init_visu(&visu);
 	
 	i = -1;
 	while (++i < visu.n_displayed_lines)
-		print_line(arena, i, &visu);
+		print_line(core->arena, i, &visu);
 //	mvprintw(visu.nrow/2,(visu.ncol-ft_strlen(mesg))/2,"%s", line);
  	
 	raw();

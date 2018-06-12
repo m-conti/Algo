@@ -59,7 +59,6 @@ uint32_t	take_len(char *str)
 void		read_champ(int fd, t_player *champ)
 {
 	char		buf[2048];
-	int i;
 
 	if (read(fd, buf, 4) < 4)
 		error(SIZEOF_COR);
@@ -78,11 +77,10 @@ void		read_champ(int fd, t_player *champ)
 	ft_strcpy(champ->header.comment, buf);
 	if (read(fd, buf, 4) < 4)
 		error(SIZEOF_COR);
-	if (read(fd, buf, champ->header.prog_size)
-		< champ->header.prog_size)
+	if (read(fd, buf, champ->header.prog_size) < champ->header.prog_size)
 		error(SIZEOF_CHAMP);
 	champ->champ_core = ft_memdup(buf, champ->header.prog_size);
-	if ((i = read(fd, buf, 10)) > 0)
+	if (read(fd, buf, 10) > 0)
 		error(SIZEOF_CHAMP);
 }
 
@@ -122,9 +120,11 @@ void	make_arena(t_core *core, int nb_player)
 	i = 0;
 	while (i < nb_player)
 	{
-		place_champion(core, &core->player[i], (i * (MEM_SIZE / nb_player)));
+		new_process(core, ((i * MEM_SIZE) / nb_player), i);
+		place_champion(core, &core->player[i], ((i * MEM_SIZE) / nb_player));
 		i++;
 	}
+	core->cycle_to_die = CYCLE_TO_DIE;
 }
 
 int		main(int ac, char **av)

@@ -36,9 +36,19 @@ typedef struct			s_process
 	struct s_process	*next;
 }						t_process;
 
+typedef struct		s_visu
+{
+	int				nrow;
+	int				ncol;
+	int				n_displayed_lines;
+	int				n_char_row;
+	uint8_t			colors[MEM_SIZE];
+}					t_visu;
+
 typedef	struct			s_core
 {
 	t_process			*process;
+	t_visu				v; // V pour visu!
 	unsigned int		nb_player;
 	t_player			player[4];
 	uint8_t				arena[MEM_SIZE];

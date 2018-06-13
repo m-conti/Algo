@@ -64,23 +64,31 @@ void	do_process(t_core *core, t_process *current_process)
 
 void	core(t_core *core)
 {
-	static uint8_t	first = 1;
 	t_process		*current_process;
+	uint8_t			checks;
 
+	checks = 0;
 	while (core->cycle_to_die > 0)
 	{
+		print_arena(core);
 		core->cycle++;
 		core->current_cycle++;
 		current_process = core->process;
 		while (current_process)
-			do_process(core, current_process);
+			; //do_process(core, current_process);
 		if (core->current_cycle == core->cycle_to_die)
 		{
 			core->cycle = 0;
-			if (first)
-				first = 0;
-			else
+			if (core->live > NBR_LIVE || checks == MAX_CHECKS)
+			{
 				core->cycle_to_die -= CYCLE_DELTA;
+				checks = 0;
+			}
+			else
+				checks++;
+			if (!core->live)
+				break ;
+			core->live = 0;
 		}
 	}
 }

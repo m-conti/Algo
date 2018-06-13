@@ -1,5 +1,5 @@
 
-#include "op_struct.h"
+#include "corewar.h"
 
 
 void	error(int error)

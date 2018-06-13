@@ -20,12 +20,12 @@ SRCDIR	= src
 OBJDIR	= obj
 INCDIR	= includes
 
-SRC		= arena.c	visu.c
+SRC		= arena.c	visu.c	core.c	ocp.c	process.c
 
 OBJ		= $(SRC:.c=.o)
 
 INC		= op.h		op_struct.h		ft_printf.h	ft_struct.h	get_next_line.h	\
-		  libft.h	coredefine.h
+		  libft.h	coredefine.h	op_tab.h
 
 LIBFTPRINTF	= ft_printf/libftprintf.a
 LIBFT		= ft_printf/libft/libft.a

@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ncurses.h>
-#include "op_struct.h"
+#include "corewar.h"
 
 #define N_CHAR_ROW_MAX 64
 #define N_LINES_MAX 64

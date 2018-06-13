@@ -10,27 +10,45 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "corewar.h"
+#include "op_tab.h"
 
 void    increase_pc(t_process *proc, int how_much)
 {
-	(proc->pc += how_much) % MEM_SIZE;
+	proc->pc = (proc->pc + how_much) % MEM_SIZE;
 }
 
-int		in_hex(int nb)
+uint8_t	in_hex(uint8_t nb)
 {
 	return (nb >= 1 && nb <= 16);
 }
 
+int		read_arena(t_core *core, t_process *proc, int offset, int size_to_read)
+{
+	int res;
+	int i;
+
+	i = 0;
+	res = 0;
+	while (i < size_to_read)
+	{
+		res <<= 8;
+		res += core->arena[(proc->pc + offset + i) % MEM_SIZE];
+			i++;
+	}
+	return (res);
+}
+
 void	do_process(t_core *core, t_process *current_process)
 {
-	uint8_t			param;
+	uint8_t			op;
 
 	if (!current_process->to_launch)
 	{
-		if (in_hex(param = read_arena(core, current_process, 0, 1)))
+		if (in_hex(op = read_arena(core, current_process, 0, 1)))
 		{
-			current_process->to_launch = param;
-			current_process->process_time = op_tab[param - 1];
+			current_process->to_launch = op;
+			current_process->process_time = g_op_tab[op - 1].cycle_to_launch;
 		}
 		else
 			increase_pc(current_process, 1);
@@ -62,7 +80,7 @@ void	core(t_core *core)
 			if (first)
 				first = 0;
 			else
-				cycle_to_die -= CYCLE_DELTA;
+				core->cycle_to_die -= CYCLE_DELTA;
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 11:33:35 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/13 14:14:28 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/14 16:35:02 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int				main(int ac, char **av)
 	t_labels	*lst_label;
 	int			opt;
 
+	lst_label = NULL;
 	if (!(head = (header_t*)malloc(sizeof(header_t))))
 		return (-1);
 	ft_bzero(head, sizeof(header_t));

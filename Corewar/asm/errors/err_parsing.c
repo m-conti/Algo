@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 17:47:44 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/13 13:38:23 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/14 19:50:48 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,27 @@ t_pars		*ft_check_opname_type(t_pars *l, int i, int counter)
 	return (l);
 }
 
-void		ft_error_head_name(char *line, char *name)
+void		ft_error_head_name(char *line, char *name, header_t *head)
 {
 	int		i;
 
-	line = ft_comment_delete(line);
+	(head->magic > 0) ? line = ft_comment_delete(line) : line;
+	i = 0;
 	while (line[i] == ' ' || line[i] == '\t')
 		i++;
-	if (ft_strncmp(&line[i], name, ft_strlen(name)) != 0)
-		ft_exit("Error in the header", 0);
+	if ((!head->comment[0]) && ft_strncmp(&line[i], name, ft_strlen(name)) != 0)
+		ft_exit("Error in the header 1", 0);
 	i = i + ft_strlen(name);
 	while (line[i] == ' ' || line[i] == '\t')
 		i++;
-	(line[i] != '"') ? ft_exit("Error in the header", 0) : i++;
+	(line[i] != '"') ? ft_exit("Error in the header 2", 0) : i++;
 	while (line[i] && line[i] != '"')
 		i++;
 	line[i] ? i++ : i;
 	while ((line[i] == ' ' || line[i] == '\t') && line[i])
 		i++;
 	if (line[i])
-		ft_exit("Error in the header", 0);
+		ft_exit("Error in the header 3", 0);
 }
 
 void		ft_error_values(char *value, int code, int counter)
@@ -88,4 +89,6 @@ void		ft_check_label(t_pars *l, int i, int counter)
 		else
 			ft_exit("Error in the label name", counter);
 	}
+	if (l->label)
+		l->label[i] = '\0';
 }

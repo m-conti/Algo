@@ -59,6 +59,5 @@ int		check_op(t_core *core, t_process *proc)
 	stop = calc_param_len(proc);
 	proc->jump = proc->param_len[0] + proc->param_len[1] + proc->param_len[2]
 	+ g_op_tab[proc->to_launch - 1].ocp + 1;
-	ft_printf("jump = %u, len0 = %u, len1 = %u, len2 = %u\n", proc->jump, proc->param_len[0], proc->param_len[1], proc->param_len[2]);
 	return (stop);
 }

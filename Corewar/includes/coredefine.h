@@ -22,5 +22,6 @@
 # define TOO_MANY_CHAMP 6
 # define NO_CHAMP 7
 # define FAIL_OPEN 8
+# define NBRPLAYER 0x100
 
 #endif

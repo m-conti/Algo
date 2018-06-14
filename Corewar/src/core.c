@@ -23,9 +23,9 @@ uint8_t	in_hex(uint8_t nb)
 	return (nb >= 1 && nb <= 16);
 }
 
-int		read_arena(t_core *core, t_process *proc, int offset, int size_to_read)
+uint32_t	read_arena(t_core *core, t_process *proc, int offset, int size_to_read)
 {
-	int res;
+	uint32_t res;
 	int i;
 
 	i = 0;
@@ -34,9 +34,21 @@ int		read_arena(t_core *core, t_process *proc, int offset, int size_to_read)
 	{
 		res <<= 8;
 		res += core->arena[(proc->pc + offset + i) % MEM_SIZE];
-			i++;
+		i++;
 	}
 	return (res);
+}
+
+void	write_arena(t_core *core, t_process *proc, int offset, uint32_t to_write)
+{
+	int	i;
+
+	i = 4;
+	while (--i != -1)
+	{
+		core->arena[(proc->pc + offset + i) % MEM_SIZE] = to_write & 0xFF;
+		to_write >>= 0x8;
+	}
 }
 
 t_process	*do_process(t_core *core, t_process *current_process)
@@ -94,7 +106,7 @@ void	corewar(t_core *core)
 				break ;
 			core->live = 0;
 		}
-		if (core->cycle > 100)
+		if (core->cycle > 2000)
 		{
 			endwin();
 			break ;

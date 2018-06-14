@@ -20,7 +20,8 @@ SRCDIR	= src
 OBJDIR	= obj
 INCDIR	= includes
 
-SRC		= arena.c	visu.c	core.c	ocp.c	process.c	op_1.c
+SRC		= arena.c	visu.c	core.c	ocp.c	process.c	\
+		  op_1.c	op_2.c	op_3.c	op_4.c
 
 OBJ		= $(SRC:.c=.o)
 

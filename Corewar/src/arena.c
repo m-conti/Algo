@@ -113,18 +113,48 @@ void	place_champion(t_core *core, t_player *player, int pos)
 	ft_memdel((void**)&player->champ_core);
 }
 
+void	set_player_nbr(t_core *core, int i)
+{
+	if (core->opt & NBRPLAYER)
+		;//à faire
+	else
+		core->player[i].nbr = ~i;
+}
+
 void	make_arena(t_core *core, int nb_player)
 {
 	int		i;
+	t_reg	reg[REG_NUMBER];
 
 	i = 0;
+	ft_bzero((void*)reg, REG_NUMBER);
 	while (i < nb_player)
 	{
-		new_process(core, ((i * MEM_SIZE) / nb_player), i);
+		set_player_nbr(core, i);
+		reg[0] = core->player[i].nbr;
+		new_process(core, ((i * MEM_SIZE) / nb_player), i, reg);
 		place_champion(core, &core->player[i], ((i * MEM_SIZE) / nb_player));
 		i++;
 	}
 	core->cycle_to_die = CYCLE_TO_DIE;
+}
+
+void	init_core(t_core *core)
+{
+	int i;
+
+	i = 0;
+	core->process = NULL;
+	ft_bzero((void*)&core->v, sizeof(t_visu));
+	core->cycle = 0;
+	core->nb_player = 0;
+	while (i < MAX_PLAYERS)
+		ft_bzero((void*)&core->player[i++], sizeof(t_player));
+	ft_bzero((void*)&core->arena, MEM_SIZE);
+	core->current_cycle = 0;
+	core->cycle_to_die = 0;
+	core->live = 0;
+	core->opt = 0;
 }
 
 int		main(int ac, char **av)
@@ -137,7 +167,8 @@ int		main(int ac, char **av)
 	i = 0;
 	nb_player = 0;
 	opt = 0;
-	ft_bzero((void*)&core, sizeof(t_core));
+	init_core(&core);
+	build_array_op(core.fc_op);
 	while (++i < ac)
 	{
 		if (av[i][0] == '-')

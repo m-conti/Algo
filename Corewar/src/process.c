@@ -12,21 +12,14 @@
 
 #include "corewar.h"
 
-void	new_process(t_core *core, int pos, int player)
+void	new_process(t_core *core, int pos, int player, t_reg reg[REG_NUMBER])
 {
 	t_process	*process;
-	t_process	*last;
 
 	process = (t_process*)ft_memalloc(sizeof(t_process));
 	process->player = player;
 	process->pc = pos;
-	last = core->process;
-	if (!core->process)
-		core->process = process;
-	else
-	{
-		while (last->next)
-			last = last->next;
-		last->next = process;
-	}
+	ft_memcpy(process->reg, reg, sizeof(t_reg) * REG_NUMBER);
+	process->next = core->process;
+	core->process = process;
 }

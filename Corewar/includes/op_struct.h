@@ -34,7 +34,7 @@ typedef struct			s_process
 	uint8_t				param_type[3];
 	uint8_t				param_len[3];
 	uint32_t			param[3];
-	uint8_t				process_time;
+	uint32_t			process_time;
 	uint8_t				to_launch;
 	int					jump;
 	struct s_process	*next;

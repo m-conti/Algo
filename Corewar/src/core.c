@@ -76,10 +76,12 @@ void	corewar(t_core *core)
 		core->current_cycle++;
 		current_process = core->process;
 		while (current_process)
+		{
 			current_process = do_process(core, current_process);
+		}
 		if (core->current_cycle == core->cycle_to_die)
 		{
-			core->cycle = 0;
+			core->current_cycle = 0;
 // TODO		process_to_die(core);
 			if (core->live >= NBR_LIVE || checks == MAX_CHECKS)
 			{
@@ -92,7 +94,7 @@ void	corewar(t_core *core)
 				break ;
 			core->live = 0;
 		}
-		if (core->cycle > 10)
+		if (core->cycle > 100)
 		{
 			endwin();
 			break ;

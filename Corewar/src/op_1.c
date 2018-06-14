@@ -46,6 +46,7 @@ void	op_live(t_core *core, t_process *proc)
 		core->player[proc->param[0]].last_alive = core->cycle;
 	}
 	proc->lives++;
+	core->live++;
 }
 
 void		op_aff(t_core *core, t_process *proc)

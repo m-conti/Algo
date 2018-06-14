@@ -21,6 +21,7 @@ typedef struct			s_player
 {
 	header_t			header;
 	char				*champ_core;
+	uint32_t			last_alive;
 	t_reg				reg[16];
 }						t_player;
 
@@ -28,8 +29,11 @@ typedef struct			s_process
 {
 	int					pc;
 	uint8_t				player;
+	uint8_t				lives;
+	uint8_t				carry;
 	uint8_t				param_type[3];
 	uint8_t				param_len[3];
+	uint32_t			param[3];
 	uint8_t				process_time;
 	uint8_t				to_launch;
 	int					jump;
@@ -62,5 +66,7 @@ int 	print_arena(t_core *core);
 void	new_process(t_core *core, int pos, int player);
 int		check_op(t_core *core, t_process *proc);
 int		read_arena(t_core *core, t_process *proc, int offset, int size_to_read);
+void	corewar(t_core *core);
+void	init_visu(t_core *core);
 
 #endif

@@ -29,20 +29,20 @@ typedef struct		s_visu
 	uint8_t			colors[MEM_SIZE];
 }					t_visu;
 
-void print_line(t_core *core, int row, t_visu *v)
+void print_line(t_core *core, int row)
 {
 	int	i;
 
 	i = 0;
 	mvaddch(2 + row, 0, '*');
-	while (i < v->n_char_row)
+	while (i < core->v->n_char_row)
 	{
-		attron(COLOR_PAIR(v->colors[(row * v->n_char_row) + i]));
-		mvprintw(2 + row, 3 + i * 3, "%.2x ", core->arena[(row * v->n_char_row) + i]);
-		attroff(COLOR_PAIR(v->colors[(row * v->n_char_row) + i]));
+		attron(COLOR_PAIR(core->v->colors[(row * core->v->n_char_row) + i]));
+		mvprintw(2 + row, 3 + i * 3, "%.2x ", core->arena[(row * core->v->n_char_row) + i]);
+		attroff(COLOR_PAIR(core->v->colors[(row * core->v->n_char_row) + i]));
 		i++;
 	}
-	if (v->ncol >= N_CHAR_ROW_MAX * 3 + 4)
+	if (core->v->ncol >= N_CHAR_ROW_MAX * 3 + 4)
 		mvaddch(2 + row, N_CHAR_ROW_MAX * 3 + 4, '*');
 }
 

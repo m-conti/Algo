@@ -3,7 +3,7 @@
 
 extern t_op	g_op_tab[17];
 
-int		calc_param_len(t_process *proc, uint8_t opt)
+int		calc_param_len(t_process *proc)
 {
 	int				i;
 	int				stop;
@@ -13,7 +13,7 @@ int		calc_param_len(t_process *proc, uint8_t opt)
 	i = 0;
 	if (proc->to_launch > 0 && proc->to_launch < 16)
 		return (0);
-	if (opt)
+	if (g_op_tab[proc->to_launch - 1].ocp)
 	{
 		while (i < g_op_tab[proc->to_launch - 1].nb_arg)
 		{
@@ -41,7 +41,6 @@ int		check_op(t_core *core, t_process *proc)
 	int		i;
 	int		stop;
 
-	ocp = 0;
 	ft_bzero(proc->param_type, 3);
 	ft_bzero(proc->param_len, 3);
 	if (proc->to_launch > 0 && proc->to_launch < 16)
@@ -55,10 +54,10 @@ int		check_op(t_core *core, t_process *proc)
 				ocp >>= 2;
 				proc->param_type[i] = ocp & 3;
 			}
-			ocp = 1;
 		}
 	}
-	stop = calc_param_len(proc, ocp);
-	proc->jump = proc->param_len[0] + proc->param_len[1] + proc->param_len[2];
+	stop = calc_param_len(proc);
+	proc->jump = proc->param_len[0] + proc->param_len[1] + proc->param_len[2]
+	+ g_op_tab[proc->to_launch - 1].ocp + 1;
 	return (stop);
 }

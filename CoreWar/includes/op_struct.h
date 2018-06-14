@@ -42,6 +42,7 @@ typedef struct		s_visu
 	int				ncol;
 	int				n_displayed_lines;
 	int				n_char_row;
+	int				nb_process;
 	uint8_t			colors[MEM_SIZE];
 }					t_visu;
 

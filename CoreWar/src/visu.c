@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 13:39:30 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/13 21:44:58 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/14 14:22:45 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 #define COLOR_PROCESS_P4 9
 #define COLOR_BORDER 10
 
+#define X_CYCLE 200
+#define Y_CYCLE 5
+
 void print_line(t_core *core, int row)
 {
 	int	i;
@@ -37,7 +40,8 @@ void print_line(t_core *core, int row)
 	while (i < core->v.n_char_row)
 	{
 		attron(COLOR_PAIR(core->v.colors[(row * core->v.n_char_row) + i]));
-		mvprintw(2 + row, 3 + i * 3, "%.2x", core->arena[(row * core->v.n_char_row) + i]);
+		mvprintw(2 + row, 3 + i * 3, "%.2x",
+				core->arena[(row * core->v.n_char_row) + i]);
 		attroff(COLOR_PAIR(core->v.colors[(row * core->v.n_char_row) + i]));
 		mvaddch(2 + row, 3 + i * 3 + 3, ' ');
 		i++;
@@ -142,17 +146,27 @@ void	put_processes(t_core *core)
 	t_process *cur;
 
 	cur = core->process;
+	core->v.nb_process = 0;
 	while (cur)
 	{
 		core->v.colors[cur->pc] = COLOR_PROCESS_P1 + cur->player; 
 		cur = cur->next;
+		core->v.nb_process++;
 	}
 }
 
 void	print_state(t_core *core)
 {
-	(void) core;
-	return ;
+	unsigned int i_player;
+
+	mvprintw(Y_CYCLE, X_CYCLE, "Cycle : %d", core->cycle);
+	mvprintw(Y_CYCLE + 2, X_CYCLE, "Process : %d", core->v.nb_process);
+	i_player = 0;
+	while (i_player < core->nb_player)
+	{
+		mvprintw(Y_CYCLE + 4 + 2 * i_player, X_CYCLE, "Player %d : %s", i_player, core->player[i_player].header.prog_name);
+		i_player++;
+	}	
 }
 
 int print_arena(t_core *core)

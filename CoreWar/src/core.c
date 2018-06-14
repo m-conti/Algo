@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 18:36:10 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/14 11:07:18 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/14 13:52:03 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	corewar(t_core *core)
 		core->cycle++;
 		core->current_cycle++;
 		current_process = core->process;
+		/*
 		while (current_process)
 			; //do_process(core, current_process);
 		if (core->current_cycle == core->cycle_to_die)
@@ -89,6 +90,12 @@ void	corewar(t_core *core)
 			if (!core->live)
 				break ;
 			core->live = 0;
+		}
+		*/
+		if (core->cycle > 2)
+		{
+			endwin();
+			break ;
 		}
 	}
 }

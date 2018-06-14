@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 18:36:10 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/12 18:36:11 by mconti           ###   ########.fr       */
+/*   Updated: 2018/06/14 15:14:05 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_process	*do_process(t_core *core, t_process *current_process)
 	else if (!--current_process->process_time)
 	{
 		if (check_op(core, current_process))
-			do_operator(core, current_proc);
+			do_operator(core, current_process);
 		increase_pc(current_process, current_process->jump);
 		current_process->to_launch = 0;
 	}
@@ -91,6 +91,11 @@ void	corewar(t_core *core)
 			if (!core->live)
 				break ;
 			core->live = 0;
+		}
+		if (core->cycle > 10)
+		{
+			endwin();
+			break ;
 		}
 	}
 }

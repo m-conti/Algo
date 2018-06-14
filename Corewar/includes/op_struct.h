@@ -44,6 +44,7 @@ typedef struct		s_visu
 {
 	int				nrow;
 	int				ncol;
+	unsigned int	nb_process;
 	int				n_displayed_lines;
 	int				n_char_row;
 	uint8_t			colors[MEM_SIZE];
@@ -60,6 +61,7 @@ typedef	struct			s_core
 	uint32_t			cycle;
 	int16_t				current_cycle;
 	int16_t				cycle_to_die;
+	int					live;
 }						t_core;
 
 int 	print_arena(t_core *core);
@@ -67,6 +69,9 @@ void	new_process(t_core *core, int pos, int player);
 int		check_op(t_core *core, t_process *proc);
 int		read_arena(t_core *core, t_process *proc, int offset, int size_to_read);
 void	corewar(t_core *core);
-void	init_visu(t_core *core);
+void		init_visu(t_core *core);
+t_process	*do_process(t_core *core, t_process *current_process);
+void        do_operator(t_core *core, t_process *proc);
+void		op_live(t_core *core, t_process *proc);
 
 #endif

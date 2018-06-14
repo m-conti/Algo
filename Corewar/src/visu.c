@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 13:39:30 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/12 20:02:15 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/14 14:22:45 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,41 +15,49 @@
 #define N_CHAR_ROW_MAX 64
 #define N_LINES_MAX 64
 
+#define COLOR_GRAY 50
 #define COLOR_PAIR_P1 2
 #define COLOR_PAIR_P2 3
 #define COLOR_PAIR_P3 4
 #define COLOR_PAIR_P4 5
+#define COLOR_PROCESS_P1 6
+#define COLOR_PROCESS_P2 7
+#define COLOR_PROCESS_P3 8
+#define COLOR_PROCESS_P4 9
+#define COLOR_BORDER 10
 
-typedef struct		s_visu
-{
-	int				nrow;
-	int				ncol;
-	int				n_displayed_lines;
-	int				n_char_row;
-	uint8_t			colors[MEM_SIZE];
-}					t_visu;
+#define X_CYCLE 200
+#define Y_CYCLE 5
 
 void print_line(t_core *core, int row)
 {
 	int	i;
 
 	i = 0;
+	attron(COLOR_PAIR(COLOR_BORDER));
 	mvaddch(2 + row, 0, '*');
-	while (i < core->v->n_char_row)
+	attroff(COLOR_PAIR(COLOR_BORDER));
+	while (i < core->v.n_char_row)
 	{
-		attron(COLOR_PAIR(core->v->colors[(row * core->v->n_char_row) + i]));
-		mvprintw(2 + row, 3 + i * 3, "%.2x ", core->arena[(row * core->v->n_char_row) + i]);
-		attroff(COLOR_PAIR(core->v->colors[(row * core->v->n_char_row) + i]));
+		attron(COLOR_PAIR(core->v.colors[(row * core->v.n_char_row) + i]));
+		mvprintw(2 + row, 3 + i * 3, "%.2x",
+				core->arena[(row * core->v.n_char_row) + i]);
+		attroff(COLOR_PAIR(core->v.colors[(row * core->v.n_char_row) + i]));
+		mvaddch(2 + row, 3 + i * 3 + 3, ' ');
 		i++;
 	}
-	if (core->v->ncol >= N_CHAR_ROW_MAX * 3 + 4)
+	if (core->v.ncol >= N_CHAR_ROW_MAX * 3 + 4)
+	{
+		attron(COLOR_PAIR(COLOR_BORDER));
 		mvaddch(2 + row, N_CHAR_ROW_MAX * 3 + 4, '*');
+		attroff(COLOR_PAIR(COLOR_BORDER));
+	}
 }
 
-void	init_colors_visu(t_core *core, t_visu *v)
+void	init_colors_visu(t_core *core)
 {
-	unsigned int		i;
-	uint8_t	cur_col;
+	unsigned int	i;
+	uint8_t			cur_col;
 
 	i = 0;
 	cur_col = COLOR_PAIR_P1;
@@ -67,76 +75,116 @@ void	init_colors_visu(t_core *core, t_visu *v)
 			cur_col = COLOR_PAIR_P3;
 		if (core->nb_player == 4 && i == (MEM_SIZE / core->nb_player) * 3)
 			cur_col = COLOR_PAIR_P4;
-		v->colors[i] = cur_col;
+		core->v.colors[i] = cur_col;
 		i++;
 	}
 }
 
-void	init_visu(t_core *core, t_visu *v)
+void	init_color_pairs()
 {
-	int offset_col;
-
-	initscr();
-	start_color();
+	init_color(COLOR_GRAY, 500, 500, 500); 
 	init_pair(1, COLOR_WHITE, COLOR_BLACK);
 	init_pair(COLOR_PAIR_P1, COLOR_GREEN, COLOR_BLACK);
 	init_pair(COLOR_PAIR_P2, COLOR_BLUE, COLOR_BLACK);
 	init_pair(COLOR_PAIR_P3, COLOR_RED, COLOR_BLACK);
 	init_pair(COLOR_PAIR_P4, COLOR_YELLOW, COLOR_BLACK);
-	offset_col = 6;
-	getmaxyx(stdscr, v->nrow, v->ncol);
-	v->n_displayed_lines = (v->nrow > N_LINES_MAX) ? N_LINES_MAX : v->nrow;
-	v->n_char_row = ((v->ncol - offset_col) / 3 > N_CHAR_ROW_MAX)
-		? N_CHAR_ROW_MAX : (v->ncol - offset_col) / 3;
-	init_colors_visu(core, v);
+	init_pair(COLOR_PROCESS_P1, COLOR_BLACK, COLOR_GREEN);
+	init_pair(COLOR_PROCESS_P2, COLOR_BLACK, COLOR_BLUE);
+	init_pair(COLOR_PROCESS_P3, COLOR_BLACK, COLOR_RED);
+	init_pair(COLOR_PROCESS_P4, COLOR_BLACK, COLOR_YELLOW);
+	init_pair(COLOR_BORDER, COLOR_GRAY, COLOR_GRAY);
 }
 
-void	print_two_first_lines(t_visu *v)
+void	init_visu(t_core *core)
+{
+	int offset_col;
+
+	initscr();
+	start_color();
+	init_color_pairs();
+	offset_col = 6;
+	getmaxyx(stdscr, core->v.nrow, core->v.ncol);
+	core->v.n_displayed_lines = (core->v.nrow > N_LINES_MAX) ? N_LINES_MAX : core->v.nrow;
+	core->v.n_char_row = ((core->v.ncol - offset_col) / 3 > N_CHAR_ROW_MAX)
+		? N_CHAR_ROW_MAX : (core->v.ncol - offset_col) / 3;
+	init_colors_visu(core);
+}
+
+void	print_two_first_lines(t_core *core)
 {
 	int i;
 
 	i = -1;
-	while (++i < v->ncol)
+	attron(COLOR_PAIR(COLOR_BORDER));
+	while (++i <  core->v.ncol)
 		mvaddch(0, i, '*');
 	mvaddch(1, 0, '*');
-	if (v->ncol >= N_CHAR_ROW_MAX * 3 + 4)
+	if (core->v.ncol >= N_CHAR_ROW_MAX * 3 + 4)
 		mvaddch(1, N_CHAR_ROW_MAX * 3 + 4, '*');
+	attroff(COLOR_PAIR(COLOR_BORDER));
 }
 
-void	print_two_last_lines(t_visu *v)
+void	print_two_last_lines(t_core *core)
 {
 	int i;
 
-	if (v->nrow >= v->n_displayed_lines + 2)
+	if (core->v.nrow >= core->v.n_displayed_lines + 2)
 	{
-		mvaddch(v->n_displayed_lines + 2, 0, '*');
-		if (v->ncol >= N_CHAR_ROW_MAX * 3 + 4)
-			mvaddch(v->n_displayed_lines + 2, N_CHAR_ROW_MAX * 3 + 4, '*');
+		attron(COLOR_PAIR(COLOR_BORDER));
+		mvaddch(core->v.n_displayed_lines + 2, 0, '*');
+		if (core->v.ncol >= N_CHAR_ROW_MAX * 3 + 4)
+			mvaddch(core->v.n_displayed_lines + 2, N_CHAR_ROW_MAX * 3 + 4, '*');
 		i = -1;
-		while (++i < v->ncol)
-			mvaddch(v->n_displayed_lines + 3, i, '*');
+		while (++i < core->v.ncol)
+			mvaddch(core->v.n_displayed_lines + 3, i, '*');
+		attroff(COLOR_PAIR(COLOR_BORDER));
 	}
+}
 
+void	put_processes(t_core *core)
+{
+	t_process *cur;
+
+	cur = core->process;
+	core->v.nb_process = 0;
+	while (cur)
+	{
+		core->v.colors[cur->pc] = COLOR_PROCESS_P1 + cur->player; 
+		cur = cur->next;
+		core->v.nb_process++;
+	}
+}
+
+void	print_state(t_core *core)
+{
+	unsigned int i_player;
+
+	mvprintw(Y_CYCLE, X_CYCLE, "Cycle : %d", core->cycle);
+	mvprintw(Y_CYCLE + 2, X_CYCLE, "Process : %d", core->v.nb_process);
+	i_player = 0;
+	while (i_player < core->nb_player)
+	{
+		mvprintw(Y_CYCLE + 4 + 2 * i_player, X_CYCLE, "Player %d : %s", i_player, core->player[i_player].header.prog_name);
+		i_player++;
+	}	
 }
 
 int print_arena(t_core *core)
 {
-	t_visu visu;
 	int i;
+	int ch;
 
-	init_visu(core, &visu);
-	print_two_first_lines(&visu);
+	put_processes(core);
+	print_two_first_lines(core);
 	i = -1;
-	while (++i < visu.n_displayed_lines)
-		print_line(core, i, &visu);
-	print_two_last_lines(&visu);
-
+	while (++i < core->v.n_displayed_lines)
+		print_line(core, i);
+	print_two_last_lines(core);
+	print_state(core);
 	raw();
-	keypad(stdscr, TRUE);		
+	keypad(stdscr, TRUE);
 	noecho();			
 	refresh();			
-	getch();			
-	endwin();			
-
+	ch = getch();			
 	return (0);
 }

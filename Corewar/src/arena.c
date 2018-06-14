@@ -138,7 +138,6 @@ int		main(int ac, char **av)
 	nb_player = 0;
 	opt = 0;
 	ft_bzero((void*)&core, sizeof(t_core));
-	init_visu(&core);
 	while (++i < ac)
 	{
 		if (av[i][0] == '-')
@@ -151,6 +150,7 @@ int		main(int ac, char **av)
 	core.nb_player = nb_player;
 	make_arena(&core, nb_player);
 	t_player *champ = &core.player[0];
+	init_visu(&core);
 	corewar(&core);
 	ft_printf("name = %s\ncomment = %s\nsize = %u\n",champ->header.prog_name,champ->header.comment,champ->header.prog_size);
 	return (0);

@@ -37,7 +37,7 @@ void	process_to_die(t_core *core)
 	}
 	core->process->lives = 0;
 	process = core->process;
-	while (process->next)
+	while (process && process->next)
 	{
 		if (!process->next->lives)
 		{

@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 17:54:11 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/15 16:39:09 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/15 19:49:15 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	op_live(t_core *core, t_process *proc)
 void		op_aff(t_core *core, t_process *proc)
 {
 	(void)*core;
-	ft_putchar(proc->reg[proc->param[0] - 1] % 256); // sortie AFF
+//	ft_putchar(proc->reg[proc->param[0] - 1] % 256); // sortie AFF
 	if (!proc->reg[proc->param[0] - 1] % 256)
 		proc->carry = 1;
 	else

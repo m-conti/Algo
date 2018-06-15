@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 18:21:01 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/12 18:21:02 by mconti           ###   ########.fr       */
+/*   Updated: 2018/06/15 19:53:09 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	op_ldi(t_core *core, t_process *proc)
 	proc->reg[proc->param[2] - 1] = read_arena(core, proc,
 			(((addr + proc->pc) % MEM_SIZE) - proc->pc) % IDX_MOD,
 			DIR_SIZE);
-	if (proc->reg[proc->param[2] - 1])
+	if (!proc->reg[proc->param[2] - 1])
 		proc->carry = 1;
 	else
 		proc->carry = 0;
@@ -84,7 +84,7 @@ void	op_lldi(t_core *core, t_process *proc)
 	proc->reg[proc->param[2] - 1] = read_arena(core, proc,
 			(((addr + proc->pc) % MEM_SIZE) - proc->pc),
 			DIR_SIZE);
-	if (proc->reg[proc->param[2] - 1])
+	if (!proc->reg[proc->param[2] - 1])
 		proc->carry = 1;
 	else
 		proc->carry = 0;

@@ -127,7 +127,7 @@ void	make_arena(t_core *core, int nb_player)
 	t_reg	reg[REG_NUMBER];
 
 	i = 0;
-	ft_bzero((void*)reg, sizeof(int) * REG_NUMBER);
+	ft_bzero((void*)reg, REG_SIZE * REG_NUMBER);
 	while (i < nb_player)
 	{
 		set_player_nbr(core, i);

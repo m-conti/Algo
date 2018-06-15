@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 16:53:32 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/15 18:05:28 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/15 19:53:33 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	op_sti(t_core *core, t_process *proc)
 	write_arena(core, proc,
 			(((addr + proc->pc) % MEM_SIZE) - proc->pc) % IDX_MOD,
 			proc->reg[proc->param[0] - 1]);
-	if (proc->reg[proc->param[0] - 1])
+	if (!proc->reg[proc->param[0] - 1])
 		proc->carry = 1;
 	else
 		proc->carry = 0;

@@ -20,10 +20,6 @@ void	op_st(t_core *core, t_process *proc)
 			proc->reg[proc->param[0] - 1]);
 	else
 		proc->reg[proc->param[1] - 1] = proc->reg[proc->param[0] - 1];
-	if (!proc->reg[proc->param[0] - 1])
-		proc->carry = 1;
-	else
-		proc->carry = 0;
 }
 
 void	op_sti(t_core *core, t_process *proc)
@@ -42,10 +38,6 @@ void	op_sti(t_core *core, t_process *proc)
 	write_arena(core, proc,
 			(((addr + proc->pc) % MEM_SIZE) - proc->pc) % IDX_MOD,
 			proc->reg[proc->param[0] - 1]);
-	if (!proc->reg[proc->param[0] - 1])
-		proc->carry = 1;
-	else
-		proc->carry = 0;
 }
 
 void	op_fork(t_core *core, t_process *proc)
@@ -64,8 +56,5 @@ void	op_zjmp(t_core *core, t_process *proc)
 {
 	(void)core;
 	if (proc->carry)
-	{
 		proc->jump = proc->param[0];
-		proc->carry = 0;
-	}
 }

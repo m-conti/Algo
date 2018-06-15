@@ -19,10 +19,6 @@ void	op_ld(t_core *core, t_process *proc)
 			((((int)proc->param[0] + proc->pc) % MEM_SIZE) - proc->pc) % IDX_MOD,
 			DIR_SIZE);
 	proc->reg[proc->param[1] - 1] = proc->param[0];
-	if (!proc->param[0])
-		proc->carry = 1;
-	else
-		proc->carry = 0;
 }
 
 /*
@@ -47,10 +43,6 @@ void	op_ldi(t_core *core, t_process *proc)
 	proc->reg[proc->param[2] - 1] = read_arena(core, proc,
 			(((addr + proc->pc) % MEM_SIZE) - proc->pc) % IDX_MOD,
 			DIR_SIZE);
-	if (!proc->reg[proc->param[2] - 1])
-		proc->carry = 1;
-	else
-		proc->carry = 0;
 }
 
 void	op_lld(t_core *core, t_process *proc)
@@ -60,10 +52,6 @@ void	op_lld(t_core *core, t_process *proc)
 			((((int)proc->param[0] + proc->pc) % MEM_SIZE) - proc->pc),
 			DIR_SIZE);
 	proc->reg[proc->param[1] - 1] = proc->param[0];
-	if (!proc->param[0])
-		proc->carry = 1;
-	else
-		proc->carry = 0;
 }
 
 void	op_lldi(t_core *core, t_process *proc)
@@ -84,8 +72,4 @@ void	op_lldi(t_core *core, t_process *proc)
 	proc->reg[proc->param[2] - 1] = read_arena(core, proc,
 			(((addr + proc->pc) % MEM_SIZE) - proc->pc),
 			DIR_SIZE);
-	if (!proc->reg[proc->param[2] - 1])
-		proc->carry = 1;
-	else
-		proc->carry = 0;
 }

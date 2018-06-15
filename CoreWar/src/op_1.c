@@ -59,10 +59,6 @@ void		op_aff(t_core *core, t_process *proc)
 {
 	(void)*core;
 //	ft_putchar(proc->reg[proc->param[0] - 1] % 256); // sortie AFF
-	if (!proc->reg[proc->param[0] - 1] % 256)
-		proc->carry = 1;
-	else
-		proc->carry = 0;
 }
 
 void		do_operator(t_core *core, t_process *proc)
@@ -82,5 +78,10 @@ void		do_operator(t_core *core, t_process *proc)
 		dist += proc->param_len[i++];
 	}
 	if (!stop)
+	{
 		core->fc_op[proc->to_launch](core, proc);
+		proc->carry = 1;
+	}
+	else
+		proc->carry = 0;
 }

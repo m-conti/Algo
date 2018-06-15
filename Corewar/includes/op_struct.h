@@ -92,6 +92,7 @@ void	op_and(t_core *core, t_process *proc);
 void	op_or(t_core *core, t_process *proc);
 void	op_xor(t_core *core, t_process *proc);
 void	build_array_op(void (*fc_op[17])(t_core*, t_process*));
+void	process_to_die(t_core *core);
 uint8_t	in_hex(uint8_t nb);
 
 #endif

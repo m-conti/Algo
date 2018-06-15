@@ -94,7 +94,7 @@ void	corewar(t_core *core)
 		if (core->current_cycle == core->cycle_to_die)
 		{
 			core->current_cycle = 0;
-// TODO		process_to_die(core);
+			process_to_die(core);
 			if (core->live >= NBR_LIVE || checks == MAX_CHECKS)
 			{
 				core->cycle_to_die -= CYCLE_DELTA;

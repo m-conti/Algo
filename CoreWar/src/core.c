@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 18:36:10 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/15 16:06:41 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/15 17:38:02 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@ void	write_arena(t_core *core, t_process *proc, int offset, uint32_t to_write)
 	int	i;
 
 	i = 4;
-	while (--i != -1)
+	while (--i >= 0)
 	{
 		core->arena[(proc->pc + offset + i) % MEM_SIZE] = to_write & 0xFF;
+		core->v.colors[(proc->pc + offset + i) % MEM_SIZE] =
+			proc->player + COLOR_PAIR_P1;
 		to_write >>= 0x8;
 	}
 }

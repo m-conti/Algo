@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 16:53:32 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/14 16:53:34 by mconti           ###   ########.fr       */
+/*   Updated: 2018/06/15 18:05:28 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,8 @@ void	op_zjmp(t_core *core, t_process *proc)
 {
 	(void)core;
 	if (proc->carry)
+	{
 		proc->jump = proc->param[0];
+		proc->carry = 0;
+	}
 }

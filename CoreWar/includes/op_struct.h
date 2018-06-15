@@ -58,6 +58,7 @@ typedef struct		s_visu
 	int				n_char_row;
 	uint8_t			colors[MEM_SIZE];
 	int				delay;
+	int				pause;
 }					t_visu;
 
 typedef struct          s_core
@@ -106,4 +107,6 @@ void    build_array_op(void (*fc_op[17])(t_core*, t_process*));
 void    process_to_die(t_core *core);
 void    write_arena(t_core *core, t_process *proc, int offset, uint32_t to_write);
 uint8_t in_hex(uint8_t nb);
+void	show_alive(char *player_name);
+void	toggle_pause(t_core *core);
 #endif

@@ -6,29 +6,11 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 13:39:30 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/15 15:04:58 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/15 17:20:45 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-
-#define N_CHAR_ROW_MAX 64
-#define N_LINES_MAX 64
-
-#define COLOR_GRAY 50
-#define COLOR_LBLUE 30
-#define COLOR_PAIR_P1 2
-#define COLOR_PAIR_P2 3
-#define COLOR_PAIR_P3 4
-#define COLOR_PAIR_P4 5
-#define COLOR_PROCESS_P1 6
-#define COLOR_PROCESS_P2 7
-#define COLOR_PROCESS_P3 8
-#define COLOR_PROCESS_P4 9
-#define COLOR_BORDER 10
-
-#define X_CYCLE 200
-#define Y_CYCLE 5
 
 void print_line(t_core *core, int row)
 {
@@ -115,6 +97,8 @@ void	init_visu(t_core *core)
 	init_colors_visu(core);
 	core->v.old_process = NULL;
 	core->v.delay = 1000;
+	core->v.pause = 0;
+	toggle_pause(core);
 }
 
 void	print_two_first_lines(t_core *core)
@@ -197,6 +181,11 @@ void	put_processes(t_core *core)
 	}
 }
 
+void	show_alive(char *player_name)
+{
+	mvprintw(Y_MSG, 3, "un processus dit que le joueur \"%s\" est en vie", player_name);
+}
+
 void	print_state(t_core *core)
 {
 	unsigned int i_player;
@@ -206,7 +195,8 @@ void	print_state(t_core *core)
 	i_player = 0;
 	while (i_player < core->nb_player)
 	{
-		mvprintw(Y_CYCLE + 4 + 2 * i_player, X_CYCLE, "Player %d : %s", i_player, core->player[i_player].header.prog_name);
+		mvprintw(Y_CYCLE + 4 + 2 * i_player, X_CYCLE, "Player %d : %s",
+				core->player[i_player].nbr, core->player[i_player].header.prog_name);
 		i_player++;
 	}	
 }
@@ -227,8 +217,18 @@ int print_arena(t_core *core)
 	keypad(stdscr, TRUE);
 	noecho();			
 	refresh();			
-	usleep(core->v.delay);
 	ch = getch();			
 	deal_key(core, ch);
+	usleep(core->v.delay);
+	while (core->v.pause)
+	{
+		ch = getch();			
+		deal_key(core, ch);
+		if (core->v.pause == -1)
+		{
+			core->v.pause = 1;
+			break ;
+		}
+	}
 	return (0);
 }

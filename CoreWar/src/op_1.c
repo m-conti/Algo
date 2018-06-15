@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 17:54:11 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/14 15:06:27 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/15 16:39:09 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ extern t_op g_op_tab[17];
 void	build_array_op(void (*fc_op[17])(t_core*, t_process*))
 {
 	fc_op[0] = NULL;
-	fc_op[1] = &op_live;//DONE
+	fc_op[1] = &op_live;
 	fc_op[2] = &op_ld;
 	fc_op[3] = &op_st;
 	fc_op[4] = &op_add;
@@ -44,14 +44,15 @@ void	op_live(t_core *core, t_process *proc)
 	{
 		if (proc->param[0] == core->player[i].nbr)
 		{
-			ft_printf("un processus dit que le joueur \"%s\" est en vie",
-				core->player[i].header.prog_name);
+	//		ft_printf("un processus dit que le joueur \"%s\" est en vie",
+	//			core->player[i].header.prog_name);
+			show_alive(core->player[i].header.prog_name);
 			core->player[i].last_alive = core->cycle;
+			proc->lives++;
+			core->live++;
 		}
 		i++;
 	}
-	proc->lives++;
-	core->live++;
 }
 
 void		op_aff(t_core *core, t_process *proc)

@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 13:39:30 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/14 14:22:45 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/15 15:04:58 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #define N_LINES_MAX 64
 
 #define COLOR_GRAY 50
+#define COLOR_LBLUE 30
 #define COLOR_PAIR_P1 2
 #define COLOR_PAIR_P2 3
 #define COLOR_PAIR_P3 4
@@ -83,13 +84,14 @@ void	init_colors_visu(t_core *core)
 void	init_color_pairs()
 {
 	init_color(COLOR_GRAY, 500, 500, 500); 
+	init_color(COLOR_LBLUE, 500, 500, 900); 
 	init_pair(1, COLOR_WHITE, COLOR_BLACK);
 	init_pair(COLOR_PAIR_P1, COLOR_GREEN, COLOR_BLACK);
 	init_pair(COLOR_PAIR_P2, COLOR_BLUE, COLOR_BLACK);
 	init_pair(COLOR_PAIR_P3, COLOR_RED, COLOR_BLACK);
 	init_pair(COLOR_PAIR_P4, COLOR_YELLOW, COLOR_BLACK);
 	init_pair(COLOR_PROCESS_P1, COLOR_BLACK, COLOR_GREEN);
-	init_pair(COLOR_PROCESS_P2, COLOR_BLACK, COLOR_BLUE);
+	init_pair(COLOR_PROCESS_P2, COLOR_BLACK, COLOR_LBLUE);
 	init_pair(COLOR_PROCESS_P3, COLOR_BLACK, COLOR_RED);
 	init_pair(COLOR_PROCESS_P4, COLOR_BLACK, COLOR_YELLOW);
 	init_pair(COLOR_BORDER, COLOR_GRAY, COLOR_GRAY);
@@ -101,13 +103,18 @@ void	init_visu(t_core *core)
 
 	initscr();
 	start_color();
+	curs_set(0);
+	nodelay(stdscr, TRUE);
 	init_color_pairs();
 	offset_col = 6;
 	getmaxyx(stdscr, core->v.nrow, core->v.ncol);
+	//ATTENTION FAUT PEUT ETRE REFAIRE TOURNER CA APRES INIT VISU
 	core->v.n_displayed_lines = (core->v.nrow > N_LINES_MAX) ? N_LINES_MAX : core->v.nrow;
 	core->v.n_char_row = ((core->v.ncol - offset_col) / 3 > N_CHAR_ROW_MAX)
 		? N_CHAR_ROW_MAX : (core->v.ncol - offset_col) / 3;
 	init_colors_visu(core);
+	core->v.old_process = NULL;
+	core->v.delay = 1000;
 }
 
 void	print_two_first_lines(t_core *core)
@@ -141,15 +148,50 @@ void	print_two_last_lines(t_core *core)
 	}
 }
 
+void	add_old_proc(t_old_proc **old_proc, int pos, uint8_t color)
+{
+	t_old_proc *new;
+	t_old_proc *cur;
+
+	new = (t_old_proc*)malloc(sizeof(t_old_proc));
+	new->pos = pos;
+	new->col = color;
+	new->next = NULL;
+	if (!(*old_proc))
+		*old_proc = new;
+	else
+	{
+		cur = *old_proc;
+		while (cur->next)
+			cur = cur->next;
+		cur->next = new;
+	}
+}
+
 void	put_processes(t_core *core)
 {
 	t_process *cur;
+	t_old_proc *cur_old;
+	t_old_proc *tmp_old;
 
+	if	(core->v.old_process != NULL)
+	{
+		cur_old = core->v.old_process;
+		while (cur_old)
+		{
+			tmp_old = cur_old;
+			core->v.colors[cur_old->pos] = cur_old->col;
+			cur_old = cur_old->next;
+			free(cur_old);
+		}
+		core->v.old_process = NULL;
+	}
 	cur = core->process;
 	core->v.nb_process = 0;
 	while (cur)
 	{
 		core->v.colors[cur->pc] = COLOR_PROCESS_P1 + cur->player; 
+		add_old_proc(&(core->v.old_process), cur->pc, COLOR_PAIR_P1 + cur->player);
 		cur = cur->next;
 		core->v.nb_process++;
 	}
@@ -185,6 +227,8 @@ int print_arena(t_core *core)
 	keypad(stdscr, TRUE);
 	noecho();			
 	refresh();			
+	usleep(core->v.delay);
 	ch = getch();			
+	deal_key(core, ch);
 	return (0);
 }

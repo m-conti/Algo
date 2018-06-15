@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 18:36:10 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/14 13:52:03 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/15 14:50:58 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		read_arena(t_core *core, t_process *proc, int offset, int size_to_read)
 	return (res);
 }
 
-void	do_process(t_core *core, t_process *current_process)
+t_process	*do_process(t_core *core, t_process *current_process)
 {
 	uint8_t			op;
 
@@ -56,10 +56,11 @@ void	do_process(t_core *core, t_process *current_process)
 	else if (!--current_process->process_time)
 	{
 		if (check_op(core, current_process))
-			core->fc_op[current_process->to_launch](core, current_process);
+			do_operator(core, current_process);
 		increase_pc(current_process, current_process->jump);
 		current_process->to_launch = 0;
 	}
+	return (current_process->next);
 }
 
 void	corewar(t_core *core)
@@ -74,13 +75,15 @@ void	corewar(t_core *core)
 		core->cycle++;
 		core->current_cycle++;
 		current_process = core->process;
-		/*
 		while (current_process)
-			; //do_process(core, current_process);
+		{
+			current_process = do_process(core, current_process);
+		}
 		if (core->current_cycle == core->cycle_to_die)
 		{
-			core->cycle = 0;
-			if (core->live > NBR_LIVE || checks == MAX_CHECKS)
+			core->current_cycle = 0;
+// TODO		process_to_die(core);
+			if (core->live >= NBR_LIVE || checks == MAX_CHECKS)
 			{
 				core->cycle_to_die -= CYCLE_DELTA;
 				checks = 0;
@@ -91,8 +94,7 @@ void	corewar(t_core *core)
 				break ;
 			core->live = 0;
 		}
-		*/
-		if (core->cycle > 2)
+		if (core->cycle > 10000)
 		{
 			endwin();
 			break ;

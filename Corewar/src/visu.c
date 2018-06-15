@@ -173,6 +173,8 @@ int print_arena(t_core *core)
 {
 	int i;
 	int ch;
+	static int delay = 0;
+	static int stop = FALSE;
 
 	put_processes(core);
 	print_two_first_lines(core);
@@ -182,9 +184,21 @@ int print_arena(t_core *core)
 	print_two_last_lines(core);
 	print_state(core);
 	raw();
+	nodelay(stdscr, stop);
 	keypad(stdscr, TRUE);
-	noecho();			
-	refresh();			
-	ch = getch();			
+	noecho();
+	refresh();
+	ch = getch();
+	if (ch == ' ')
+		stop = !stop;
+	if (ch == KEY_END)
+	{
+		endwin();
+		exit(0);			
+	}
+	if (ch == 'd')
+		delay = ~delay;
+	if (delay)
+		usleep(100000);
 	return (0);
 }

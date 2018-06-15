@@ -55,10 +55,10 @@ void	op_live(t_core *core, t_process *proc)
 }
 
 void		op_aff(t_core *core, t_process *proc)
-{ 
-	(void)core;
-	ft_putchar(proc->param[0]); // sortie AFF
-	if (!proc->param[0])
+{
+	(void)*core;
+	ft_putchar(proc->reg[proc->param[0] - 1] % 256); // sortie AFF
+	if (!proc->reg[proc->param[0] - 1] % 256)
 		proc->carry = 1;
 	else
 		proc->carry = 0;
@@ -76,7 +76,7 @@ void		do_operator(t_core *core, t_process *proc)
 	while (i < g_op_tab[proc->to_launch - 1].nb_arg)
 	{
 		proc->param[i] = read_arena(core, proc, dist, proc->param_len[i]);
-		if (proc->param_type[i] == 1)
+		if (proc->param_type[i] == REG_CODE)
 			stop |= !in_hex(proc->param[i]);
 		dist += proc->param_len[i++];
 	}

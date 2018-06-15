@@ -14,7 +14,7 @@
 
 void	op_ld(t_core *core, t_process *proc)
 {
-	if (proc->param_type[0] & 1)
+	if (proc->param_type[0] == IND_CODE)
 		proc->param[0] = read_arena(core, proc,
 			((((int)proc->param[0] + proc->pc) % MEM_SIZE) - proc->pc) % IDX_MOD,
 			DIR_SIZE);
@@ -43,7 +43,7 @@ void	op_ldi(t_core *core, t_process *proc)
 		proc->param[1] = read_arena(core, proc,
 			((((int)proc->param[1] + proc->pc) % MEM_SIZE) - proc->pc) % IDX_MOD,
 			DIR_SIZE);
-	addr = proc->param_type[0] + proc->param_type[1];
+	addr = proc->param[0] + proc->param[1];
 	proc->reg[proc->param[2] - 1] = read_arena(core, proc,
 			(((addr + proc->pc) % MEM_SIZE) - proc->pc) % IDX_MOD,
 			DIR_SIZE);
@@ -80,7 +80,7 @@ void	op_lldi(t_core *core, t_process *proc)
 		proc->param[1] = read_arena(core, proc,
 			((((int)proc->param[1] + proc->pc) % MEM_SIZE) - proc->pc) % IDX_MOD,
 			DIR_SIZE);
-	addr = proc->param_type[0] + proc->param_type[1];
+	addr = proc->param[0] + proc->param[1];
 	proc->reg[proc->param[2] - 1] = read_arena(core, proc,
 			(((addr + proc->pc) % MEM_SIZE) - proc->pc),
 			DIR_SIZE);

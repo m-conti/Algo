@@ -59,7 +59,7 @@ typedef	struct			s_core
 	unsigned int		nb_player;
 	t_player			player[MAX_PLAYERS];
 	uint8_t				arena[MEM_SIZE];
-	void				(*fc_op[16])(struct s_core*, t_process*);
+	void				(*fc_op[17])(struct s_core*, t_process*);
 	int16_t				current_cycle;
 	int16_t				cycle_to_die;
 	int					live;

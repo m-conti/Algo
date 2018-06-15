@@ -39,9 +39,9 @@ void	op_and(t_core *core, t_process *proc)
 	i = 0;
 	while (i < 2)
 	{
-		if (proc->param_type[i] == 1)
+		if (proc->param_type[i] == REG_CODE)
 			proc->param[i] = proc->reg[proc->param[i] - 1];
-		else if (proc->param_type[i] == 3)
+		else if (proc->param_type[i] == IND_CODE)
 			proc->param[i] = read_arena(core, proc,
 				((((int)proc->param[i] + proc->pc) % MEM_SIZE) - proc->pc) % IDX_MOD,
 				DIR_SIZE);
@@ -61,9 +61,9 @@ void	op_or(t_core *core, t_process *proc)
 	i = 0;
 	while (i < 2)
 	{
-		if (proc->param_type[i] == 1)
+		if (proc->param_type[i] == REG_CODE)
 			proc->param[i] = proc->reg[proc->param[i] - 1];
-		else if (proc->param_type[i] == 3)
+		else if (proc->param_type[i] == IND_CODE)
 			proc->param[i] = read_arena(core, proc,
 				((((int)proc->param[i] + proc->pc) % MEM_SIZE) - proc->pc) % IDX_MOD,
 				DIR_SIZE);
@@ -83,9 +83,9 @@ void	op_xor(t_core *core, t_process *proc)
 	i = 0;
 	while (i < 2)
 	{
-		if (proc->param_type[i] == 1)
+		if (proc->param_type[i] == REG_CODE)
 			proc->param[i] = proc->reg[proc->param[i] - 1];
-		else if (proc->param_type[i] == 3)
+		else if (proc->param_type[i] == IND_CODE)
 			proc->param[i] = read_arena(core, proc,
 				((((int)proc->param[i] + proc->pc) % MEM_SIZE) - proc->pc) % IDX_MOD,
 				DIR_SIZE);

@@ -60,7 +60,7 @@ t_process	*do_process(t_core *core, t_process *current_process)
 		if (in_hex(op = read_arena(core, current_process, 0, 1)))
 		{
 			current_process->to_launch = op;
-			current_process->process_time = g_op_tab[op - 1].cycle_to_launch;
+			current_process->process_time = g_op_tab[op - 1].cycle_to_launch - 1;
 		}
 		else
 			increase_pc(current_process, 1);
@@ -105,11 +105,6 @@ void	corewar(t_core *core)
 			if (!core->live)
 				break ;
 			core->live = 0;
-		}
-		if (core->cycle > 2000)
-		{
-			endwin();
-			break ;
 		}
 	}
 }

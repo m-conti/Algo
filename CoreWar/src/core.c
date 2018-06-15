@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 18:36:10 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/15 14:50:58 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/15 16:06:41 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ uint8_t	in_hex(uint8_t nb)
 	return (nb >= 1 && nb <= 16);
 }
 
-int		read_arena(t_core *core, t_process *proc, int offset, int size_to_read)
+uint32_t	read_arena(t_core *core, t_process *proc, int offset, int size_to_read)
 {
-	int res;
+	uint32_t res;
 	int i;
 
 	i = 0;
@@ -34,9 +34,21 @@ int		read_arena(t_core *core, t_process *proc, int offset, int size_to_read)
 	{
 		res <<= 8;
 		res += core->arena[(proc->pc + offset + i) % MEM_SIZE];
-			i++;
+		i++;
 	}
 	return (res);
+}
+
+void	write_arena(t_core *core, t_process *proc, int offset, uint32_t to_write)
+{
+	int	i;
+
+	i = 4;
+	while (--i != -1)
+	{
+		core->arena[(proc->pc + offset + i) % MEM_SIZE] = to_write & 0xFF;
+		to_write >>= 0x8;
+	}
 }
 
 t_process	*do_process(t_core *core, t_process *current_process)
@@ -48,7 +60,7 @@ t_process	*do_process(t_core *core, t_process *current_process)
 		if (in_hex(op = read_arena(core, current_process, 0, 1)))
 		{
 			current_process->to_launch = op;
-			current_process->process_time = g_op_tab[op - 1].cycle_to_launch;
+			current_process->process_time = g_op_tab[op - 1].cycle_to_launch - 1;
 		}
 		else
 			increase_pc(current_process, 1);
@@ -82,7 +94,7 @@ void	corewar(t_core *core)
 		if (core->current_cycle == core->cycle_to_die)
 		{
 			core->current_cycle = 0;
-// TODO		process_to_die(core);
+			process_to_die(core);
 			if (core->live >= NBR_LIVE || checks == MAX_CHECKS)
 			{
 				core->cycle_to_die -= CYCLE_DELTA;
@@ -93,11 +105,6 @@ void	corewar(t_core *core)
 			if (!core->live)
 				break ;
 			core->live = 0;
-		}
-		if (core->cycle > 10000)
-		{
-			endwin();
-			break ;
 		}
 	}
 }

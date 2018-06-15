@@ -18,7 +18,6 @@ void	build_array_op(void (*fc_op[17])(t_core*, t_process*))
 {
 	fc_op[0] = NULL;
 	fc_op[1] = &op_live;//DONE
-	/*
 	fc_op[2] = &op_ld;
 	fc_op[3] = &op_st;
 	fc_op[4] = &op_add;
@@ -34,26 +33,32 @@ void	build_array_op(void (*fc_op[17])(t_core*, t_process*))
 	fc_op[14] = &op_lldi;
 	fc_op[15] = &op_lfork;
 	fc_op[16] = &op_aff;
-	*/
 }
 
 void	op_live(t_core *core, t_process *proc)
 {
-	if (proc->param[0] < core->nb_player)
+	uint8_t		i;
+
+	i = 0;
+	while (i < core->nb_player)
 	{
-		ft_printf("un processus dit que le joueur \"%s\" est en vie",
-			core->player[proc->param[0]].header.prog_name);
-		core->player[proc->param[0]].last_alive = core->cycle;
+		if (proc->param[0] == core->player[i].nbr)
+		{
+			ft_printf("un processus dit que le joueur \"%s\" est en vie",
+				core->player[i].header.prog_name);
+			core->player[i].last_alive = core->cycle;
+		}
+		i++;
 	}
 	proc->lives++;
 	core->live++;
 }
 
 void		op_aff(t_core *core, t_process *proc)
-{ 
-	(void)core;
-	ft_putchar(proc->param[0]); // sortie AFF
-	if (!proc->param[0])
+{
+	(void)*core;
+	ft_putchar(proc->reg[proc->param[0] - 1] % 256); // sortie AFF
+	if (!proc->reg[proc->param[0] - 1] % 256)
 		proc->carry = 1;
 	else
 		proc->carry = 0;
@@ -63,13 +68,18 @@ void		do_operator(t_core *core, t_process *proc)
 {
 	int		i;
 	int		dist;
+	int		stop;
 
 	dist = 1 + g_op_tab[proc->to_launch - 1].ocp;
 	i = 0;
+	stop = 0;
 	while (i < g_op_tab[proc->to_launch - 1].nb_arg)
 	{
 		proc->param[i] = read_arena(core, proc, dist, proc->param_len[i]);
+		if (proc->param_type[i] == REG_CODE)
+			stop |= !in_hex(proc->param[i]);
 		dist += proc->param_len[i++];
 	}
-//	fc_op[proc->to_launch](core, proc);
+	if (!stop)
+		core->fc_op[proc->to_launch](core, proc);
 }

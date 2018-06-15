@@ -18,8 +18,9 @@ int		calc_param_len(t_process *proc)
 			if (!proc->param_type[i] || !(g_op_tab[proc->to_launch - 1].arg_type[i]
 				& (1 << (proc->param_type[i] - 1))))
 				stop = 0;
-			proc->param_len[i] =
-			len[proc->param_type[i] + (3 * g_op_tab[proc->to_launch - 1].mod_direct) - 1];
+			if (proc->param_type[i])
+				proc->param_len[i] =
+					len[proc->param_type[i] + (3 * g_op_tab[proc->to_launch - 1].mod_direct) - 1];
 			i++;
 		}
 	}
@@ -43,7 +44,7 @@ int		check_op(t_core *core, t_process *proc)
 
 	ft_bzero(proc->param_type, 3);
 	ft_bzero(proc->param_len, 3);
-	if (proc->to_launch > 0 && proc->to_launch < 16)
+	if (proc->to_launch > 0 && proc->to_launch <= 16)
 	{
 		if (g_op_tab[proc->to_launch - 1].ocp)
 		{
@@ -59,6 +60,5 @@ int		check_op(t_core *core, t_process *proc)
 	stop = calc_param_len(proc);
 	proc->jump = proc->param_len[0] + proc->param_len[1] + proc->param_len[2]
 	+ g_op_tab[proc->to_launch - 1].ocp + 1;
-	//ft_printf("jump = %u, len0 = %u, len1 = %u, len2 = %u\n", proc->jump, proc->param_len[0], proc->param_len[1], proc->param_len[2]);
 	return (stop);
 }

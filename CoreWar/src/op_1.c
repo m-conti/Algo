@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 17:54:11 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/15 21:06:55 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/16 16:01:59 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void		op_aff(t_core *core, t_process *proc)
 	(void)*core;
 	(void)*proc;
 //	ft_putchar(proc->reg[proc->param[0] - 1] % 256); // sortie AFF
+//	MANAGE carry
 }
 
 void		do_operator(t_core *core, t_process *proc)

@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:59:16 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/15 16:41:49 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/16 15:12:10 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 #define COLOR_PROCESS_P3 8
 #define COLOR_PROCESS_P4 9
 #define COLOR_BORDER 10
+#define COLOR_BUG 50
 
 #define Y_PAUSE 3
 #define X_CYCLE 200

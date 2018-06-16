@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 18:36:10 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/16 14:58:37 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/16 18:17:04 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ t_process	*do_process(t_core *core, t_process *current_process)
 		if (check_op(core, current_process))
 		{
 			do_operator(core, current_process);
-			if (g_op_tab[current_process->to_launch - 1].ocp)
-				current_process->carry = 1;
+//			if (g_op_tab[current_process->to_launch - 1].ocp)
+//				current_process->carry = 1;
 		}
-		else
-			current_process->carry = 0;
+//		else
+//			current_process->carry = 0;
 		increase_pc(current_process, current_process->jump);
 		current_process->to_launch = 0;
 	}

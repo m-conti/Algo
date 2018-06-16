@@ -109,4 +109,7 @@ void    write_arena(t_core *core, t_process *proc, int offset, uint32_t to_write
 uint8_t in_hex(uint8_t nb);
 void	show_alive(char *player_name);
 void	toggle_pause(t_core *core);
+void	init_visu(t_core *core);
+void	init_color_pairs(void);
+void	init_colors_visu(t_core *core);
 #endif

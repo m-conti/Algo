@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 17:48:51 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/15 19:52:11 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/16 18:17:02 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,12 @@ void	op_or(t_core *core, t_process *proc)
 		i++;
 	}
 	proc->reg[proc->param[2] - 1] = proc->param[0] | proc->param[1];
+	/*
 	if (!proc->reg[proc->param[2] - 1])
 		proc->carry = 1;
 	else
 		proc->carry = 0;
+		*/
 }
 
 void	op_xor(t_core *core, t_process *proc)
@@ -92,8 +94,10 @@ void	op_xor(t_core *core, t_process *proc)
 		i++;
 	}
 	proc->reg[proc->param[2] - 1] = proc->param[0] ^ proc->param[1];
+	/*
 	if (!proc->reg[proc->param[2] - 1])
 		proc->carry = 1;
 	else
 		proc->carry = 0;
+		*/
 }

@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 13:39:30 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/16 14:58:36 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/16 15:56:22 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,70 +35,6 @@ void print_line(t_core *core, int row)
 		mvaddch(2 + row, N_CHAR_ROW_MAX * 3 + 4, '*');
 		attroff(COLOR_PAIR(COLOR_BORDER));
 	}
-}
-
-void	init_colors_visu(t_core *core)
-{
-	unsigned int	i;
-	uint8_t			cur_col;
-
-	i = 0;
-	cur_col = COLOR_PAIR_P1;
-	while (i < MEM_SIZE)
-	{
-		if ((i == core->player[0].header.prog_size) || (core->nb_player >= 2 &&
-			i == MEM_SIZE / core->nb_player + core->player[1].header.prog_size) ||
-			(core->nb_player >= 3 && i == (MEM_SIZE / core->nb_player) * 2 +
-			core->player[2].header.prog_size) || (core->nb_player == 4 &&
-			i == (MEM_SIZE / core->nb_player) * 3 + core->player[3].header.prog_size))
-			cur_col = 1;
-		if (core->nb_player >= 2 && i == MEM_SIZE / core->nb_player)
-			cur_col = COLOR_PAIR_P2;
-		if (core->nb_player >= 3 && i == (MEM_SIZE / core->nb_player) * 2)
-			cur_col = COLOR_PAIR_P3;
-		if (core->nb_player == 4 && i == (MEM_SIZE / core->nb_player) * 3)
-			cur_col = COLOR_PAIR_P4;
-		core->v.colors[i] = cur_col;
-		i++;
-	}
-}
-
-void	init_color_pairs()
-{
-	init_color(COLOR_GRAY, 500, 500, 500); 
-	init_color(COLOR_LBLUE, 500, 500, 900); 
-	init_pair(1, COLOR_WHITE, COLOR_BLACK);
-	init_pair(COLOR_PAIR_P1, COLOR_GREEN, COLOR_BLACK);
-	init_pair(COLOR_PAIR_P2, COLOR_BLUE, COLOR_BLACK);
-	init_pair(COLOR_PAIR_P3, COLOR_RED, COLOR_BLACK);
-	init_pair(COLOR_PAIR_P4, COLOR_YELLOW, COLOR_BLACK);
-	init_pair(COLOR_PROCESS_P1, COLOR_BLACK, COLOR_GREEN);
-	init_pair(COLOR_PROCESS_P2, COLOR_BLACK, COLOR_LBLUE);
-	init_pair(COLOR_PROCESS_P3, COLOR_BLACK, COLOR_RED);
-	init_pair(COLOR_PROCESS_P4, COLOR_BLACK, COLOR_YELLOW);
-	init_pair(COLOR_BORDER, COLOR_GRAY, COLOR_GRAY);
-}
-
-void	init_visu(t_core *core)
-{
-	int offset_col;
-
-	initscr();
-	start_color();
-	curs_set(0);
-	nodelay(stdscr, TRUE);
-	init_color_pairs();
-	offset_col = 6;
-	getmaxyx(stdscr, core->v.nrow, core->v.ncol);
-	//ATTENTION FAUT PEUT ETRE REFAIRE TOURNER CA APRES INIT VISU
-	core->v.n_displayed_lines = (core->v.nrow > N_LINES_MAX) ? N_LINES_MAX : core->v.nrow;
-	core->v.n_char_row = ((core->v.ncol - offset_col) / 3 > N_CHAR_ROW_MAX)
-		? N_CHAR_ROW_MAX : (core->v.ncol - offset_col) / 3;
-	init_colors_visu(core);
-	core->v.old_process = NULL;
-	core->v.delay = 1000;
-	core->v.pause = 0;
-	toggle_pause(core);
 }
 
 void	print_two_first_lines(t_core *core)
@@ -152,11 +88,26 @@ void	add_old_proc(t_old_proc **old_proc, int pos, uint8_t color)
 	}
 }
 
+uint8_t	find_old_col(t_core *core, int pos)
+{
+	t_old_proc *cur;
+	
+	cur = core->v.old_process;
+	while (cur)
+	{
+		if (cur->pos == pos)
+			return (cur->col);
+		cur = cur->next;
+	}
+	return (COLOR_BUG);
+}
+
 void	put_processes(t_core *core)
 {
 	t_process *cur;
 	t_old_proc *cur_old;
 	t_old_proc *tmp_old;
+	uint8_t		old_col;
 
 	if	(core->v.old_process != NULL)
 	{
@@ -174,8 +125,18 @@ void	put_processes(t_core *core)
 	core->v.nb_process = 0;
 	while (cur)
 	{
+		//
+		if (cur->carry)
+			mvprintw(4, 200, "carry = 1");
+		else
+			mvprintw(4, 200, "carry = 0");
+
+		//
+		old_col = core->v.colors[cur->pc];
+		if (old_col >= COLOR_PROCESS_P1 && old_col <= COLOR_PROCESS_P2)
+			old_col = find_old_col(core, cur->pc);
+		add_old_proc(&(core->v.old_process), cur->pc, old_col);
 		core->v.colors[cur->pc] = COLOR_PROCESS_P1 + cur->player; 
-		add_old_proc(&(core->v.old_process), cur->pc, COLOR_PAIR_P1 + cur->player);
 		cur = cur->next;
 		core->v.nb_process++;
 	}

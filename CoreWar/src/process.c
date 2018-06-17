@@ -61,9 +61,13 @@ int		overflow(uint16_t pc, uint16_t off_set)
 {
 	uint16_t	ret;
 	int			r;
+	int			p;
 
+	p = pc;
 	ret = pc + off_set;
-	r = ret - pc;
+	r = (ret - pc) % MEM_SIZE;
 	r %= IDX_MOD;
+	if (p - IDX_MOD < 0)
+		return ( MEM_SIZE - r);
 	return (r);
 }

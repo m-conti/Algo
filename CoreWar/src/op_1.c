@@ -48,9 +48,9 @@ void	op_live(t_core *core, t_process *proc)
 	//			core->player[i].header.prog_name);
 			show_alive(core->player[i].header.prog_name);
 			core->player[i].last_alive = core->cycle;
-			proc->lives++;
-			core->live++;
 		}
+		proc->lives++;
+		core->live++;
 		i++;
 	}
 }

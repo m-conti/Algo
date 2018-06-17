@@ -70,13 +70,9 @@ t_process	*do_process(t_core *core, t_process *current_process)
 	else if (!--current_process->process_time)
 	{
 		if (check_op(core, current_process))
-		{
 			do_operator(core, current_process);
-//			if (g_op_tab[current_process->to_launch - 1].ocp)
-//				current_process->carry = 1;
-		}
-//		else
-//			current_process->carry = 0;
+		else
+			current_process->carry = 0;
 		increase_pc(current_process, current_process->jump);
 		current_process->to_launch = 0;
 	}

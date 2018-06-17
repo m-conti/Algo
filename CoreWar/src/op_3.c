@@ -42,8 +42,7 @@ void	op_sti(t_core *core, t_process *proc)
 
 void	op_fork(t_core *core, t_process *proc)
 {
-	new_process(core, (((((int)proc->param[0] + proc->pc) % MEM_SIZE) - proc->pc)
-		% IDX_MOD) + proc->pc, proc->player, proc->reg);
+	new_process(core, (((int)proc->param[0] % IDX_MOD + proc->pc) % MEM_SIZE), proc->player, proc->reg);
 }
 
 void	op_lfork(t_core *core, t_process *proc)

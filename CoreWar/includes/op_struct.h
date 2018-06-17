@@ -112,4 +112,5 @@ void	toggle_pause(t_core *core);
 void	init_visu(t_core *core);
 void	init_color_pairs(void);
 void	init_colors_visu(t_core *core);
+int		overflow(int pc, int off_set);
 #endif

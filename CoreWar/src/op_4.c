@@ -43,7 +43,7 @@ void	op_and(t_core *core, t_process *proc)
 			proc->param[i] = proc->reg[proc->param[i] - 1];
 		else if (proc->param_type[i] == IND_CODE)
 			proc->param[i] = read_arena(core, proc,
-				((((int)proc->param[i] + proc->pc) % MEM_SIZE) - proc->pc) % IDX_MOD,
+				overflow(proc->pc, proc->param[i]),
 				DIR_SIZE);
 		i++;
 	}
@@ -65,7 +65,7 @@ void	op_or(t_core *core, t_process *proc)
 			proc->param[i] = proc->reg[proc->param[i] - 1];
 		else if (proc->param_type[i] == IND_CODE)
 			proc->param[i] = read_arena(core, proc,
-				((((int)proc->param[i] + proc->pc) % MEM_SIZE) - proc->pc) % IDX_MOD,
+				overflow(proc->pc, proc->param[i]),
 				DIR_SIZE);
 		i++;
 	}
@@ -87,7 +87,7 @@ void	op_xor(t_core *core, t_process *proc)
 			proc->param[i] = proc->reg[proc->param[i] - 1];
 		else if (proc->param_type[i] == IND_CODE)
 			proc->param[i] = read_arena(core, proc,
-				((((int)proc->param[i] + proc->pc) % MEM_SIZE) - proc->pc) % IDX_MOD,
+				overflow(proc->pc, proc->param[i]),
 				DIR_SIZE);
 		i++;
 	}

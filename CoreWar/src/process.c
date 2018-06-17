@@ -23,7 +23,7 @@ void	new_process(t_core *core, int pos, int player, t_reg reg[REG_NUMBER])
 	process->to_launch = 0;
 	process->jump = 0;
 	process->player = player;
-	process->pc = pos;
+	process->pc = pos < 0 ? pos + MEM_SIZE : pos % MEM_SIZE;
 	ft_memcpy(process->reg, reg, sizeof(t_reg) * (REG_NUMBER));
 	process->next = core->process;
 	core->process = process;
@@ -57,13 +57,13 @@ void	process_to_die(t_core *core)
 	}
 }
 
-int		overflow(int pc, int off_set)
+int		overflow(uint16_t pc, uint16_t off_set)
 {
-	int ret;
+	uint16_t	ret;
+	int			r;
 
-	if ((off_set / IDX_MOD) & 1)
-		ret = pc + (off_set % IDX_MOD);
-	else
-		ret = pc + (off_set % IDX_MOD);
-	return (ret < 0 ? ret + MEM_SIZE : ret);
+	ret = pc + off_set;
+	r = ret - pc;
+	r %= IDX_MOD;
+	return (r);
 }

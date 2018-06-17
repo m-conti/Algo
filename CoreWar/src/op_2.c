@@ -16,7 +16,7 @@ void	op_ld(t_core *core, t_process *proc)
 {
 	if (proc->param_type[0] == IND_CODE)
 		proc->param[0] = read_arena(core, proc,
-			((((int)proc->param[0] + proc->pc) % MEM_SIZE) - proc->pc) % IDX_MOD,
+			overflow(proc->pc, proc->param[0]),
 			DIR_SIZE);
 	proc->reg[proc->param[1] - 1] = proc->param[0];
 	if (!proc->param[0])
@@ -31,17 +31,17 @@ void	op_ld(t_core *core, t_process *proc)
 
 void	op_ldi(t_core *core, t_process *proc)
 {
-	int addr;
+	uint16_t addr;
 
 	if (proc->param_type[0] == REG_CODE)
 		proc->param[0] = proc->reg[proc->param[0] - 1];
 	else if (proc->param_type[0] == IND_CODE)
 		proc->param[0] = read_arena(core, proc,
-			((((int)proc->param[0] + proc->pc) % MEM_SIZE) - proc->pc) % IDX_MOD,
+			overflow(proc->pc, proc->param[0]),
 			DIR_SIZE);
 	if (proc->param_type[1] == IND_CODE)
 		proc->param[1] = read_arena(core, proc,
-			((((int)proc->param[1] + proc->pc) % MEM_SIZE) - proc->pc) % IDX_MOD,
+			overflow(proc-> pc, proc->param[1]),
 			DIR_SIZE);
 	addr = proc->param[0] + proc->param[1];
 	proc->reg[proc->param[2] - 1] = read_arena(core, proc,
@@ -57,7 +57,7 @@ void	op_lld(t_core *core, t_process *proc)
 {
 	if (proc->param_type[0] & 1)
 		proc->param[0] = read_arena(core, proc,
-			((((int)proc->param[0] + proc->pc) % MEM_SIZE) - proc->pc),
+			overflow(proc->pc, proc->param[0]),
 			DIR_SIZE);
 	proc->reg[proc->param[1] - 1] = proc->param[0];
 	if (!proc->param[0])
@@ -68,18 +68,18 @@ void	op_lld(t_core *core, t_process *proc)
 
 void	op_lldi(t_core *core, t_process *proc)
 {
-	int addr;
+	uint16_t addr;
 	uint32_t to_load;
 
 	if (proc->param_type[0] == REG_CODE)
 		proc->param[0] = proc->reg[proc->param[0] - 1];
 	else if (proc->param_type[0] == IND_CODE)
 		proc->param[0] = read_arena(core, proc,
-			((((int)proc->param[0] + proc->pc) % MEM_SIZE) - proc->pc) % IDX_MOD,
+			overflow(proc->pc, proc->param[0]),
 			DIR_SIZE);
 	if (proc->param_type[1] == IND_CODE)
 		proc->param[1] = read_arena(core, proc,
-			((((int)proc->param[1] + proc->pc) % MEM_SIZE) - proc->pc) % IDX_MOD,
+			overflow(proc->pc, proc->param[1]),
 			DIR_SIZE);
 	addr = proc->param[0] + proc->param[1];
 	to_load = read_arena(core, proc,

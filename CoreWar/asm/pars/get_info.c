@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 11:33:32 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/13 15:00:41 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/14 16:42:30 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,11 @@ t_pars		*ft_get_info(int fd, t_labels **save, header_t **head)
 	int		counter;
 
 	line = NULL;
+	lst = NULL;
 	counter = 1;
 	while ((get_next_line(fd, &line)) > 0)
 	{
-		if (line && *line)
+		if ((line && *line) || (line && (*head)->magic == 0 && !*line))
 		{
 			lst = ft_check_line(line, lst, head, counter);
 			if (lst && check_line(line))
@@ -38,6 +39,8 @@ t_pars		*ft_get_info(int fd, t_labels **save, header_t **head)
 		counter++;
 		ft_strdel(&line);
 	}
+	if (!lst || (lst && !lst->next && !lst->op_name))
+		ft_exit("There aren't any instructions", -1);
 	return (lst);
 }
 
@@ -48,7 +51,7 @@ t_pars		*ft_parsing(t_pars *lst, t_pars *tmp, t_labels **save)
 	tot_size = 0;
 	while (lst->next)
 	{
-		if (lst->next)
+		if (lst->next && lst->next->position == 0)
 		{
 			lst->next->position = lst->position + lst->size_code;
 			tot_size = lst->position;
@@ -70,8 +73,10 @@ t_pars		*ft_get_code(t_pars *lst, t_labels *label, int fd, int opt)
 {
 	t_pars	*tmp;
 	t_op	op_tab;
+	t_pars	*test;
 
 	tmp = lst;
+	(label) ? test = label->lst : 0;
 	while (lst)
 	{
 		if (lst->op_code > 0)
@@ -80,16 +85,13 @@ t_pars		*ft_get_code(t_pars *lst, t_labels *label, int fd, int opt)
 			if (!(lst = ft_get_label_values(lst, label, 0, &op_tab)))
 				ft_exit("get_label failed", -1);
 			if (opt & D)
-			{
 				if (!(lst = ft_print_hexa(lst)))
 					ft_exit("Print hexa out failed", -1);
-			}
-			else
-			{
+			if (!(opt & D))
 				if (!(lst = ft_get_hexadecimal(lst, fd)))
 					ft_exit("get_hexadecimal failed", -1);
-			}
 		}
+		(label) ? label->lst = test : 0;
 		lst = lst->next;
 	}
 	return (tmp);

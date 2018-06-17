@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 09:53:45 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/13 13:13:38 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/14 14:17:04 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ t_pars		*create_file(char *file, t_labels *lab, header_t *head, t_pars *ops)
 		ft_exit("Had a problem with open in creat file", 0);
 	write_header(fd, head);
 	ops = ft_get_code(ops, lab, fd, 0);
+	ft_strdel(&cor_file);
 	return (ops);
 }

@@ -122,7 +122,6 @@ void	put_processes(t_core *core)
 		core->v.old_process = NULL;
 	}
 	cur = core->process;
-	core->v.nb_process = 0;
 	while (cur)
 	{
 		//
@@ -138,7 +137,6 @@ void	put_processes(t_core *core)
 		add_old_proc(&(core->v.old_process), cur->pc, old_col);
 		core->v.colors[cur->pc] = COLOR_PROCESS_P1 + cur->player; 
 		cur = cur->next;
-		core->v.nb_process++;
 	}
 }
 
@@ -152,7 +150,9 @@ void	print_state(t_core *core)
 	unsigned int i_player;
 
 	mvprintw(Y_CYCLE, X_CYCLE, "Cycle : %d", core->cycle);
-	mvprintw(Y_CYCLE + 2, X_CYCLE, "Process : %d", core->v.nb_process);
+	mvprintw(Y_CYCLE + 1, X_CYCLE, "Cycle_to_die : %d          ", core->cycle_to_die);
+	mvprintw(Y_CYCLE + 2, X_CYCLE, "Current_cycle : %d         ", core->current_cycle);
+	mvprintw(Y_CYCLE + 3, X_CYCLE, "Process : %d               ", core->nb_process);
 	i_player = 0;
 	while (i_player < core->nb_player)
 	{

@@ -155,6 +155,7 @@ void	init_core(t_core *core)
 	core->cycle_to_die = 0;
 	core->live = 0;
 	core->opt = 0;
+	core->nb_process = 0;
 }
 
 int		main(int ac, char **av)

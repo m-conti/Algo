@@ -67,6 +67,7 @@ typedef struct          s_core
 	t_visu              v; // V pour visu!
 	uint32_t            cycle;
 	unsigned int        nb_player;
+	unsigned int		nb_process;
 	t_player            player[MAX_PLAYERS];
 	uint8_t             arena[MEM_SIZE];
 	void                (*fc_op[17])(struct s_core*, t_process*);
@@ -112,5 +113,5 @@ void	toggle_pause(t_core *core);
 void	init_visu(t_core *core);
 void	init_color_pairs(void);
 void	init_colors_visu(t_core *core);
-int		overflow(uint16_t pc, uint16_t off_set);
+int		overflow(uint16_t pc, int16_t off_set);
 #endif

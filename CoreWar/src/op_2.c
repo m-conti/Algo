@@ -68,7 +68,7 @@ void	op_lld(t_core *core, t_process *proc)
 
 void	op_lldi(t_core *core, t_process *proc)
 {
-	uint16_t addr;
+	int16_t addr;
 	uint32_t to_load;
 
 	if (proc->param_type[0] == REG_CODE)

@@ -57,8 +57,11 @@ void	op_live(t_core *core, t_process *proc)
 
 void		op_aff(t_core *core, t_process *proc)
 {
-	(void)*core;
-	(void)*proc;
+	(void)core;
+	if (!proc->reg[proc->param[0] - 1] % 256)
+		proc->carry = 1;
+	else
+		proc->carry = 0;
 //	ft_putchar(proc->reg[proc->param[0] - 1] % 256); // sortie AFF
 //	MANAGE carry
 }

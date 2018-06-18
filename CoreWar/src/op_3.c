@@ -24,6 +24,8 @@ void	op_st(t_core *core, t_process *proc)
 
 void	op_sti(t_core *core, t_process *proc)
 {
+	uint16_t addr;
+
 	if (proc->param_type[1] == REG_CODE)
 		proc->param[1] = proc->reg[proc->param[1] - 1];
 	else if (proc->param_type[1] == IND_CODE)
@@ -32,8 +34,9 @@ void	op_sti(t_core *core, t_process *proc)
 			DIR_SIZE);
 	if (proc->param_type[2] == REG_CODE)
 		proc->param[2] = proc->reg[proc->param[2] - 1];
+	addr = (int16_t)proc->param[1] + (int16_t)proc->param[2];
 	write_arena(core, proc,
-			overflow(proc->pc, (int16_t)proc->param[1] + (int16_t)proc->param[2]),
+			overflow(proc->pc, addr),
 			proc->reg[proc->param[0] - 1]);
 }
 

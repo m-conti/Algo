@@ -49,19 +49,19 @@ void	op_live(t_core *core, t_process *proc)
 			show_alive(core->player[i].header.prog_name);
 			core->player[i].last_alive = core->cycle;
 		}
-		proc->lives++;
-		core->live++;
 		i++;
 	}
+	proc->lives++;
+	core->live++;
 }
 
 void		op_aff(t_core *core, t_process *proc)
 {
 	(void)core;
-	if (!proc->reg[proc->param[0] - 1] % 256)
+/*	if (!proc->reg[proc->param[0] - 1] % 256)
 		proc->carry = 1;
 	else
-		proc->carry = 0;
+		proc->carry = 0;*/
 //	ft_putchar(proc->reg[proc->param[0] - 1] % 256); // sortie AFF
 //	MANAGE carry
 }

@@ -49,16 +49,17 @@ uint32_t	take_len(char *str)
 {
 	uint32_t nb;
 
-	nb = str[7];
-	nb += str[6] << 8;
-	nb += str[5] << 0x10;
-	nb += str[4] << 0x18;
+	nb = str[7] & 0xFF;
+	nb |= (str[6] & 0xFF) << 0x8;
+	nb |= (str[5] & 0xFF) << 0x10;
+	nb |= (str[4] & 0xFF) << 0x18;
 	return (nb);
 }
 
 void		read_champ(int fd, t_player *champ)
 {
 	char		buf[2048];
+int i = 0;
 
 	if (read(fd, buf, 4) < 4)
 		error(SIZEOF_COR);
@@ -80,8 +81,11 @@ void		read_champ(int fd, t_player *champ)
 	if (read(fd, buf, champ->header.prog_size) < champ->header.prog_size)
 		error(SIZEOF_CHAMP);
 	champ->champ_core = ft_memdup(buf, champ->header.prog_size);
-	if (read(fd, buf, 10) > 0)
+	if ((i = read(fd, buf, 10)) > 0)
+	{
+		ft_printf("%i || %x || %hhx%hhx%hhx%hhx\n",i , champ->header.prog_size, buf[0], buf[1], buf[2], buf[3]);
 		error(SIZEOF_CHAMP);
+	}
 }
 
 int		take_champion(t_core *core, char *file_cor)

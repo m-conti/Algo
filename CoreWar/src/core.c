@@ -71,8 +71,6 @@ t_process	*do_process(t_core *core, t_process *current_process)
 	{
 		if (check_op(core, current_process))
 			do_operator(core, current_process);
-		else
-			current_process->carry = 0;
 		increase_pc(current_process, current_process->jump);
 		current_process->to_launch = 0;
 	}

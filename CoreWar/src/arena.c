@@ -82,10 +82,7 @@ int i = 0;
 		error(SIZEOF_CHAMP);
 	champ->champ_core = ft_memdup(buf, champ->header.prog_size);
 	if ((i = read(fd, buf, 10)) > 0)
-	{
-		ft_printf("%i || %x || %hhx%hhx%hhx%hhx\n",i , champ->header.prog_size, buf[0], buf[1], buf[2], buf[3]);
 		error(SIZEOF_CHAMP);
-	}
 }
 
 int		take_champion(t_core *core, char *file_cor)

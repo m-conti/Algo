@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 13:48:35 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/17 14:16:19 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/18 14:46:30 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ t_pars			*ft_get_op_name(char *line, t_pars *lst)
 }
 
 /*
- **what if we have  more then 1 op name? do we check it after in get param?
- */
+**what if we have  more then 1 op name? do we check it after in get param?
+*/
 
 int				ft_create_tab(char *str, int counter)
 {

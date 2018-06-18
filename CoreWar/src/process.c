@@ -34,13 +34,14 @@ void	process_to_die(t_core *core)
 	t_process	*process;
 	t_process	*tmp;
 
-	while(!core->process->lives)
+	while(core->process && !core->process->lives)
 	{
 		tmp = core->process->next;
 		free(core->process);
 		core->process = tmp;
 	}
-	core->process->lives = 0;
+	if (core->process)
+		core->process->lives = 0;
 	process = core->process;
 	while (process && process->next)
 	{
@@ -54,4 +55,15 @@ void	process_to_die(t_core *core)
 			process->next->lives = 0;
 		process = process->next;
 	}
+}
+
+int		overflow(int pc, int off_set)
+{
+	int ret;
+
+	if ((off_set / IDX_MOD) & 1)
+		ret = pc + (off_set % IDX_MOD);
+	else
+		ret = pc + (off_set % IDX_MOD);
+	return (ret < 0 ? ret + MEM_SIZE : ret);
 }

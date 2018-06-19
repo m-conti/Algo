@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 17:54:11 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/19 21:48:50 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/19 22:27:42 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void	build_array_op(void (*fc_op[17])(t_core*, t_process*))
 
 void	print_live(t_core *core, t_process *proc, uint8_t i)
 {
-	const int8_t		color[4] = {32, 34, 31, 33};
+	const int8_t	color[4] = {32, 34, 31, 33};
 	static uint32_t	len = 0;
-	uint8_t	j;
+	uint8_t			j;
 
 	j = 0;
 	if (!len)

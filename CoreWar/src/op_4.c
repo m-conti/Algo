@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 17:48:51 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/16 18:17:02 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/19 22:25:18 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	op_add(t_core *core, t_process *proc)
 {
 	(void)core;
-	proc->reg[proc->param[2] - 1] = proc->reg[proc->param[0] - 1] + proc->reg[proc->param[1] - 1];
+	proc->reg[proc->param[2] - 1] =
+		proc->reg[proc->param[0] - 1] + proc->reg[proc->param[1] - 1];
 	if (!proc->reg[proc->param[2] - 1])
 		proc->carry = 1;
 	else
@@ -25,7 +26,8 @@ void	op_add(t_core *core, t_process *proc)
 void	op_sub(t_core *core, t_process *proc)
 {
 	(void)core;
-	proc->reg[proc->param[2] - 1] = proc->reg[proc->param[0] - 1] - proc->reg[proc->param[1] - 1];
+	proc->reg[proc->param[2] - 1] =
+		proc->reg[proc->param[0] - 1] - proc->reg[proc->param[1] - 1];
 	if (!proc->reg[proc->param[2] - 1])
 		proc->carry = 1;
 	else

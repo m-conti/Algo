@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 16:53:32 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/16 17:28:40 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/19 22:25:31 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	op_sti(t_core *core, t_process *proc)
 
 void	op_fork(t_core *core, t_process *proc)
 {
-	new_process(core, overflow(proc->pc, (int16_t)proc->param[0]) + proc->pc, proc->player, proc->reg);
+	new_process(core, overflow(proc->pc,
+		(int16_t)proc->param[0]) + proc->pc, proc->player, proc->reg);
 	core->process->carry = proc->carry;
 	core->process->lives = proc->lives;
 }

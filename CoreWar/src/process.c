@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 18:45:26 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/17 14:03:34 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/19 22:24:18 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,24 @@ void	new_process(t_core *core, int pos, int player, t_reg reg[REG_NUMBER])
 	core->nb_process++;
 }
 
+void	kill_process(t_core *core)
+{
+	t_process *tmp;
+
+	tmp = core->process->next;
+	free(core->process);
+	core->nb_process--;
+	core->process = tmp;
+}
+
 void	process_to_die(t_core *core)
 {
 	t_process	*process;
 	t_process	*tmp;
 
 	core->cur_proc = NULL;
-	while(core->process && !core->process->lives)
-	{
-		tmp = core->process->next;
-		free(core->process);
-		core->nb_process--;
-		core->process = tmp;
-	}
+	while (core->process && !core->process->lives)
+		kill_process(core);
 	if (core->process)
 		core->process->lives = 0;
 	process = core->process;

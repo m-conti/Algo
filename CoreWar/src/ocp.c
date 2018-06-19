@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 21:51:59 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/19 21:52:02 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/19 22:40:37 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,28 +21,24 @@ int		calc_param_len(t_process *proc)
 	const uint8_t	len[6] = {1, 4, 2, 1, 2, 2};
 
 	stop = 1;
-	i = 0;
+	i = -1;
 	if (g_op_tab[proc->to_launch - 1].ocp)
-	{
-		while (i < g_op_tab[proc->to_launch - 1].nb_arg)
+		while (++i < g_op_tab[proc->to_launch - 1].nb_arg)
 		{
-			if (!proc->param_type[i] || !(g_op_tab[proc->to_launch - 1].arg_type[i]
-				& (1 << (proc->param_type[i] - 1))))
-				stop = 0;
+			stop = (!proc->param_type[i] ||
+					!(g_op_tab[proc->to_launch - 1].arg_type[i]
+					& (1 << (proc->param_type[i] - 1)))) ? 0 : stop;
 			if (proc->param_type[i])
-				proc->param_len[i] =
-					len[proc->param_type[i] + (3 * g_op_tab[proc->to_launch - 1].mod_direct) - 1];
-			i++;
+				proc->param_len[i] = len[proc->param_type[i]
+					+ (3 * g_op_tab[proc->to_launch - 1].mod_direct) - 1];
 		}
-	}
 	else
-		while (i < g_op_tab[proc->to_launch - 1].nb_arg)
+		while (++i < g_op_tab[proc->to_launch - 1].nb_arg)
 		{
-			proc->param_type[i] = g_op_tab[proc->to_launch - 1].arg_type[i] == T_IND ?
-			IND_CODE : g_op_tab[proc->to_launch - 1].arg_type[i];
-			proc->param_len[i] =
-			len[proc->param_type[i] + (3 * g_op_tab[proc->to_launch - 1].mod_direct) - 1];
-			i++;
+			proc->param_type[i] = g_op_tab[proc->to_launch - 1].arg_type[i]
+				== T_IND ? IND_CODE : g_op_tab[proc->to_launch - 1].arg_type[i];
+			proc->param_len[i] = len[proc->param_type[i]
+				+ (3 * g_op_tab[proc->to_launch - 1].mod_direct) - 1];
 		}
 	return (stop);
 }
@@ -70,6 +66,6 @@ int		check_op(t_core *core, t_process *proc)
 	}
 	stop = calc_param_len(proc);
 	proc->jump = proc->param_len[0] + proc->param_len[1] + proc->param_len[2]
-	+ g_op_tab[proc->to_launch - 1].ocp + 1;
+		+ g_op_tab[proc->to_launch - 1].ocp + 1;
 	return (stop);
 }

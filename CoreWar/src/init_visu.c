@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/16 14:59:07 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/19 17:24:43 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/19 22:29:37 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,12 @@ void	init_colors_visu(t_core *core)
 	while (i < MEM_SIZE)
 	{
 		if ((i == core->player[0].header.prog_size) || (core->nb_player >= 2
-			&& i == MEM_SIZE / core->nb_player + core->player[1].header.prog_size)
+			&& i == MEM_SIZE / core->nb_player
+				+ core->player[1].header.prog_size)
 			|| (core->nb_player >= 3 && i == (MEM_SIZE / core->nb_player) * 2
-			+ core->player[2].header.prog_size) || (core->nb_player == 4
-			&& i == (MEM_SIZE / core->nb_player) * 3 + core->player[3].header.prog_size))
+				+ core->player[2].header.prog_size) || (core->nb_player == 4
+			&& i == (MEM_SIZE / core->nb_player) * 3
+				+ core->player[3].header.prog_size))
 			cur_col = 1;
 		if (core->nb_player >= 2 && i == MEM_SIZE / core->nb_player)
 			cur_col = COLOR_PAIR_P2;
@@ -68,8 +70,8 @@ void	init_visu(t_core *core)
 	noecho();
 	offset_col = 6;
 	getmaxyx(stdscr, core->v.nrow, core->v.ncol);
-	//surement necessaire de refaire tourner apres init_visu!
-	core->v.n_displayed_lines = (core->v.nrow > N_LINES_MAX) ? N_LINES_MAX : core->v.nrow;
+	core->v.n_displayed_lines = (core->v.nrow > N_LINES_MAX) ?
+		N_LINES_MAX : core->v.nrow;
 	core->v.n_char_row = ((core->v.ncol - offset_col) / 3 > N_CHAR_ROW_MAX)
 		? N_CHAR_ROW_MAX : (core->v.ncol - offset_col) / 3;
 	init_colors_visu(core);

@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/16 14:59:07 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/16 15:02:54 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/19 16:55:20 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ void	init_visu(t_core *core)
 	start_color();
 	curs_set(0);
 	nodelay(stdscr, TRUE);
+	keypad(stdscr, TRUE);
 	init_color_pairs();
+	raw();
+	noecho();
 	offset_col = 6;
 	getmaxyx(stdscr, core->v.nrow, core->v.ncol);
 	//surement necessaire de refaire tourner apres init_visu!

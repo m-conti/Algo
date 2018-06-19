@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 13:39:30 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/19 15:29:39 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/19 16:55:19 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	add_old_proc(t_old_proc **old_proc, int pos, uint8_t color)
 uint8_t	find_old_col(t_core *core, int pos)
 {
 	t_old_proc *cur;
-	
+
 	cur = core->v.old_process;
 	while (cur)
 	{
@@ -108,12 +108,12 @@ uint8_t	find_old_col(t_core *core, int pos)
 
 void	put_processes(t_core *core)
 {
-	t_process *cur;
-	t_old_proc *cur_old;
-	t_old_proc *tmp_old;
+	t_process	*cur;
+	t_old_proc	*cur_old;
+	t_old_proc	*tmp_old;
 	uint8_t		old_col;
 
-	if	(core->v.old_process)
+	if (core->v.old_process)
 	{
 		cur_old = core->v.old_process;
 		while (cur_old)
@@ -132,14 +132,15 @@ void	put_processes(t_core *core)
 		if (old_col >= COLOR_PROCESS_P1 && old_col <= COLOR_PROCESS_P4)
 			old_col = find_old_col(core, cur->pc);
 		add_old_proc(&(core->v.old_process), cur->pc, old_col);
-		core->v.colors[cur->pc] = COLOR_PROCESS_P1 + cur->player; 
+		core->v.colors[cur->pc] = COLOR_PROCESS_P1 + cur->player;
 		cur = cur->next;
 	}
 }
 
 void	show_alive(char *player_name)
 {
-	mvprintw(Y_MSG, 3, "un processus dit que le joueur \"%s\" est en vie", player_name);
+	mvprintw(Y_MSG, 3, "un processus dit que le joueur \"%s\" est en vie",
+			player_name);
 }
 
 void	print_state(t_core *core)
@@ -148,24 +149,25 @@ void	print_state(t_core *core)
 	int				i;
 
 	attron(COLOR_PAIR(COLOR_BORDER));
-	i = X_DEMARC;
-	while (i <= core->v.ncol)
-	{
+	i = X_DEMARC - 1;
+	while (++i <= core->v.ncol)
 		mvaddch(Y_DEMARC, i, '*');
-		i++;
-	}
 	attroff(COLOR_PAIR(COLOR_BORDER));
 	mvprintw(Y_CYCLE, X_CYCLE, "Cycle : %d", core->cycle);
-	mvprintw(Y_CYCLE + 1, X_CYCLE, "Cycle_to_die : %d          ", core->cycle_to_die);
-	mvprintw(Y_CYCLE + 2, X_CYCLE, "Current_cycle : %d         ", core->current_cycle);
-	mvprintw(Y_CYCLE + 3, X_CYCLE, "Process : %d               ", core->nb_process);
+	mvprintw(Y_CYCLE + 1, X_CYCLE, "Cycle_to_die : %d          ",
+		core->cycle_to_die);
+	mvprintw(Y_CYCLE + 2, X_CYCLE, "Current_cycle : %d         ",
+		core->current_cycle);
+	mvprintw(Y_CYCLE + 3, X_CYCLE, "Process : %d               ",
+		core->nb_process);
 	i_player = 0;
 	while (i_player < core->nb_player)
 	{
 		mvprintw(Y_CYCLE + 4 + 2 * i_player, X_CYCLE, "Player %d : %s",
-				core->player[i_player].nbr, core->player[i_player].header.prog_name);
+			core->player[i_player].nbr,
+			core->player[i_player].header.prog_name);
 		i_player++;
-	}	
+	}
 }
 
 int		print_arena(t_core *core)
@@ -180,16 +182,13 @@ int		print_arena(t_core *core)
 		print_line(core, i);
 	print_two_last_lines(core);
 	print_state(core);
-	raw();
-	keypad(stdscr, TRUE);
-	noecho();			
-	refresh();			
-	ch = getch();			
+	refresh();
+	ch = getch();
 	deal_key(core, ch);
 	usleep(core->v.delay);
 	while (core->v.pause)
 	{
-		ch = getch();			
+		ch = getch();
 		deal_key(core, ch);
 		if (core->v.pause == -1)
 		{

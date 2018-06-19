@@ -6,13 +6,13 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 13:39:30 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/16 15:56:22 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/19 15:29:39 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void print_line(t_core *core, int row)
+void	print_line(t_core *core, int row)
 {
 	int	i;
 
@@ -43,7 +43,7 @@ void	print_two_first_lines(t_core *core)
 
 	i = -1;
 	attron(COLOR_PAIR(COLOR_BORDER));
-	while (++i <  core->v.ncol)
+	while (++i < core->v.ncol)
 		mvaddch(0, i, '*');
 	mvaddch(1, 0, '*');
 	if (core->v.ncol >= N_CHAR_ROW_MAX * 3 + 4)
@@ -144,8 +144,17 @@ void	show_alive(char *player_name)
 
 void	print_state(t_core *core)
 {
-	unsigned int i_player;
+	unsigned int	i_player;
+	int				i;
 
+	attron(COLOR_PAIR(COLOR_BORDER));
+	i = X_DEMARC;
+	while (i <= core->v.ncol)
+	{
+		mvaddch(Y_DEMARC, i, '*');
+		i++;
+	}
+	attroff(COLOR_PAIR(COLOR_BORDER));
 	mvprintw(Y_CYCLE, X_CYCLE, "Cycle : %d", core->cycle);
 	mvprintw(Y_CYCLE + 1, X_CYCLE, "Cycle_to_die : %d          ", core->cycle_to_die);
 	mvprintw(Y_CYCLE + 2, X_CYCLE, "Current_cycle : %d         ", core->current_cycle);
@@ -159,7 +168,7 @@ void	print_state(t_core *core)
 	}	
 }
 
-int print_arena(t_core *core)
+int		print_arena(t_core *core)
 {
 	int i;
 	int ch;

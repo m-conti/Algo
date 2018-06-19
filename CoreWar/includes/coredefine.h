@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:59:16 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/16 15:12:10 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/19 15:29:37 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,7 @@
 #define X_CYCLE 200
 #define Y_CYCLE 5
 #define Y_MSG 68
+#define X_DEMARC 196
+#define Y_DEMARC 32
 
 #endif

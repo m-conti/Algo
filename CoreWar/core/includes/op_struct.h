@@ -115,5 +115,13 @@ void	print_two_last_lines(t_core *core);
 void	print_line(t_core *core, int row);
 void	visu_process(t_core *core, int ch);
 void	blink_proc(t_core *core);
-
+int		cmp_magic(unsigned char *magic);
+uint32_t	take_len(char *str);
+void	read_champ(int fd, t_player *champ);
+int		take_champion(t_core *core, char *file_cor);
+void	place_champion(t_core *core, t_player *player, int pos);
+void	set_player_nbr(t_core *core, int i);
+void	make_arena(t_core *core, int nb_player);
+void	init_core(t_core *core);
+void	take_num_player(t_core *core, char *num);
 #endif

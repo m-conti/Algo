@@ -28,13 +28,16 @@ void	visu_process(t_core *core, char ch)
 	i = -1;
 	proc = core->cur_proc;
 	if (proc->to_launch)
-		mvprintw(Y_NAME + 4, X_NAME, "current action: \"%s\" to launch : %-20i", g_op_tab[proc->to_launch - 1].comment, proc->process_time);
+		mvprintw(Y_NAME + 8, X_NAME, "current action: \"%s\" to launch : %-20i", g_op_tab[proc->to_launch - 1].comment, proc->process_time);
 	else
-		mvprintw(Y_NAME + 4, X_NAME, "current action: \"move\" to : %-20i", proc->jump);
-	mvprintw(Y_NAME, X_NAME, "process no:       %-10i made by: %-100s", no_process,core->player[proc->player].header.prog_name);
+		mvprintw(Y_NAME + 8, X_NAME, "current action: \"move\" to %hu + %-20i", proc->pc, proc->jump);
+	mvprintw(Y_NAME, X_NAME, "process no:       %-10i made by: ", no_process);
+	attron(COLOR_PAIR(COLOR_PAIR_P1 + proc->player));
+	mvprintw(Y_NAME, X_NAME + 38, "%-100s", core->player[proc->player].header.prog_name);
+	attroff(COLOR_PAIR(COLOR_PAIR_P1 + proc->player));
 	while (++i < REG_NUMBER)
 		mvprintw(Y_REG + i * 2, X_REG, "Reg[%02i] : %#10x", i + 1, proc->reg[i]);
-	mvprintw(Y_NAME + 2, X_NAME, "lives of turn:  %3i          carry : %i", proc->lives, proc->carry);
+	mvprintw(Y_NAME + 4, X_NAME, "lives of turn:  %3i          carry : %i", proc->lives, proc->carry);
 	if (ch == 'n')
 	{
 		no_process++;

@@ -41,10 +41,7 @@ int		option(char *opt)
 		ret |= 1 << test;
 	}
 	if (ret & ~OUR_OPT)
-	{
-		ft_printf("opt = %#x || ret = %#x\n",OUR_OPT,ret);
 		error(UNKNOWN_OPT);
-	}
 	return (ret);
 }
 

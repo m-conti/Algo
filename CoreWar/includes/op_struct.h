@@ -64,6 +64,7 @@ typedef struct		s_visu
 typedef struct          s_core
 {
 	t_process           *process;
+	t_process			*cur_proc;
 	t_visu              v; // V pour visu!
 	uint32_t            cycle;
 	unsigned int        nb_player;

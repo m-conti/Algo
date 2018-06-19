@@ -40,6 +40,7 @@ void	process_to_die(t_core *core)
 	t_process	*process;
 	t_process	*tmp;
 
+	core->cur_proc = NULL;
 	while(core->process && !core->process->lives)
 	{
 		tmp = core->process->next;

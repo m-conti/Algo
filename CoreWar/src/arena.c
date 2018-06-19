@@ -144,6 +144,7 @@ void	make_arena(t_core *core, int nb_player)
 		i++;
 	}
 	core->cycle_to_die = CYCLE_TO_DIE;
+	core->opt_num_player = 0;
 }
 
 void	init_core(t_core *core)
@@ -215,7 +216,8 @@ int		main(int ac, char **av)
 		error(NO_CHAMP);
 	core.nb_player = nb_player;
 	make_arena(&core, nb_player);
-	init_visu(&core);
+	if (core.opt & VISU)
+		init_visu(&core);
 	corewar(&core);
 	return (0);
 }

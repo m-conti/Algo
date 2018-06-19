@@ -35,18 +35,40 @@ void	build_array_op(void (*fc_op[17])(t_core*, t_process*))
 	fc_op[16] = &op_aff;
 }
 
+void	print_live(t_core *core, t_process *proc, uint8_t i)
+{
+	const int8_t		color[4] = {32, 34, 31, 33};
+	static uint32_t	len = 0;
+	uint8_t	j;
+
+	j = 0;
+	if (!len)
+		while (j < core->nb_player)
+			len = len > ft_strlen(core->player[j++].header.prog_name) ? len :
+				ft_strlen(core->player[j - 1].header.prog_name) + 1;
+	ft_printf("\nun processus du joueur \" \x1b[%im%-*s\x1b[0m\" ",
+		color[proc->player], len,
+		core->player[proc->player].header.prog_name);
+	ft_printf("dit que le joueur \" \x1b[%im%-*s\x1b[0m\" est en vie !",
+		color[i], len, core->player[i].header.prog_name);
+}
+
 void	op_live(t_core *core, t_process *proc)
 {
-	uint8_t		i;
+	uint8_t			i;
 
 	i = 0;
 	while (i < core->nb_player)
 	{
 		if (proc->param[0] == core->player[i].nbr)
 		{
-	//		ft_printf("un processus dit que le joueur \"%s\" est en vie",
-	//			core->player[i].header.prog_name);
-			show_alive(core->player[i].header.prog_name);
+			if (core->opt & VISU)
+				show_alive(core->player[i].header.prog_name);
+			else if (core->opt & LIVE)
+			{
+				print_live(core, proc, i);
+				core->opt_num_player = 1;
+			}
 			core->player[i].last_alive = core->cycle;
 		}
 		i++;
@@ -57,10 +79,16 @@ void	op_live(t_core *core, t_process *proc)
 
 void		op_aff(t_core *core, t_process *proc)
 {
-	(void)core;
 	(void)proc;
-//	ft_putchar(proc->reg[proc->param[0] - 1] % 256); // sortie AFF
-// NE MANAGE PAS LE CARRY
+	if (core->opt & LIVE)
+	{
+		if (core->opt_num_player)
+		{
+			ft_putchar('\n');
+			core->opt_num_player = 0;
+		}
+		ft_putchar(proc->reg[proc->param[0] - 1] % 256);
+	}
 }
 
 void		do_operator(t_core *core, t_process *proc)

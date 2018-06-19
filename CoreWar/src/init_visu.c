@@ -21,11 +21,11 @@ void	init_colors_visu(t_core *core)
 	cur_col = COLOR_PAIR_P1;
 	while (i < MEM_SIZE)
 	{
-		if ((i == core->player[0].header.prog_size) || (core->nb_player >= 2 &&
-					i == MEM_SIZE / core->nb_player + core->player[1].header.prog_size) ||
-				(core->nb_player >= 3 && i == (MEM_SIZE / core->nb_player) * 2 +
-				 core->player[2].header.prog_size) || (core->nb_player == 4 &&
-					 i == (MEM_SIZE / core->nb_player) * 3 + core->player[3].header.prog_size))
+		if ((i == core->player[0].header.prog_size) || (core->nb_player >= 2
+			&& i == MEM_SIZE / core->nb_player + core->player[1].header.prog_size)
+			|| (core->nb_player >= 3 && i == (MEM_SIZE / core->nb_player) * 2
+			+ core->player[2].header.prog_size) || (core->nb_player == 4
+			&& i == (MEM_SIZE / core->nb_player) * 3 + core->player[3].header.prog_size))
 			cur_col = 1;
 		if (core->nb_player >= 2 && i == MEM_SIZE / core->nb_player)
 			cur_col = COLOR_PAIR_P2;

@@ -18,7 +18,8 @@ void	new_process(t_core *core, int pos, int player, t_reg reg[REG_NUMBER])
 
 	if (!(process = (t_process*)ft_memalloc(sizeof(t_process))))
 	{
-		endwin();
+		if (core->opt & VISU)
+			endwin();
 		error(MALLOC_ERROR);
 	}
 	process->carry = 0;

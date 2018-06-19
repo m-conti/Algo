@@ -77,6 +77,37 @@ t_process	*do_process(t_core *core, t_process *current_process)
 	return (current_process->next);
 }
 
+void	is_winner(t_core *core)
+{
+	uint8_t			i;
+	uint32_t		cycle;
+	uint8_t			n;
+	const int8_t	color[4] = {32, 34, 31, 33};
+
+	cycle = 0;
+	i = 0;
+	while (i < core->nb_player)
+	{
+		if (core->player[i].last_alive > cycle)
+		{
+			cycle = core->player[i].last_alive;
+			n = i;
+		}
+		i++;
+	}
+	if (core->opt & VISU)
+	{
+		nodelay(stdscr, FALSE);
+		mvprintw(Y_CYCLE + 10, X_CYCLE, "Le joueur \" \x1b[%im%s\x1b[0m \" a gagné !", color[n],
+			core->player[n].header.prog_name);
+		getch();
+		endwin();
+	}
+	else
+		ft_printf("\nLe joueur \" \x1b[%im%s\x1b[0m \" a gagné !\n", color[n],
+			core->player[n].header.prog_name);
+}
+
 void	corewar(t_core *core)
 {
 	t_process		*current_process;
@@ -85,7 +116,8 @@ void	corewar(t_core *core)
 	checks = 0;
 	while (core->cycle_to_die > 0)
 	{
-		print_arena(core);
+		if (core->opt & VISU)
+			print_arena(core);
 		core->cycle++;
 		core->current_cycle++;
 		current_process = core->process;
@@ -109,5 +141,5 @@ void	corewar(t_core *core)
 			core->live = 0;
 		}
 	}
-	endwin();
+	is_winner(core);
 }

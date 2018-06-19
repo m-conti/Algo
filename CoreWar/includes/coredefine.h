@@ -25,10 +25,13 @@
 # define SAME_NUM_OF_PLAYER 10
 # define WRONG_NUM_OF_PLAYER 11
 /*
-** options
+** options : 
+** l = live and comment || v = visual || d = debug and visual || n = num player
 */
-# define OUR_OPT	0x00202008
+# define OUR_OPT	0x00202808
 # define NUMPLAYER	0x00002000
+# define VISU		0x00200000
+# define LIVE		0x00000800
 
 
 #define N_CHAR_ROW_MAX 64

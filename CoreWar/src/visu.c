@@ -128,13 +128,6 @@ void	put_processes(t_core *core)
 	cur = core->process;
 	while (cur)
 	{
-		//
-		if (cur->carry)
-			mvprintw(4, 200, "carry = 1");
-		else
-			mvprintw(4, 200, "carry = 0");
-
-		//
 		old_col = core->v.colors[cur->pc];
 		if (old_col >= COLOR_PROCESS_P1 && old_col <= COLOR_PROCESS_P4)
 			old_col = find_old_col(core, cur->pc);

@@ -109,15 +109,15 @@ void	put_processes(t_core *core)
 	t_old_proc *tmp_old;
 	uint8_t		old_col;
 
-	if	(core->v.old_process != NULL)
+	if	(core->v.old_process)
 	{
 		cur_old = core->v.old_process;
 		while (cur_old)
 		{
-			tmp_old = cur_old;
+			tmp_old = cur_old->next;
 			core->v.colors[cur_old->pos] = cur_old->col;
-			cur_old = cur_old->next;
 			free(cur_old);
+			cur_old = tmp_old;
 		}
 		core->v.old_process = NULL;
 	}

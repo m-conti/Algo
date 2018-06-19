@@ -62,7 +62,7 @@ void	process_to_die(t_core *core)
 	}
 }
 
-int		overflow(int16_t pc, int16_t off_set)
+int		overflow(int16_t pc, int off_set)
 {
 	off_set %= IDX_MOD;
 	return (off_set + pc < 0 ? MEM_SIZE + off_set : off_set);

@@ -16,7 +16,7 @@ void	op_ld(t_core *core, t_process *proc)
 {
 	if (proc->param_type[0] == IND_CODE)
 		proc->param[0] = read_arena(core, proc,
-			overflow(proc->pc, proc->param[0]),
+			overflow(proc->pc, (int16_t)proc->param[0]),
 			DIR_SIZE);
 	proc->reg[proc->param[1] - 1] = proc->param[0];
 	if (!proc->param[0])
@@ -31,16 +31,20 @@ void	op_ld(t_core *core, t_process *proc)
 
 void	op_ldi(t_core *core, t_process *proc)
 {
-	int16_t addr;
+	int addr;
 
 	if (proc->param_type[0] == REG_CODE)
 		proc->param[0] = proc->reg[proc->param[0] - 1];
 	else if (proc->param_type[0] == IND_CODE)
 		proc->param[0] = read_arena(core, proc,
-			overflow(proc->pc, proc->param[0]),
+			overflow(proc->pc, (int16_t)proc->param[0]),
 			DIR_SIZE);
+	else
+		proc->param[0] = (int16_t)proc->param[0];
 	if (proc->param_type[1] == REG_CODE)
 		proc->param[1] = proc->reg[proc->param[1] - 1];
+	else
+		proc->param[1] = (int16_t)proc->param[1];
 	addr = proc->param[0] + proc->param[1];
 	proc->reg[proc->param[2] - 1] = read_arena(core, proc,
 			overflow(proc->pc, addr),
@@ -55,7 +59,7 @@ void	op_lld(t_core *core, t_process *proc)
 {
 	if (proc->param_type[0] == IND_CODE)
 		proc->param[0] = read_arena(core, proc,
-			overflow(proc->pc, proc->param[0]),
+			overflow(proc->pc, (int16_t)proc->param[0]),
 			DIR_SIZE);
 	proc->reg[proc->param[1] - 1] = proc->param[0];
 	if (!proc->param[0])
@@ -66,7 +70,7 @@ void	op_lld(t_core *core, t_process *proc)
 
 void	op_lldi(t_core *core, t_process *proc)
 {
-	int16_t addr;
+	int addr;
 	uint32_t to_load;
 
 	if (proc->param_type[0] == REG_CODE)

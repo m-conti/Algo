@@ -113,5 +113,5 @@ void	toggle_pause(t_core *core);
 void	init_visu(t_core *core);
 void	init_color_pairs(void);
 void	init_colors_visu(t_core *core);
-int		overflow(int16_t pc, int16_t off_set);
+int		overflow(int16_t pc, int off_set);
 #endif

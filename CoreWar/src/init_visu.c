@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/16 14:59:07 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/19 16:55:20 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/19 17:24:43 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void	init_visu(t_core *core)
 	core->v.n_char_row = ((core->v.ncol - offset_col) / 3 > N_CHAR_ROW_MAX)
 		? N_CHAR_ROW_MAX : (core->v.ncol - offset_col) / 3;
 	init_colors_visu(core);
-	core->v.old_process = NULL;
 	core->v.delay = 1000;
 	core->v.pause = 0;
 	toggle_pause(core);

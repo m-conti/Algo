@@ -41,19 +41,11 @@ typedef struct          s_process
 	struct s_process    *next;
 }                       t_process;
 
-typedef struct		s_old_proc
-{
-	int					pos;
-	uint8_t				col;
-	struct s_old_proc	*next;
-}					t_old_proc;
-
 typedef struct		s_visu
 {
 	int				nrow;
 	int				ncol;
 	unsigned int	nb_process;
-	t_old_proc		*old_process;
 	int				n_displayed_lines;
 	int				n_char_row;
 	uint8_t			colors[MEM_SIZE];

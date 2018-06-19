@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:59:16 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/19 15:29:37 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/19 17:24:10 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,6 @@
 #define X_DEMARC 196
 #define Y_DEMARC 32
 
+#define MIN_COL_DISPLAY 196
+#define MIN_ROW_DISPLAY 66
 #endif

@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 13:39:30 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/19 16:55:19 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/19 17:32:21 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,71 +68,22 @@ void	print_two_last_lines(t_core *core)
 	}
 }
 
-void	add_old_proc(t_old_proc **old_proc, int pos, uint8_t color)
-{
-	t_old_proc *new;
-	t_old_proc *cur;
-
-	if (!(new = (t_old_proc*)malloc(sizeof(t_old_proc))))
-	{
-		endwin();
-		error(MALLOC_ERROR);
-	}
-	new->pos = pos;
-	new->col = color;
-	new->next = NULL;
-	if (!(*old_proc))
-		*old_proc = new;
-	else
-	{
-		cur = *old_proc;
-		while (cur->next)
-			cur = cur->next;
-		cur->next = new;
-	}
-}
-
-uint8_t	find_old_col(t_core *core, int pos)
-{
-	t_old_proc *cur;
-
-	cur = core->v.old_process;
-	while (cur)
-	{
-		if (cur->pos == pos)
-			return (cur->col);
-		cur = cur->next;
-	}
-	return (COLOR_BUG);
-}
 
 void	put_processes(t_core *core)
 {
 	t_process	*cur;
-	t_old_proc	*cur_old;
-	t_old_proc	*tmp_old;
-	uint8_t		old_col;
-
-	if (core->v.old_process)
-	{
-		cur_old = core->v.old_process;
-		while (cur_old)
-		{
-			tmp_old = cur_old;
-			core->v.colors[cur_old->pos] = cur_old->col;
-			cur_old = cur_old->next;
-			free(tmp_old);
-		}
-		core->v.old_process = NULL;
-	}
+	
 	cur = core->process;
 	while (cur)
 	{
-		old_col = core->v.colors[cur->pc];
-		if (old_col >= COLOR_PROCESS_P1 && old_col <= COLOR_PROCESS_P4)
-			old_col = find_old_col(core, cur->pc);
-		add_old_proc(&(core->v.old_process), cur->pc, old_col);
-		core->v.colors[cur->pc] = COLOR_PROCESS_P1 + cur->player;
+		if (core->v.ncol >= MIN_COL_DISPLAY && core->v.nrow >= MIN_ROW_DISPLAY)
+		{
+			attron(COLOR_PAIR(COLOR_PROCESS_P1 + cur->player));	
+			mvprintw(2 + (cur->pc / core->v.n_char_row), 3 +
+				(cur->pc % core->v.n_char_row) * 3, "%.2x",
+				core->arena[cur->pc]);
+			attroff(COLOR_PAIR(COLOR_PROCESS_P1 + cur->player));
+		}
 		cur = cur->next;
 	}
 }
@@ -175,13 +126,13 @@ int		print_arena(t_core *core)
 	int i;
 	int ch;
 
-	put_processes(core);
 	print_two_first_lines(core);
 	i = -1;
 	while (++i < core->v.n_displayed_lines)
 		print_line(core, i);
 	print_two_last_lines(core);
 	print_state(core);
+	put_processes(core);
 	refresh();
 	ch = getch();
 	deal_key(core, ch);

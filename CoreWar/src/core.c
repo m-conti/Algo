@@ -98,14 +98,20 @@ void	is_winner(t_core *core)
 	if (core->opt & VISU)
 	{
 		nodelay(stdscr, FALSE);
-		mvprintw(Y_CYCLE + 10, X_CYCLE, "Le joueur \" \x1b[%im%s\x1b[0m \" a gagné !", color[n],
+		attron(COLOR_PAIR(COLOR_PAIR_P1 + n));
+		mvprintw(Y_CYCLE + 10, X_CYCLE, "Le joueur \" %s \" a gagné !",
 			core->player[n].header.prog_name);
+		attroff(COLOR_PAIR(COLOR_PAIR_P1 + n));
 		getch();
 		endwin();
 	}
 	else
-		ft_printf("\nLe joueur \" \x1b[%im%s\x1b[0m \" a gagné !\n", color[n],
+	{
+		if (core->opt_num_player)
+			ft_putchar('\n');
+		ft_printf("Le joueur \" \x1b[%im%s\x1b[0m \" a gagné !\n", color[n],
 			core->player[n].header.prog_name);
+	}
 }
 
 void	corewar(t_core *core)

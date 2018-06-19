@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 18:21:01 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/16 17:37:27 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/19 21:50:44 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,6 @@ void	op_ld(t_core *core, t_process *proc)
 		proc->carry = 0;
 }
 
-/*
-** Je ne suis pas sur si pour les indirects on ne doit pas overflow pour l'addition des 2 address si celle-ci dépasse un short
-*/
-
 void	op_ldi(t_core *core, t_process *proc)
 {
 	int addr;
@@ -37,8 +33,8 @@ void	op_ldi(t_core *core, t_process *proc)
 		proc->param[0] = proc->reg[proc->param[0] - 1];
 	else if (proc->param_type[0] == IND_CODE)
 		proc->param[0] = read_arena(core, proc,
-			overflow(proc->pc, (int16_t)proc->param[0]),
-			DIR_SIZE);
+		overflow(proc->pc, (int16_t)proc->param[0]),
+		DIR_SIZE);
 	else
 		proc->param[0] = (int16_t)proc->param[0];
 	if (proc->param_type[1] == REG_CODE)
@@ -47,12 +43,7 @@ void	op_ldi(t_core *core, t_process *proc)
 		proc->param[1] = (int16_t)proc->param[1];
 	addr = proc->param[0] + proc->param[1];
 	proc->reg[proc->param[2] - 1] = read_arena(core, proc,
-			overflow(proc->pc, addr),
-			DIR_SIZE);
-/*	if (!proc->reg[proc->param[2] - 1])
-		proc->carry = 1;
-	else
-		proc->carry = 0;*/
+		overflow(proc->pc, addr), DIR_SIZE);
 }
 
 void	op_lld(t_core *core, t_process *proc)
@@ -70,8 +61,8 @@ void	op_lld(t_core *core, t_process *proc)
 
 void	op_lldi(t_core *core, t_process *proc)
 {
-	int addr;
-	uint32_t to_load;
+	int			addr;
+	uint32_t	to_load;
 
 	if (proc->param_type[0] == REG_CODE)
 		proc->param[0] = proc->reg[proc->param[0] - 1];

@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 17:54:11 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/16 16:01:59 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/19 21:48:50 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	op_live(t_core *core, t_process *proc)
 	core->live++;
 }
 
-void		op_aff(t_core *core, t_process *proc)
+void	op_aff(t_core *core, t_process *proc)
 {
 	(void)proc;
 	if (core->opt & LIVE)
@@ -93,7 +93,7 @@ void		op_aff(t_core *core, t_process *proc)
 	}
 }
 
-void		do_operator(t_core *core, t_process *proc)
+void	do_operator(t_core *core, t_process *proc)
 {
 	int		i;
 	int		dist;

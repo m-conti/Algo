@@ -114,4 +114,6 @@ void	error(int error);
 void	print_two_first_lines(t_core *core);
 void	print_two_last_lines(t_core *core);
 void	print_line(t_core *core, int row);
+void	visu_process(t_core *core, int ch);
+void	blink_proc(t_core *core);
 #endif

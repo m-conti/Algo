@@ -124,4 +124,6 @@ void	set_player_nbr(t_core *core, int i);
 void	make_arena(t_core *core, int nb_player);
 void	init_core(t_core *core);
 void	take_num_player(t_core *core, char *num);
+void	increase_pc(t_process *proc, int how_much);
+
 #endif

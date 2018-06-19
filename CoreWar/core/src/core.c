@@ -6,52 +6,12 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 18:36:10 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/16 18:17:04 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/19 23:46:27 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include "op_tab.h"
-
-void    increase_pc(t_process *proc, int how_much)
-{
-	proc->pc = (proc->pc + how_much) % MEM_SIZE;
-}
-
-uint8_t	in_hex(uint8_t nb)
-{
-	return (nb >= 1 && nb <= 16);
-}
-
-uint32_t	read_arena(t_core *core, t_process *proc, int offset, int size_to_read)
-{
-	uint32_t res;
-	int i;
-
-	i = 0;
-	res = 0;
-	while (i < size_to_read)
-	{
-		res <<= 8;
-		res += core->arena[(proc->pc + offset + i) % MEM_SIZE];
-		i++;
-	}
-	return (res);
-}
-
-void	write_arena(t_core *core, t_process *proc, int offset, uint32_t to_write)
-{
-	int	i;
-
-	i = 4;
-	while (--i >= 0)
-	{
-		core->arena[(proc->pc + offset + i) % MEM_SIZE] = to_write & 0xFF;
-		core->v.colors[(proc->pc + offset + i) % MEM_SIZE] =
-			proc->player + COLOR_PAIR_P1;
-		to_write >>= 0x8;
-	}
-}
 
 t_process	*do_process(t_core *core, t_process *current_process)
 {
@@ -62,7 +22,8 @@ t_process	*do_process(t_core *core, t_process *current_process)
 		if (in_hex(op = read_arena(core, current_process, 0, 1)))
 		{
 			current_process->to_launch = op;
-			current_process->process_time = g_op_tab[op - 1].cycle_to_launch - 1;
+			current_process->process_time
+				= g_op_tab[op - 1].cycle_to_launch - 1;
 		}
 		else
 			increase_pc(current_process, 1);

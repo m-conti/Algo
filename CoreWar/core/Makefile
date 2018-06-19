@@ -6,7 +6,7 @@
 #    By: tbehra <tbehra@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/02 14:00:49 by tbehra            #+#    #+#              #
-#    Updated: 2018/06/19 23:33:46 by tbehra           ###   ########.fr        #
+#    Updated: 2018/06/19 23:44:32 by tbehra           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ WHITE = \x1b[0m
 
 SRCS		=	arena.c	init_visu.c	visu.c	core.c	ocp.c	process.c	\
 			op_1.c	op_2.c	op_3.c	op_4.c	keys.c	print_lines.c\
-			visu_process.c	main.c parsing.c\
+			visu_process.c	main.c	parsing.c	arena_rw.c	\
 
 SRC		= $(addprefix $(SRCDIR)/, $(SRCS))
 

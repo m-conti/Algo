@@ -114,6 +114,20 @@ void	is_winner(t_core *core)
 	}
 }
 
+void	free_all(t_core *core)
+{
+	t_process	*proc;
+	t_process	*tmp;
+
+	proc = core->process;
+	while (proc)
+	{
+		tmp = proc->next;
+		free(proc);
+		proc = tmp;
+	}
+}
+
 void	corewar(t_core *core)
 {
 	t_process		*current_process;
@@ -148,4 +162,5 @@ void	corewar(t_core *core)
 		}
 	}
 	is_winner(core);
+	free_all(core);
 }

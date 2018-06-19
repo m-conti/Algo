@@ -49,11 +49,12 @@
 #define COLOR_PROCESS_P4 9
 #define COLOR_BORDER 10
 #define COLOR_BUG 50
+#define SLEEP_BLINK 100000
 
 /*
 ** proc pos
 */
-#define X_REG 260
+#define X_REG 280
 #define Y_REG 34
 #define X_NAME 200
 #define Y_NAME 34

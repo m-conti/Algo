@@ -69,6 +69,7 @@ typedef struct          s_core
 	int                 live;
 	uint32_t            opt;
 	uint32_t			opt_num_player;
+	uint8_t				blink;
 }                       t_core;
 
 

@@ -118,10 +118,10 @@ void	put_processes(t_core *core)
 		cur_old = core->v.old_process;
 		while (cur_old)
 		{
-			tmp_old = cur_old->next;
+			tmp_old = cur_old;
 			core->v.colors[cur_old->pos] = cur_old->col;
-			free(cur_old);
-			cur_old = tmp_old;
+			cur_old = cur_old->next;
+			free(tmp_old);
 		}
 		core->v.old_process = NULL;
 	}

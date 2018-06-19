@@ -115,5 +115,6 @@ void	init_visu(t_core *core);
 void	init_color_pairs(void);
 void	init_colors_visu(t_core *core);
 int		overflow(int16_t pc, int off_set);
+void	set_player_nbr(t_core *core, int i);
 void	error(int error);
 #endif

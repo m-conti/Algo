@@ -101,6 +101,7 @@ int		take_champion(t_core *core, char *file_cor)
 	if ((fd = open(file_cor, O_RDONLY)) < 0)
 		error(FAIL_OPEN);
 	read_champ(fd, &core->player[i]);
+	set_player_nbr(core, i);
 	return (1);
 }
 
@@ -137,7 +138,6 @@ void	make_arena(t_core *core, int nb_player)
 	ft_bzero((void*)reg, REG_SIZE * REG_NUMBER);
 	while (i < nb_player)
 	{
-		set_player_nbr(core, i);
 		reg[0] = core->player[i].nbr;
 		new_process(core, ((i * MEM_SIZE) / nb_player), i, reg);
 		place_champion(core, &core->player[i], ((i * MEM_SIZE) / nb_player));
@@ -163,6 +163,7 @@ void	init_core(t_core *core)
 	core->live = 0;
 	core->opt = 0;
 	core->nb_process = 0;
+	core->opt_num_player = 0;
 }
 
 void	take_num_player(t_core *core, char *num)

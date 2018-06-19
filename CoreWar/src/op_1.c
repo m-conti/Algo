@@ -82,10 +82,10 @@ void		op_aff(t_core *core, t_process *proc)
 	(void)proc;
 	if (core->opt & LIVE)
 	{
-		if (core->opt_num_player)
+		if (core->opt_num_player == 1)
 		{
 			ft_putchar('\n');
-			core->opt_num_player = 0;
+			core->opt_num_player = 2;
 		}
 		ft_putchar(proc->reg[proc->param[0] - 1] % 256);
 	}

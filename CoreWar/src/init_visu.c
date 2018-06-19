@@ -42,7 +42,7 @@ void	init_color_pairs(void)
 {
 	init_color(COLOR_GRAY, 500, 500, 500);
 	init_color(COLOR_LBLUE, 500, 500, 900);
-	init_pair(1, COLOR_WHITE, COLOR_BLACK);
+	init_pair(1, COLOR_GRAY, COLOR_BLACK);
 	init_pair(COLOR_PAIR_P1, COLOR_GREEN, COLOR_BLACK);
 	init_pair(COLOR_PAIR_P2, COLOR_BLUE, COLOR_BLACK);
 	init_pair(COLOR_PAIR_P3, COLOR_RED, COLOR_BLACK);

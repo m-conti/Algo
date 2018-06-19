@@ -6,82 +6,25 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 13:39:30 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/19 17:32:21 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/19 21:37:34 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	print_line(t_core *core, int row)
-{
-	int	i;
-
-	i = 0;
-	attron(COLOR_PAIR(COLOR_BORDER));
-	mvaddch(2 + row, 0, '*');
-	attroff(COLOR_PAIR(COLOR_BORDER));
-	while (i < core->v.n_char_row)
-	{
-		attron(COLOR_PAIR(core->v.colors[(row * core->v.n_char_row) + i]));
-		mvprintw(2 + row, 3 + i * 3, "%.2x",
-				core->arena[(row * core->v.n_char_row) + i]);
-		attroff(COLOR_PAIR(core->v.colors[(row * core->v.n_char_row) + i]));
-		mvaddch(2 + row, 3 + i * 3 + 3, ' ');
-		i++;
-	}
-	if (core->v.ncol >= N_CHAR_ROW_MAX * 3 + 4)
-	{
-		attron(COLOR_PAIR(COLOR_BORDER));
-		mvaddch(2 + row, N_CHAR_ROW_MAX * 3 + 4, '*');
-		attroff(COLOR_PAIR(COLOR_BORDER));
-	}
-}
-
-void	print_two_first_lines(t_core *core)
-{
-	int i;
-
-	i = -1;
-	attron(COLOR_PAIR(COLOR_BORDER));
-	while (++i < core->v.ncol)
-		mvaddch(0, i, '*');
-	mvaddch(1, 0, '*');
-	if (core->v.ncol >= N_CHAR_ROW_MAX * 3 + 4)
-		mvaddch(1, N_CHAR_ROW_MAX * 3 + 4, '*');
-	attroff(COLOR_PAIR(COLOR_BORDER));
-}
-
-void	print_two_last_lines(t_core *core)
-{
-	int i;
-
-	if (core->v.nrow >= core->v.n_displayed_lines + 2)
-	{
-		attron(COLOR_PAIR(COLOR_BORDER));
-		mvaddch(core->v.n_displayed_lines + 2, 0, '*');
-		if (core->v.ncol >= N_CHAR_ROW_MAX * 3 + 4)
-			mvaddch(core->v.n_displayed_lines + 2, N_CHAR_ROW_MAX * 3 + 4, '*');
-		i = -1;
-		while (++i < core->v.ncol)
-			mvaddch(core->v.n_displayed_lines + 3, i, '*');
-		attroff(COLOR_PAIR(COLOR_BORDER));
-	}
-}
-
-
 void	put_processes(t_core *core)
 {
 	t_process	*cur;
-	
+
 	cur = core->process;
 	while (cur)
 	{
 		if (core->v.ncol >= MIN_COL_DISPLAY && core->v.nrow >= MIN_ROW_DISPLAY)
 		{
-			attron(COLOR_PAIR(COLOR_PROCESS_P1 + cur->player));	
+			attron(COLOR_PAIR(COLOR_PROCESS_P1 + cur->player));
 			mvprintw(2 + (cur->pc / core->v.n_char_row), 3 +
-				(cur->pc % core->v.n_char_row) * 3, "%.2x",
-				core->arena[cur->pc]);
+					(cur->pc % core->v.n_char_row) * 3, "%.2x",
+					core->arena[cur->pc]);
 			attroff(COLOR_PAIR(COLOR_PROCESS_P1 + cur->player));
 		}
 		cur = cur->next;
@@ -102,19 +45,40 @@ void	show_alive(t_core *core, t_process *proc, uint8_t i)
 		len = 20;
 	mvprintw(Y_MSG, X_MSG, "un processus du joueur \" ");
 	attron(COLOR_PAIR(COLOR_PAIR_P1 + proc->player));
-	mvprintw(Y_MSG, X_MSG + 25, "%-20.20s", core->player[proc->player].header.prog_name);
+	mvprintw(Y_MSG, X_MSG + 25, "%-20.20s",
+			core->player[proc->player].header.prog_name);
 	attroff(COLOR_PAIR(COLOR_PAIR_P1 + proc->player));
 	mvprintw(Y_MSG, X_MSG + 25 + len, " \" que le joueur \" ");
 	attron(COLOR_PAIR(COLOR_PAIR_P1 + i));
-	mvprintw(Y_MSG, X_MSG + 44 + len, "%-20.20s", core->player[i].header.prog_name);
+	mvprintw(Y_MSG, X_MSG + 44 + len, "%-20.20s",
+			core->player[i].header.prog_name);
 	attroff(COLOR_PAIR(COLOR_PAIR_P1 + i));
 	mvprintw(Y_MSG, X_MSG + 44 + len * 2, " \" est en vie");
 }
 
-void	print_state(t_core *core)
+void	print_players(t_core *core)
 {
 	unsigned int	i_player;
-	int				i;
+
+	i_player = 0;
+	while (i_player < core->nb_player)
+	{
+		attron(COLOR_PAIR(COLOR_PAIR_P1 + i_player));
+		mvprintw(Y_CYCLE + 10 + 3 * i_player, X_CYCLE, "Player %d: ",
+				i_player + 1);
+		attroff(COLOR_PAIR(COLOR_PAIR_P1 + i_player));
+		mvprintw(Y_CYCLE + 10 + 3 * i_player, X_CYCLE + 10, "%s (%x)",
+				core->player[i_player].header.prog_name,
+				core->player[i_player].nbr);
+		mvprintw(Y_CYCLE + 11 + 3 * i_player, X_CYCLE + 10,
+				"Last alive: %u", core->player[i_player].last_alive);
+		i_player++;
+	}
+}
+
+void	print_state(t_core *core)
+{
+	int i;
 
 	attron(COLOR_PAIR(COLOR_BORDER));
 	i = X_DEMARC - 1;
@@ -122,20 +86,15 @@ void	print_state(t_core *core)
 		mvaddch(Y_DEMARC, i, '*');
 	attroff(COLOR_PAIR(COLOR_BORDER));
 	mvprintw(Y_CYCLE, X_CYCLE, "Cycle : %d", core->cycle);
-	mvprintw(Y_CYCLE + 1, X_CYCLE, "Cycle_to_die : %d          ",
-		core->cycle_to_die);
-	mvprintw(Y_CYCLE + 2, X_CYCLE, "Current_cycle : %d         ",
-		core->current_cycle);
-	mvprintw(Y_CYCLE + 3, X_CYCLE, "Process : %d               ",
-		core->nb_process);
-	i_player = 0;
-	while (i_player < core->nb_player)
-	{
-		mvprintw(Y_CYCLE + 4 + 2 * i_player, X_CYCLE, "Player %d : %s",
-			core->player[i_player].nbr,
-			core->player[i_player].header.prog_name);
-		i_player++;
-	}
+	mvprintw(Y_CYCLE + 2, X_CYCLE, "Cycle_to_die: %d                  ",
+			core->cycle_to_die);
+	mvprintw(Y_CYCLE + 4, X_CYCLE, "Current_cycle: %d                 ",
+			core->current_cycle);
+	mvprintw(Y_CYCLE + 6, X_CYCLE, "Number of processes: %d           ",
+			core->nb_process);
+	mvprintw(Y_CYCLE + 8, X_CYCLE, "Delay between cycles (ms): %d     ",
+			core->v.delay / 1000);
+	print_players(core);
 }
 
 int		print_arena(t_core *core)

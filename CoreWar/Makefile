@@ -6,7 +6,7 @@
 #    By: tbehra <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/02 14:00:49 by tbehra            #+#    #+#              #
-#    Updated: 2018/06/16 15:02:00 by tbehra           ###   ########.fr        #
+#    Updated: 2018/06/19 21:37:54 by tbehra           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ OBJDIR	= obj
 INCDIR	= includes
 
 SRC		= arena.c	init_visu.c	visu.c	core.c	ocp.c	process.c	\
-		  op_1.c	op_2.c	op_3.c	op_4.c	keys.c
+		  op_1.c	op_2.c	op_3.c	op_4.c	keys.c	print_lines.c
 
 OBJ		= $(SRC:.c=.o)
 

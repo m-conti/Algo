@@ -12,6 +12,8 @@
 
 #include "corewar.h"
 
+extern t_op	g_op_tab[17];
+
 void	visu_process(t_core *core, char ch)
 {
 	int			i;
@@ -25,10 +27,14 @@ void	visu_process(t_core *core, char ch)
 	}
 	i = -1;
 	proc = core->cur_proc;
-	mvprintw(Y_NAME, X_NAME, "process no:      %-10i made by: %-100s", no_process,core->player[proc->player].header.prog_name);
+	if (proc->to_launch)
+		mvprintw(Y_NAME + 4, X_NAME, "current action: \"%s\" to launch : %-20i", g_op_tab[proc->to_launch - 1].comment, proc->process_time);
+	else
+		mvprintw(Y_NAME + 4, X_NAME, "current action: \"move\" to : %-20i", proc->jump);
+	mvprintw(Y_NAME, X_NAME, "process no:       %-10i made by: %-100s", no_process,core->player[proc->player].header.prog_name);
 	while (++i < REG_NUMBER)
 		mvprintw(Y_REG + i * 2, X_REG, "Reg[%02i] : %#10x", i + 1, proc->reg[i]);
-	mvprintw(Y_NAME + 2, X_NAME, "lives of turn: %3i          carry : %i", proc->lives, proc->carry);
+	mvprintw(Y_NAME + 2, X_NAME, "lives of turn:  %3i          carry : %i", proc->lives, proc->carry);
 	if (ch == 'n')
 	{
 		no_process++;

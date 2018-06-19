@@ -39,7 +39,6 @@ void	op_sti(t_core *core, t_process *proc)
 	else
 		proc->param[2] = (int16_t)proc->param[2];
 	addr = (int)proc->param[1] + (int)proc->param[2];
-	mvprintw(Y_CYCLE + 10, X_CYCLE, "off_set : %i || %i || %i                   ", addr, proc->param[1], proc->param[2]);
 	write_arena(core, proc,
 			overflow(proc->pc, addr),
 			proc->reg[proc->param[0] - 1]);

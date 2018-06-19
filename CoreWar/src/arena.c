@@ -34,14 +34,17 @@ int		option(char *opt)
 
 	ret = 0;
 	i = 0;
-	while (opt[i])
+	while (opt[++i])
 	{
-		if ((test = ft_index(all_opt, opt[i++])) < 0)
+		if ((test = ft_index(all_opt, opt[i])) < 0)
 			error(UNKNOWN_OPT);
 		ret |= 1 << test;
 	}
 	if (ret & ~OUR_OPT)
+	{
+		ft_printf("opt = %#x || ret = %#x\n",OUR_OPT,ret);
 		error(UNKNOWN_OPT);
+	}
 	return (ret);
 }
 
@@ -59,7 +62,6 @@ uint32_t	take_len(char *str)
 void		read_champ(int fd, t_player *champ)
 {
 	char		buf[2048];
-int i = 0;
 
 	if (read(fd, buf, 4) < 4)
 		error(SIZEOF_COR);
@@ -80,8 +82,9 @@ int i = 0;
 		error(SIZEOF_COR);
 	if (read(fd, buf, champ->header.prog_size) < champ->header.prog_size)
 		error(SIZEOF_CHAMP);
-	champ->champ_core = ft_memdup(buf, champ->header.prog_size);
-	if ((i = read(fd, buf, 10)) > 0)
+	if (!(champ->champ_core = ft_memdup(buf, champ->header.prog_size)))
+		error(MALLOC_ERROR);
+	if (read(fd, buf, 10) > 0)
 		error(SIZEOF_CHAMP);
 }
 
@@ -116,8 +119,11 @@ void	place_champion(t_core *core, t_player *player, int pos)
 
 void	set_player_nbr(t_core *core, int i)
 {
-	if (core->opt & NBRPLAYER)
-		;//à faire
+	if (core->opt_num_player)
+	{
+		core->player[i].nbr = core->opt_num_player;
+		core->opt_num_player = 0;
+	}
 	else
 		core->player[i].nbr = ~i;
 }
@@ -159,22 +165,48 @@ void	init_core(t_core *core)
 	core->nb_process = 0;
 }
 
+void	take_num_player(t_core *core, char *num)
+{
+	int		i;
+	char	*check;
+
+	core->opt_num_player = ft_atoi(num);
+	i = 0;
+	while (core->player[i].champ_core && i < 4)
+	{
+		if (core->opt_num_player == core->player[i].nbr || !core->opt_num_player)
+			error(SAME_NUM_OF_PLAYER);
+		i++;
+	}
+	i = 0;
+	if (!(check = ft_itoa(core->opt_num_player)))
+		error(MALLOC_ERROR);
+	while (num[i] || check[i])
+	{
+		if (!ft_isdigit(num[i]) || check[i] != num[i])
+			error(WRONG_NUM_OF_PLAYER);
+		i++;
+	}
+	free(check);
+	core->opt ^= NUMPLAYER;
+}
+
 int		main(int ac, char **av)
 {
 	t_core	core;
 	int		i;
-	int		opt;
 	int		nb_player;
 
 	i = 0;
 	nb_player = 0;
-	opt = 0;
 	init_core(&core);
 	build_array_op(core.fc_op);
 	while (++i < ac)
 	{
 		if (av[i][0] == '-')
-			opt |= option(av[i]);
+			core.opt |= option(av[i]);
+		else if (core.opt & NUMPLAYER)
+			take_num_player(&core, av[i]);
 		else
 			nb_player += take_champion(&core, av[i]);
 	}

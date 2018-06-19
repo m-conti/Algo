@@ -109,4 +109,5 @@ void	corewar(t_core *core)
 			core->live = 0;
 		}
 	}
+	endwin();
 }

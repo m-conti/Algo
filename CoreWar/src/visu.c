@@ -73,7 +73,11 @@ void	add_old_proc(t_old_proc **old_proc, int pos, uint8_t color)
 	t_old_proc *new;
 	t_old_proc *cur;
 
-	new = (t_old_proc*)malloc(sizeof(t_old_proc));
+	if (!(new = (t_old_proc*)malloc(sizeof(t_old_proc))))
+	{
+		endwin();
+		error(MALLOC_ERROR);
+	}
 	new->pos = pos;
 	new->col = color;
 	new->next = NULL;
@@ -132,7 +136,7 @@ void	put_processes(t_core *core)
 
 		//
 		old_col = core->v.colors[cur->pc];
-		if (old_col >= COLOR_PROCESS_P1 && old_col <= COLOR_PROCESS_P2)
+		if (old_col >= COLOR_PROCESS_P1 && old_col <= COLOR_PROCESS_P4)
 			old_col = find_old_col(core, cur->pc);
 		add_old_proc(&(core->v.old_process), cur->pc, old_col);
 		core->v.colors[cur->pc] = COLOR_PROCESS_P1 + cur->player; 

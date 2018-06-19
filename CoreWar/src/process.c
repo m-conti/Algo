@@ -16,7 +16,11 @@ void	new_process(t_core *core, int pos, int player, t_reg reg[REG_NUMBER])
 {
 	t_process	*process;
 
-	process = (t_process*)ft_memalloc(sizeof(t_process));
+	if (!(process = (t_process*)ft_memalloc(sizeof(t_process))))
+	{
+		endwin();
+		error(MALLOC_ERROR);
+	}
 	process->carry = 0;
 	process->lives = 0;
 	process->process_time = 0;

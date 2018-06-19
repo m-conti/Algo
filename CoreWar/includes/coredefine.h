@@ -14,7 +14,6 @@
 # define COREDEFINE_H
 
 # define UNKNOWN_OPT 1
-# define OUR_OPT 0x0
 # define SIZEOF_COR 2
 # define FAKE_MAGIC 3
 # define SIZEOF_HEAD_PROG_SIZE 4
@@ -22,7 +21,14 @@
 # define TOO_MANY_CHAMP 6
 # define NO_CHAMP 7
 # define FAIL_OPEN 8
-# define NBRPLAYER 0x100
+# define MALLOC_ERROR 9
+# define SAME_NUM_OF_PLAYER 10
+# define WRONG_NUM_OF_PLAYER 11
+/*
+** options
+*/
+# define OUR_OPT	0x00202008
+# define NUMPLAYER	0x00002000
 
 
 #define N_CHAR_ROW_MAX 64

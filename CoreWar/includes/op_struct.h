@@ -75,6 +75,7 @@ typedef struct          s_core
 	int16_t             cycle_to_die;
 	int                 live;
 	uint32_t            opt;
+	uint32_t			opt_num_player;
 }                       t_core;
 
 
@@ -114,4 +115,5 @@ void	init_visu(t_core *core);
 void	init_color_pairs(void);
 void	init_colors_visu(t_core *core);
 int		overflow(int16_t pc, int off_set);
+void	error(int error);
 #endif

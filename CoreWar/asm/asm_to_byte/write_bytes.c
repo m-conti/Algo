@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 11:21:15 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/13 20:22:47 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/19 15:19:46 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void				ft_print_params(t_pars *lst, int fd, int k, int bytes)
 	int				j;
 
 	j = 0;
-	op_tab = all_info(lst->op_code - 1);
+	op_tab = g_op_tab[lst->op_code - 1];
 	while (k < op_tab.nb_params)
 	{
 		tmp = ft_atoll(lst->value[k]);
@@ -77,7 +77,7 @@ void				ft_write_bits(unsigned char octet, int size, int fd)
 	}
 }
 
-void				write_header(int fd, header_t *head)
+void				write_header(int fd, t_header *head)
 {
 	int				len;
 	int				bytes;

@@ -6,13 +6,13 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 17:28:48 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/14 16:13:49 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/19 15:09:44 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-t_pars			*ft_check_line(char *l, t_pars *lst, header_t **hd, int c)
+t_pars			*ft_check_line(char *l, t_pars *lst, t_header **hd, int c)
 {
 	t_pars		*new;
 

@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 13:48:28 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/13 15:09:39 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/19 15:20:52 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_pars		*ft_get_hexadecimal(t_pars *lst, int fd)
 	int		tmp;
 	t_op	op_tab;
 
-	op_tab = all_info(lst->op_code - 1);
+	op_tab = g_op_tab[lst->op_code - 1];
 	if (!lst)
 		ft_exit("No lst in hexa", -1);
 	write(fd, &lst->op_code, 1);
@@ -84,7 +84,7 @@ t_pars		*ft_get_size_code(t_pars *lst, int i, int tot_size)
 	if (lst && lst->op_name)
 	{
 		lst->size_code = 1;
-		op_tab = all_info(lst->op_code - 1);
+		op_tab = g_op_tab[lst->op_code - 1];
 		lst->size_code += op_tab.oct_code;
 		lst = ft_size_count(lst, lst->dir_size, &op_tab);
 		if ((lst->position + lst->size_code) > CHAMP_MAX_SIZE)

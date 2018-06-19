@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 17:35:12 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/14 15:59:03 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/19 13:55:43 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,23 @@ void	ft_exit_str(char *name, char *message, char colo[6], char colo2[6])
 		ft_printf("%s\n", message);
 	ft_printf(WHITE);
 	exit(1);
+}
+
+int		isal_lbch(char *s, char c)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (-1);
+	while (s[i])
+	{
+		if (s[i] == c)
+			return (1);
+		i++;
+	}
+	if (s[i] == c)
+		return (1);
+	else
+		return (-1);
 }

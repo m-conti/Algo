@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   flag_x.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfavero <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: cfavero <cfavero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 15:27:58 by cfavero           #+#    #+#             */
-/*   Updated: 2018/03/13 15:39:49 by cfavero          ###   ########.fr       */
+/*   Updated: 2018/06/19 15:36:34 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ static void					ft_boh(t_flag *flag, char *nbr)
 {
 	if (flag->zero == 1)
 	{
-		if ((flag->val_conv == 'x' && flag->hash == 1 && nbr != 0) ||
-				(flag->p == 1))
+		if ((flag->val_conv == 'x' && flag->hash == 1 && nbr != 0)
+			|| (flag->p == 1))
 		{
 			flag->p = 0;
 			ft_putstr("0x");
@@ -79,8 +79,8 @@ static int					ft_numb(t_flag *flag, char *nbr)
 	flag->numb = (flag->numb - count);
 	while (flag->numb > 0)
 		ft_boh(flag, nbr);
-	if ((flag->val_conv == 'x' && flag->hash == 1 && nbr != 0) ||
-			(flag->p == 1))
+	if ((flag->val_conv == 'x' && flag->hash == 1 && nbr != 0)
+		|| (flag->p == 1))
 		ft_putstr("0x");
 	else if (flag->hash == 1 && flag->zero == 0 && nbr != 0)
 		ft_putstr("0X");

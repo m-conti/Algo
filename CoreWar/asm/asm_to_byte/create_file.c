@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 09:53:45 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/14 14:17:04 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/19 15:08:44 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char		*ft_get_filename(char *name)
 	return (new);
 }
 
-t_pars		*create_file(char *file, t_labels *lab, header_t *head, t_pars *ops)
+t_pars		*create_file(char *file, t_labels *lab, t_header *head, t_pars *ops)
 {
 	char	*cor_file;
 	int		fd;

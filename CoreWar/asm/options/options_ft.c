@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 19:12:52 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/12 19:15:25 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/19 15:10:02 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char		**find_non_flag(char **av, int ac)
 	return (&av[i]);
 }
 
-void		print_header(header_t *head)
+void		print_header(t_header *head)
 {
 	ft_printf(ORANGE);
 	ft_printf("%-12s: ", "Exec_magic");

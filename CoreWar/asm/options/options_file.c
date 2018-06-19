@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 17:55:39 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/12 19:22:18 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/19 15:20:36 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void				ft_print_bonus(t_pars *lst, int k, int bytes, int *i)
 	int				j;
 
 	j = 0;
-	op_tab = all_info(lst->op_code - 1);
+	op_tab = g_op_tab[lst->op_code - 1];
 	while (k < op_tab.nb_params)
 	{
 		tmp = ft_atoll(lst->value[k]);
@@ -69,7 +69,7 @@ t_pars				*ft_print_hexa(t_pars *lst)
 	t_op			op_tab;
 	static int		i = 0;
 
-	op_tab = all_info(lst->op_code - 1);
+	op_tab = g_op_tab[lst->op_code - 1];
 	if (!lst)
 		ft_exit("No lst in hexa", 1);
 	ft_printf(BOLD);
@@ -82,7 +82,7 @@ t_pars				*ft_print_hexa(t_pars *lst)
 	return (lst);
 }
 
-void				print_hexa(t_labels *lb, header_t *hd, t_pars *ops, int op)
+void				print_hexa(t_labels *lb, t_header *hd, t_pars *ops, int op)
 {
 	if (op & I && hd)
 		print_header(hd);

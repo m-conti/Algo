@@ -6,7 +6,7 @@
 #    By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/05 11:40:02 by mmanley           #+#    #+#              #
-#    Updated: 2018/06/14 19:58:45 by mmanley          ###   ########.fr        #
+#    Updated: 2018/06/19 15:15:05 by mmanley          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRCS =	main.c\
 		pars/get_info.c\
 		pars/check_line.c\
 		pars/parsing.c\
+		pars/op.c\
 		param/param_op.c\
 		param/param_label.c\
 		param/param_code.c\
@@ -45,7 +46,7 @@ SRCS =	main.c\
 		asm_to_byte/write_bytes.c\
 		options/options.c\
 		options/options_file.c\
-		options/options_ft.c
+		options/options_ft.c\
 
 OBJS_BASE = $(SRCS:%.c=%.o)
 
@@ -113,6 +114,12 @@ Champs:
 	./asm  ../vm_champs/champs/championships/2014/tdemay/champ.s -di
 	./asm  ../vm_champs/champs/championships/2014/vrey/darksasuke.s -di
 	./asm  ../vm_champs/champs/championships/2014/ybouvet/casimir.s -di
+
+err:
+	valgrind --track-origins=yes --leak-check=full ./asm ~/Git/Corewar_git/test_files/err_files/Backward.s
+	valgrind --track-origins=yes --leak-check=full ./asm ~/Git/Corewar_git/test_files/err_files/err_in_name.s
+	valgrind --track-origins=yes --leak-check=full ./asm ~/Git/Corewar_git/test_files/err_files/err_param_%.s
+	valgrind --track-origins=yes --leak-check=full ./asm ~/Git/Corewar_git/test_files/err_files/tdc4.s
 
 clean :
 	@rm -rf $(OBJS) objs

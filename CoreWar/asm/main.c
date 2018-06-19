@@ -6,13 +6,13 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 11:33:35 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/14 16:35:02 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/19 15:11:39 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-void			give_max_size(t_labels **lab, t_pars *lst, header_t **head)
+void			give_max_size(t_labels **lab, t_pars *lst, t_header **head)
 {
 	t_labels	*tmp;
 
@@ -46,14 +46,14 @@ int				main(int ac, char **av)
 {
 	int			fd;
 	t_pars		*op_codes;
-	header_t	*head;
+	t_header	*head;
 	t_labels	*lst_label;
 	int			opt;
 
 	lst_label = NULL;
-	if (!(head = (header_t*)malloc(sizeof(header_t))))
+	if (!(head = (t_header*)malloc(sizeof(t_header))))
 		return (-1);
-	ft_bzero(head, sizeof(header_t));
+	ft_bzero(head, sizeof(t_header));
 	if (ac == 1)
 		ft_printf("Error\nUsage: ./asm	-[Option -h]	[Path]/[File_name]\n");
 	else

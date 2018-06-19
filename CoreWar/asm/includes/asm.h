@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 11:36:54 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/14 14:20:57 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/19 15:23:49 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,13 @@ typedef struct		s_op
 	int				oct_code;
 	int				mod_dir;
 }					t_op;
+
+extern t_op g_op_tab[17];
+
 /*
 **ERRORS
 */
-void				ft_error_head_name(char *line, char *name, header_t *head);
+void				ft_error_head_name(char *line, char *name, t_header *head);
 void				ft_exit(char *message, int i);
 void				ft_exit_str(char *name, char *mes, char c[6], char c2[6]);
 void				ft_free_stuff(t_pars **lst);
@@ -65,37 +68,37 @@ void				ft_print_lst_current(t_pars *lst);
 /*
 **PARSING
 */
-t_op				all_info(int i);
 char				*check_line(char *line);
+int					isal_lbch(char *s, char c);
 void				ft_add_lst(t_pars **lst, t_pars *new);
-t_pars				*ft_check_line(char *line, t_pars *lst, header_t **head,\
+t_pars				*ft_check_line(char *line, t_pars *lst, t_header **head,\
 	int counter);
 t_pars				*ft_check_opname_type(t_pars *l, int i, int counter);
 char				*ft_comment_delete(char *line);
 int					ft_create_tab(char *line, int counter);
 t_pars				*ft_get_code(t_pars *lst, t_labels *label, int fd, int opt);
 t_pars				*ft_get_hexadecimal(t_pars *lst, int fd);
-t_pars				*ft_get_info(int fd, t_labels **save, header_t **head);
+t_pars				*ft_get_info(int fd, t_labels **save, t_header **head);
 t_pars				*ft_get_label(char *line, t_pars *lst, t_labels **save);
 t_pars				*ft_get_label_values(t_pars *lst, t_labels *label, int k,\
 	t_op *op_tab);
 t_pars				*ft_get_op_name(char *line, t_pars *lst);
 t_pars				*ft_get_size_code(t_pars *lst, int i, int tot_size);
 t_pars				*ft_get_type(char *line, t_pars *lst);
-int					ft_hd_com(char *line, header_t **head, int cnt, int len);
-int					ft_hd_name(char *line, header_t **head, int cnt);
+int					ft_hd_com(char *line, t_header **head, int cnt, int len);
+int					ft_hd_name(char *line, t_header **head, int cnt);
 t_pars				*ft_init_lst(t_pars *lst, char *line);
 t_pars				*ft_parsing(t_pars *lst, t_pars *tmp, t_labels **save);
 int					ft_total_size_code(t_pars *lst, int tot_size);
 /*
 **FILE CREATION
 */
-t_pars				*create_file(char *file, t_labels *lab, header_t *head,\
+t_pars				*create_file(char *file, t_labels *lab, t_header *head,\
 	t_pars *ops);
 char				*ft_get_filename(char *name);
 void				ft_write_bits(unsigned char octet, int size, int fd);
 void				write_commands(int fd, t_pars *lst);
-void				write_header(int fd, header_t *head);
+void				write_header(int fd, t_header *head);
 int					byte_size(unsigned int w);
 void				ft_print_params(t_pars *lst, int fd, int k, int bytes);
 char				*ft_get_filename(char *name);
@@ -105,9 +108,9 @@ char				*ft_get_filename(char *name);
 int					count_op_size(t_pars *lst);
 t_pars				*ft_print_hexa(t_pars *lst);
 char				**option_check(char **av, int ac, int *opt);
-void				print_hexa(t_labels *lab, header_t *head, t_pars *ops,\
+void				print_hexa(t_labels *lab, t_header *head, t_pars *ops,\
 	int opt);
-void				print_header(header_t *head);
+void				print_header(t_header *head);
 char				**find_non_flag(char **av, int ac);
 
 #endif

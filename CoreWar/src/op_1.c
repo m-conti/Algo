@@ -46,6 +46,8 @@ void	print_live(t_core *core, t_process *proc, uint8_t i)
 		while (j < core->nb_player)
 			len = len > ft_strlen(core->player[j++].header.prog_name) ? len :
 				ft_strlen(core->player[j - 1].header.prog_name) + 1;
+	if (len > 20)
+		len = 20;
 	ft_printf("\nun processus du joueur \" \x1b[%im%-*s\x1b[0m\" ",
 		color[proc->player], len,
 		core->player[proc->player].header.prog_name);

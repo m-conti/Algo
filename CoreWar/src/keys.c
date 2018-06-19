@@ -59,7 +59,7 @@ void	visu_process(t_core *core, int ch)
 		mvprintw(Y_NAME + 8, X_NAME, "current action: \"move\" to %hu + %-10i", proc->pc, proc->jump);
 	mvprintw(Y_NAME, X_NAME, "process no:       %-10i made by: ", no_process);
 	attron(COLOR_PAIR(COLOR_PAIR_P1 + proc->player));
-	mvprintw(Y_NAME, X_NAME + 38, "%-30.20s", core->player[proc->player].header.prog_name);
+	mvprintw(Y_NAME, X_NAME + 38, "%-20.20s", core->player[proc->player].header.prog_name);
 	attroff(COLOR_PAIR(COLOR_PAIR_P1 + proc->player));
 	while (++i < REG_NUMBER)
 		mvprintw(Y_REG + i * 2, X_REG, "Reg[%02i] : %#10x                    ", i + 1, proc->reg[i]);

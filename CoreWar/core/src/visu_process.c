@@ -12,8 +12,6 @@
 
 #include "corewar.h"
 
-extern	t_op g_op_tab[17];
-
 void	print_process_owner(t_core *core, int nb_process, t_process *proc)
 {
 	mvprintw(Y_NAME, X_NAME, "process no:       %-10i made by: ", nb_process);

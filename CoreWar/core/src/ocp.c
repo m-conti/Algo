@@ -12,8 +12,6 @@
 
 #include "corewar.h"
 
-extern t_op	g_op_tab[17];
-
 int		calc_param_len(t_process *proc)
 {
 	int				i;

@@ -53,3 +53,17 @@ void		write_arena(t_core *core, t_process *proc, int offset,
 		to_write >>= 0x8;
 	}
 }
+
+void		free_all(t_core *core)
+{
+	t_process	*proc;
+	t_process	*tmp;
+
+	proc = core->process;
+	while (proc)
+	{
+		tmp = proc->next;
+		free(proc);
+		proc = tmp;
+	}
+}

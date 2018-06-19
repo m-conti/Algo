@@ -25,14 +25,14 @@ GREEN = \x1b[32m
 WHITE = \x1b[0m
 
 SRCS		=	arena.c	init_visu.c	visu.c	core.c	ocp.c	process.c	\
-			op_1.c	op_2.c	op_3.c	op_4.c	keys.c	print_lines.c\
-			visu_process.c	main.c	parsing.c	arena_rw.c	\
+			op_1.c	op_2.c	op_3.c	op_4.c	keys.c	print_lines.c \
+			visu_process.c	main.c	parsing.c	arena_rw.c	op.c \
 
 SRC		= $(addprefix $(SRCDIR)/, $(SRCS))
 
 OBJ		= $(SRC:.c=.o)
 
-INC		=	op.h	op_struct.h		coredefine.h	op_tab.h\
+INC		=	op.h	op_struct.h		coredefine.h \
 
 INC_PATH = ./includes
 

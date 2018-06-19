@@ -12,8 +12,6 @@
 
 #include "corewar.h"
 
-extern t_op	g_op_tab[17];
-
 void	blink_proc(t_core *core)
 {
 	int			blink_status;

@@ -12,8 +12,6 @@
 
 #include "corewar.h"
 
-extern t_op g_op_tab[17];
-
 void	build_array_op(void (*fc_op[17])(t_core*, t_process*))
 {
 	fc_op[0] = NULL;

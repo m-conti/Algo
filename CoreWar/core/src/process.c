@@ -12,7 +12,31 @@
 
 #include "corewar.h"
 
-void	new_process(t_core *core, int pos, int player, t_reg reg[REG_NUMBER])
+t_process	*do_process(t_core *core, t_process *current_process)
+{
+	uint8_t			o;
+
+	if (!current_process->to_launch)
+	{
+		if (in_hex(o = read_arena(core, current_process, 0, 1)))
+		{
+			current_process->to_launch = o;
+			current_process->process_time = g_op_tab[o - 1].cycle_to_launch - 1;
+		}
+		else
+			increase_pc(current_process, 1);
+	}
+	else if (!--current_process->process_time)
+	{
+		if (check_op(core, current_process))
+			do_operator(core, current_process);
+		increase_pc(current_process, current_process->jump);
+		current_process->to_launch = 0;
+	}
+	return (current_process->next);
+}
+
+void		new_process(t_core *core, int p, int player, t_reg reg[REG_NUMBER])
 {
 	t_process	*process;
 
@@ -28,14 +52,14 @@ void	new_process(t_core *core, int pos, int player, t_reg reg[REG_NUMBER])
 	process->to_launch = 0;
 	process->jump = 0;
 	process->player = player;
-	process->pc = pos < 0 ? pos + MEM_SIZE : pos % MEM_SIZE;
+	process->pc = p < 0 ? p + MEM_SIZE : p % MEM_SIZE;
 	ft_memcpy(process->reg, reg, sizeof(t_reg) * (REG_NUMBER));
 	process->next = core->process;
 	core->process = process;
 	core->nb_process++;
 }
 
-void	kill_process(t_core *core)
+void		kill_process(t_core *core)
 {
 	t_process *tmp;
 
@@ -45,7 +69,7 @@ void	kill_process(t_core *core)
 	core->process = tmp;
 }
 
-void	process_to_die(t_core *core)
+void		process_to_die(t_core *core)
 {
 	t_process	*process;
 	t_process	*tmp;
@@ -73,7 +97,7 @@ void	process_to_die(t_core *core)
 	}
 }
 
-int		overflow(int16_t pc, int off_set)
+int			overflow(int16_t pc, int off_set)
 {
 	off_set %= IDX_MOD;
 	return (off_set + pc < 0 ? MEM_SIZE + off_set : off_set);

@@ -62,7 +62,8 @@
 #define Y_PAUSE 3
 #define X_CYCLE 200
 #define Y_CYCLE 5
-#define Y_MSG 68
+#define Y_MSG 74
+#define X_MSG 140
 #define X_DEMARC 196
 #define Y_DEMARC 32
 

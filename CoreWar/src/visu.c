@@ -88,10 +88,27 @@ void	put_processes(t_core *core)
 	}
 }
 
-void	show_alive(char *player_name)
+void	show_alive(t_core *core, t_process *proc, uint8_t i)
 {
-	mvprintw(Y_MSG, 3, "un processus dit que le joueur \"%s\" est en vie",
-			player_name);
+	static uint32_t	len = 0;
+	uint8_t			j;
+
+	j = 0;
+	if (!len)
+		while (j < core->nb_player)
+			len = len > ft_strlen(core->player[j++].header.prog_name) ? len :
+				ft_strlen(core->player[j - 1].header.prog_name) + 1;
+	if (len > 20)
+		len = 20;
+	mvprintw(Y_MSG, X_MSG, "un processus du joueur \" ");
+	attron(COLOR_PAIR(COLOR_PAIR_P1 + proc->player));
+	mvprintw(Y_MSG, X_MSG + 25, "%-20.20s", core->player[proc->player].header.prog_name);
+	attroff(COLOR_PAIR(COLOR_PAIR_P1 + proc->player));
+	mvprintw(Y_MSG, X_MSG + 25 + len, " \" que le joueur \" ");
+	attron(COLOR_PAIR(COLOR_PAIR_P1 + i));
+	mvprintw(Y_MSG, X_MSG + 44 + len, "%-20.20s", core->player[i].header.prog_name);
+	attroff(COLOR_PAIR(COLOR_PAIR_P1 + i));
+	mvprintw(Y_MSG, X_MSG + 44 + len * 2, " \" est en vie");
 }
 
 void	print_state(t_core *core)

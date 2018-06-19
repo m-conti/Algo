@@ -63,7 +63,7 @@ void	op_live(t_core *core, t_process *proc)
 		if (proc->param[0] == core->player[i].nbr)
 		{
 			if (core->opt & VISU)
-				show_alive(core->player[i].header.prog_name);
+				show_alive(core, proc, i);
 			else if (core->opt & LIVE)
 			{
 				print_live(core, proc, i);

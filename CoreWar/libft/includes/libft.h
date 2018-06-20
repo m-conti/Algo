@@ -6,7 +6,7 @@
 /*   By: cfavero <cfavero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 18:25:47 by cfavero           #+#    #+#             */
-/*   Updated: 2018/06/19 21:18:07 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/20 12:49:40 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,4 +115,5 @@ int					ft_is_prime(int nb);
 int					ft_find_next_prime(int nb);
 void				ft_swap(int *a, int *b);
 void				ft_div_mod(int a, int b, int *div, int *mod);
+char				*ft_utoa(unsigned int n);
 #endif

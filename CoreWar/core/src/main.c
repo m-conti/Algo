@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 23:16:15 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/19 23:19:04 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/20 11:13:13 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,13 @@
 
 void	error(int error)
 {
-	ft_printf("error : %i\n", error);
+	const char *error_messages[11] = {"Unknown option",
+		"Size of .cor incorrect", "Wrong magic number",
+		"Size of header is wrong", "Size of champion is wrong",
+		"Too many champions", "No champion", "Fail to open file",
+		"Malloc error", "Same number of player", "Wrong number of player"};
+
+	ft_printf("error %i : %s\n", error, error_messages[error - 1]);
 	exit(1);
 }
 
@@ -38,6 +44,27 @@ int		option(char *opt)
 	return (ret);
 }
 
+void	check_arg_number(int ac)
+{
+	if (ac < 2)
+	{
+		ft_printf("Usage : corewar champion1.cor champion2.cor (up to 4)\n");
+		ft_printf("Options\n");
+		ft_printf("\t-v for visualisation\n");
+		ft_printf("\t-l for live/verbose mode\n");
+		ft_printf("\t-n for player number\n");
+		exit(1);
+	}
+}
+
+void	check_nb_player(int nb_player)
+{
+	if (!nb_player)
+		error(NO_CHAMP);
+	if (nb_player > 4)
+		error(TOO_MANY_CHAMP);
+}
+
 int		main(int ac, char **av)
 {
 	t_core	core;
@@ -47,6 +74,7 @@ int		main(int ac, char **av)
 	i = 0;
 	nb_player = 0;
 	init_core(&core);
+	check_arg_number(ac);
 	build_array_op(core.fc_op);
 	while (++i < ac)
 	{
@@ -57,8 +85,7 @@ int		main(int ac, char **av)
 		else
 			nb_player += take_champion(&core, av[i]);
 	}
-	if (!nb_player)
-		error(NO_CHAMP);
+	check_nb_player(nb_player);
 	core.nb_player = nb_player;
 	make_arena(&core, nb_player);
 	if (core.opt & VISU)

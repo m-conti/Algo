@@ -1,4 +1,4 @@
- **************************************************************************** #
+# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
@@ -6,7 +6,7 @@
 #    By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/19 22:24:46 by mmanley           #+#    #+#              #
-#    Updated: 2018/06/20 12:48:40 by tbehra           ###   ########.fr        #
+#    Updated: 2018/06/20 12:52:50 by tbehra           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,10 +46,11 @@ LFT_SRCS = ft_isalnum.c ft_memccpy.c ft_putchar.c ft_putstr_fd.c ft_strdup.c \
 		   ft_find_next_prime.c ft_swap.c ft_div_mod.c ft_atoll.c get_next_line.c\
 		   get_next_line_mathi.c ft_strjoin_free.c ft_strndup.c ft_occ_pos.c\
 		   ft_deltab.c ft_tablen.c rec_nbr_count.c ft_print_bits.c ft_index.c\
-		   ft_memdup.c ft_utoa.c\
+		   ft_memdup.c ft_utoa.c
 
 CORE_INCS = op.h	op_struct.h	coredefine.h
 ASM_INCS = asm.h	op.h
+LFT_INCS = ft_printf.h	ft_struct.h	get_next_line.h	libft.h
 
 CORE_DIR = core
 ASM_DIR = asmb

@@ -6,7 +6,7 @@
 #    By: cfavero <cfavero@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/08 15:32:33 by cfavero           #+#    #+#              #
-#    Updated: 2018/06/20 12:48:45 by tbehra           ###   ########.fr        #
+#    Updated: 2018/06/20 12:52:40 by tbehra           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ OBJ = ft_isalnum.o ft_memccpy.o ft_putchar.o ft_putstr_fd.o ft_strdup.o \
 	ft_find_next_prime.o ft_swap.o ft_div_mod.o ft_atoll.o get_next_line.o \
 	get_next_line_mathi.o ft_strjoin_free.o ft_strndup.o ft_occ_pos.o\
 	ft_deltab.o ft_tablen.o rec_nbr_count.o ft_print_bits.o ft_index.o\
-	ft_memdup.o ft_utoa.o\
+	ft_memdup.o ft_utoa.o
 
 all: $(LIBPRINTF) $(NAME) info
 

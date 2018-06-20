@@ -76,11 +76,12 @@ typedef struct			s_core
 	t_player			player[MAX_PLAYERS];
 	uint8_t				arena[MEM_SIZE];
 	void				(*fc_op[17])(struct s_core*, t_process*);
-	int16_t				current_cycle;
-	int16_t				cycle_to_die;
+	uint32_t			current_cycle;
+	uint32_t			cycle_to_die;
 	int					live;
 	uint32_t			opt;
 	uint32_t			opt_num_player;
+	uint32_t			opt_dump;
 	uint8_t				blink;
 }						t_core;
 

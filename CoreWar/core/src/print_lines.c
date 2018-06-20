@@ -67,3 +67,19 @@ void	print_two_last_lines(t_core *core)
 		attroff(COLOR_PAIR(COLOR_BORDER));
 	}
 }
+
+void	print_dump(t_core *core)
+{
+	int		i;
+
+	i = 0;
+	while (i < MEM_SIZE)
+	{
+		if (i && !(i % 32))
+			ft_printf("\n");
+		else if (i)
+			ft_printf(" ");
+		ft_printf("%02hhx", core->arena[i++]);
+	}
+	ft_printf("\n");
+}

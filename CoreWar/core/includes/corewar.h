@@ -79,5 +79,7 @@ void		take_num_player(t_core *core, char *num);
 void		increase_pc(t_process *proc, int how_much);
 void		free_all(t_core *core);
 t_process	*do_process(t_core *core, t_process *current_process);
+void		make_dump(t_core *core, char *num);
+void		print_dump(t_core *core);
 
 #endif

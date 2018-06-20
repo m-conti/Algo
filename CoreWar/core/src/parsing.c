@@ -85,3 +85,23 @@ void		read_champ(int fd, t_player *champ)
 	if (read(fd, buf, 10) > 0)
 		error(SIZEOF_CHAMP);
 }
+
+void		make_dump(t_core *core, char *num)
+{
+	int		i;
+	char	*check;
+
+	core->opt_dump = ft_atoll(num);
+	i = 0;
+	if (!(check = ft_utoa(core->opt_dump)))
+		error(MALLOC_ERROR);
+	while (num[i] || check[i])
+	{
+		if (!ft_isdigit(num[i]) || check[i] != num[i])
+			error(WRONG_DUMP);
+		i++;
+	}
+	free(check);
+	core->opt ^= DUMP;
+	core->opt |= ACTIVE_DUMP;
+}

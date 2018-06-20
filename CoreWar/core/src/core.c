@@ -41,6 +41,8 @@ void		is_winner(t_core *core)
 		}
 	if (core->opt & VISU)
 		print_winner(core, n);
+	else if (core->opt & ACTIVE_DUMP)
+		print_dump(core);
 	else
 	{
 		if (core->opt_num_player)
@@ -48,7 +50,6 @@ void		is_winner(t_core *core)
 		ft_printf("Le joueur \" \x1b[%im%s\x1b[0m \" a gagné !\n", color[n],
 			core->player[n].header.prog_name);
 	}
-	free_all(core);
 }
 
 void		change_cycle(t_core *core, uint8_t *checks)
@@ -67,8 +68,10 @@ void		corewar(t_core *core)
 	t_process		*current_process;
 	uint8_t			checks;
 
+	if (core->opt & VISU)
+		init_visu(core);
 	checks = 0;
-	while (core->cycle_to_die > 0)
+	while (core->cycle_to_die > 0 && core->current_cycle < core->opt_dump)
 	{
 		if (core->opt & VISU)
 			print_arena(core);
@@ -86,4 +89,5 @@ void		corewar(t_core *core)
 		}
 	}
 	is_winner(core);
+	free_all(core);
 }

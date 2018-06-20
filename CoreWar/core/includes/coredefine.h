@@ -24,6 +24,7 @@
 # define MALLOC_ERROR			9
 # define SAME_NUM_OF_PLAYER		10
 # define WRONG_NUM_OF_PLAYER	11
+# define WRONG_DUMP				12
 
 /*
 ** options :
@@ -34,6 +35,8 @@
 # define NUMPLAYER			0x00002000
 # define VISU				0x00200000
 # define LIVE				0x00000800
+# define DUMP				0x04000000
+# define ACTIVE_DUMP		0x08000000
 
 # define N_CHAR_ROW_MAX		64
 # define N_LINES_MAX		64

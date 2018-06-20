@@ -14,11 +14,12 @@
 
 void	error(int error)
 {
-	const char *error_messages[11] = {"Unknown option",
+	const char *error_messages[12] = {"Unknown option",
 		"Size of .cor incorrect", "Wrong magic number",
 		"Size of header is wrong", "Size of champion is wrong",
 		"Too many champions", "No champion", "Fail to open file",
-		"Malloc error", "Same number of player", "Wrong number of player"};
+		"Malloc error", "Same number of player", "Wrong number of player",
+		"Wrong dumping number"};
 
 	ft_printf("error %i : %s\n", error, error_messages[error - 1]);
 	exit(1);
@@ -33,6 +34,8 @@ int		option(char *opt)
 
 	ret = 0;
 	i = 0;
+	if (!ft_strcmp(opt, "-dump"))
+		return (DUMP);
 	while (opt[++i])
 	{
 		if ((test = ft_index(all_opt, opt[i])) < 0)
@@ -52,7 +55,8 @@ void	check_arg_number(int ac)
 		ft_printf("Options\n");
 		ft_printf("\t-v for visualisation\n");
 		ft_printf("\t-l to display lives/comments\n");
-		ft_printf("\t-n [player number] [champion.cor]\n");
+		ft_printf("\t-n [[player number] [champion.cor]]\n");
+		ft_printf("\t-dump [cycle to stop]\n");
 		exit(1);
 	}
 }
@@ -78,6 +82,8 @@ int		main(int ac, char **av)
 			core.opt |= option(av[i]);
 		else if (core.opt & NUMPLAYER)
 			take_num_player(&core, av[i]);
+		else if (core.opt & DUMP)
+			make_dump(&core, av[i]);
 		else if (core.nb_player < MAX_PLAYERS)
 			core.nb_player += take_champion(&core, av[i]);
 		else
@@ -85,8 +91,6 @@ int		main(int ac, char **av)
 	}
 	check_nb_player(core.nb_player);
 	make_arena(&core, core.nb_player);
-	if (core.opt & VISU)
-		init_visu(&core);
 	corewar(&core);
 	return (0);
 }

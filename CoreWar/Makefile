@@ -6,7 +6,7 @@
 #    By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/19 22:24:46 by mmanley           #+#    #+#              #
-#    Updated: 2018/06/20 12:52:50 by tbehra           ###   ########.fr        #
+#    Updated: 2018/06/20 13:09:15 by tbehra           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ CORE = corewar
 
 ASM = asm
 
-LIBFT = libft
+LIBFT = libft/libft.a
 
 GREEN = \x1b[32m
 
@@ -65,6 +65,10 @@ ASM_INC_DIR = $(ASM_DIR)/includes
 ASM_SRC = $(addprefix $(ASM_DIR)/, $(ASM_SRCS))
 ASM_INC = $(addprefix $(ASM_INC_DIR)/, $(ASM_INCS))
 
+LFT_INC_DIR = $(LFT_DIR)/includes
+LFT_SRC = $(addprefix $(LFT_DIR)/, $(LFT_SRCS))
+LFT_INC = $(addprefix $(LFT_INC_DIR)/, $(LFT_INCS))
+
 all : $(CORE) $(ASM) info
 
 $(CORE) : $(CORE_SRC) $(CORE_INC)
@@ -73,8 +77,10 @@ $(CORE) : $(CORE_SRC) $(CORE_INC)
 $(ASM) : $(ASM_SRC) $(ASM_INC)
 	@make -C asmb
 
-$(LIBFT) :
+$(LIBFT) : $(LFT_SRC) $(LFT_INC)
 	@make -C libft
+
+libft : $(LIBFT)
 
 info :
 	@echo "${GREEN}DONE${WHITE}"

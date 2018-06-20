@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 21:46:07 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/20 11:21:55 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/20 13:14:00 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	take_num_player(t_core *core, char *num)
 	while (core->player[i].champ_core && i < 4)
 	{
 		if (core->opt_num_player == core->player[i].nbr
-			|| !core->opt_num_player)
+				|| !core->opt_num_player)
 			error(SAME_NUM_OF_PLAYER);
 		i++;
 	}

@@ -80,8 +80,10 @@ void	take_num_player(t_core *core, char *num)
 	int		i;
 	char	*check;
 
-	core->opt_num_player = ft_atoi(num);
+	core->opt_num_player = ft_atoll(num);
 	i = 0;
+	if (!core->opt_num_player)
+		error(WRONG_NUM_OF_PLAYER);
 	while (core->player[i].champ_core && i < 4)
 	{
 		if (core->opt_num_player == core->player[i].nbr
@@ -90,7 +92,7 @@ void	take_num_player(t_core *core, char *num)
 		i++;
 	}
 	i = 0;
-	if (!(check = ft_itoa(core->opt_num_player)))
+	if (!(check = ft_utoa(core->opt_num_player)))
 		error(MALLOC_ERROR);
 	while (num[i] || check[i])
 	{

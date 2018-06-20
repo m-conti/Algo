@@ -6,11 +6,11 @@
 #    By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/05 11:40:02 by mmanley           #+#    #+#              #
-#    Updated: 2018/06/19 22:46:56 by mmanley          ###   ########.fr        #
+#    Updated: 2018/06/20 11:38:29 by tbehra           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = asm
+NAME = ../asm
 
 CFLAGS = -Wall -Wextra -Werror
 
@@ -58,7 +58,6 @@ all : $(LIB) $(NAME)
 
 $(NAME) : objs $(OBJS)
 	@gcc -o $@ $(OBJS) $(LIB_PATH)/$(LIB) -I $(LIB_INC)/ -I ./$(INC) $(CFLAGS)
-	@cp $(NAME) ../
 	@echo "${WHITE}Asm			${GREEN}DONE${WHITE}"
 
 $(LIB) :

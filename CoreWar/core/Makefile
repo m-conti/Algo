@@ -6,7 +6,7 @@
 #    By: tbehra <tbehra@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/02 14:00:49 by tbehra            #+#    #+#              #
-#    Updated: 2018/06/20 10:50:14 by tbehra           ###   ########.fr        #
+#    Updated: 2018/06/20 11:34:51 by tbehra           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 
 CC		= gcc
 CFLAGS	= -Wall -Werror -Wextra
-NAME	= corewar
+NAME	= ../corewar
 
 SRCDIR	= src
 OBJDIR	= obj
@@ -45,7 +45,6 @@ all: printfcomp $(OBJDIR) $(NAME)
 
 $(NAME): obj $(OBJP)
 	@$(CC) $(CFLAGS) -o $@ $(OBJP) -I$(INC_PATH) -I$(LIB_PATH)/includes $(LIBFT) -lncurses
-	@cp $(NAME) ../.
 	@echo "${WHITE}corewar			${GREEN}DONE${WHITE}"
 
 printfcomp:

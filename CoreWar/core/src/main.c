@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 23:16:15 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/20 11:13:13 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/20 11:37:14 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	check_arg_number(int ac)
 		ft_printf("Usage : corewar champion1.cor champion2.cor (up to 4)\n");
 		ft_printf("Options\n");
 		ft_printf("\t-v for visualisation\n");
-		ft_printf("\t-l for live/verbose mode\n");
-		ft_printf("\t-n for player number\n");
+		ft_printf("\t-l to display lives/comments\n");
+		ft_printf("\t-n [player number] [champion.cor]\n");
 		exit(1);
 	}
 }
@@ -61,18 +61,14 @@ void	check_nb_player(int nb_player)
 {
 	if (!nb_player)
 		error(NO_CHAMP);
-	if (nb_player > 4)
-		error(TOO_MANY_CHAMP);
 }
 
 int		main(int ac, char **av)
 {
 	t_core	core;
 	int		i;
-	int		nb_player;
 
 	i = 0;
-	nb_player = 0;
 	init_core(&core);
 	check_arg_number(ac);
 	build_array_op(core.fc_op);
@@ -82,12 +78,13 @@ int		main(int ac, char **av)
 			core.opt |= option(av[i]);
 		else if (core.opt & NUMPLAYER)
 			take_num_player(&core, av[i]);
+		else if (core.nb_player < MAX_PLAYERS)
+			core.nb_player += take_champion(&core, av[i]);
 		else
-			nb_player += take_champion(&core, av[i]);
+			error(TOO_MANY_CHAMP);
 	}
-	check_nb_player(nb_player);
-	core.nb_player = nb_player;
-	make_arena(&core, nb_player);
+	check_nb_player(core.nb_player);
+	make_arena(&core, core.nb_player);
 	if (core.opt & VISU)
 		init_visu(&core);
 	corewar(&core);

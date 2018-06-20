@@ -16,7 +16,7 @@ void		print_winner(t_core *core, uint8_t n)
 {
 	nodelay(stdscr, FALSE);
 	attron(COLOR_PAIR(COLOR_PAIR_P1 + n));
-	mvprintw(Y_CYCLE + 10, X_CYCLE, "Le joueur \" %s \" a gagné !",
+	mvprintw(Y_MSG + 2, X_MSG + 30, "Le joueur \" %s \" a gagné !",
 		core->player[n].header.prog_name);
 	attroff(COLOR_PAIR(COLOR_PAIR_P1 + n));
 	getch();

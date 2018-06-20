@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 13:48:35 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/18 14:46:30 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/20 14:43:30 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ t_pars			*ft_get_op_name(char *line, t_pars *lst)
 		l = i;
 		while (line[l] && (line[l] != ' ' && line[l] != '\t' && line[l] != '%'))
 			l++;
-		lst->op_name = ft_strsub(line, i, l - i);
+		if (!(lst->op_name = ft_strsub(line, i, l - i)))
+			ft_exit("Error malloc", lst->line_nb);
 		while (l != i)
 			line[--l] = ' ';
 		lst->op_code = ft_create_tab(lst->op_name, lst->line_nb);
@@ -53,7 +54,8 @@ int				ft_create_tab(char *str, int counter)
 		return (0);
 	}
 	if (!tab_name)
-		tab_name = ft_strsplit(s, ' ');
+		if (!(tab_name = ft_strsplit(s, ' ')))
+			ft_exit("Error malloc in split", counter);
 	while (tab_name[i])
 	{
 		if (ft_strcmp(str, tab_name[i]) == 0)

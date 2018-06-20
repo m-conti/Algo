@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 17:28:48 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/19 15:09:44 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/20 14:58:03 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,11 @@ t_pars			*ft_check_line(char *l, t_pars *lst, t_header **hd, int c)
 t_pars			*ft_init_lst(t_pars *lst, char *line)
 {
 	if (!(lst = (t_pars*)malloc(sizeof(t_pars))))
-		return (NULL);
+		ft_exit("Error malloc", -1);
 	ft_bzero(lst, sizeof(t_pars));
 	if (line)
-		lst->line = ft_strdup(line);
+		if (!(lst->line = ft_strdup(line)))
+			ft_exit("Error malloc", -1);
 	return (lst);
 }
 

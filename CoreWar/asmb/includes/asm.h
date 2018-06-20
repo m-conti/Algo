@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 11:36:54 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/19 21:17:24 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/20 15:29:45 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ int					ft_create_tab(char *line, int counter);
 t_pars				*ft_get_code(t_pars *lst, t_labels *label, int fd, int opt);
 t_pars				*ft_get_hexadecimal(t_pars *lst, int fd);
 t_pars				*ft_get_info(int fd, t_labels **save, t_header **head);
-t_pars				*ft_get_label(char *line, t_pars *lst, t_labels **save);
+t_pars				*ft_get_label(char *line, t_pars *lst, t_labels **save,\
+	char *s);
 t_pars				*ft_get_label_values(t_pars *lst, t_labels *label, int k,\
 	t_op *op_tab);
 t_pars				*ft_get_op_name(char *line, t_pars *lst);

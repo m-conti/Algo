@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 09:53:45 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/19 15:08:44 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/20 15:34:32 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ char		*ft_get_filename(char *name)
 	i = 0;
 	k = 0;
 	new = NULL;
-	while (name && name[i])
+	while (name && name[i] && name[i + 1])
 		i++;
-	i--;
 	while (name[i] && (name[i] == ' ' || name[i] == '\t') && i > 0)
 		i--;
 	if (name[i] != 's' || name[i - 1] != '.')
@@ -35,8 +34,10 @@ char		*ft_get_filename(char *name)
 	}
 	(name[i] == '/') ? k-- : k;
 	(name[i] == '/') ? i++ : i;
-	new = ft_strsub(name, i, k);
-	new = ft_strjoin_free(new, "cor", 1);
+	if (!(new = ft_strsub(name, i, k)))
+		ft_exit("Error malloc", -1);
+	if (!(new = ft_strjoin_free(new, "cor", 1)))
+		ft_exit("Error malloc", -1);
 	return (new);
 }
 

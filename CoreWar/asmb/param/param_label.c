@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 13:48:32 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/19 15:34:18 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/20 15:29:23 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,8 @@ t_pars		*change_labeled_values(t_labels *label, t_pars *l, int k)
 	while (label->lst->next && label->lst->op_code == 0)
 		label->lst = label->lst->next;
 	ft_strdel(&l->value[k]);
-	if (label->lst->position - l->position > 0)
-		l->value[k] = ft_itoa((label->lst->position - l->position));
-	else
-		l->value[k] = ft_itoa(((label->lst->position - l->position)));
+	if (!(l->value[k] = ft_itoa((label->lst->position - l->position))))
+		ft_exit("Error malloc", -1);
 	return (l);
 }
 
@@ -86,9 +84,8 @@ void		ft_add_label(t_labels **save, t_pars *labeled, int counter)
 **Make sure The *s == ',' does cause problem with real label
 */
 
-t_pars		*ft_get_label(char *line, t_pars *l, t_labels **save)
+t_pars		*ft_get_label(char *line, t_pars *l, t_labels **save, char *s)
 {
-	char	*s;
 	int		len;
 	int		i;
 
@@ -105,7 +102,8 @@ t_pars		*ft_get_label(char *line, t_pars *l, t_labels **save)
 		s[0] = '\0';
 		len = ft_strlen(line) - i;
 		s[0] = LABEL_CHAR;
-		l->label = ft_strsub(line, i, len);
+		if (!(l->label = ft_strsub(line, i, len)))
+			ft_exit("Error with malloc", l->line_nb);
 		ft_add_label(save, l, l->line_nb);
 		while (line[i] && line[i] != LABEL_CHAR)
 			line[i++] = ' ';

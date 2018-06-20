@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 13:48:38 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/19 15:28:31 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/20 14:54:21 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int			ft_get_value(t_pars **lst, int *tab, int code, char *line)
 		j++;
 	if (line[j] == ',' && k == tab[2] - 1)
 		ft_exit("Pars problem after last param", (*lst)->line_nb);
-	(*lst)->value[k] = ft_strndup(&line[i], j - i);
+	if (!((*lst)->value[k] = ft_strndup(&line[i], j - i)))
+		ft_exit("Error malloc", (*lst)->line_nb);
 	while (line[j] && line[j] == ' ')
 		j++;
 	if (line[j] && line[j] == ',')
@@ -39,10 +40,6 @@ int			ft_get_value(t_pars **lst, int *tab, int code, char *line)
 	ft_error_values((*lst)->value[k], code, (*lst)->line_nb);
 	return (i);
 }
-
-/*
-** check if ft_strdup return NULL
-*/
 
 int			type_check(char *line, int i, t_pars **lst, t_op op)
 {

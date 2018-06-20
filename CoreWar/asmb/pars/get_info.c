@@ -6,15 +6,11 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 11:33:32 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/19 15:23:38 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/20 15:30:27 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
-
-/*
-**If label By it's self no lst_add
-*/
 
 t_pars		*ft_get_info(int fd, t_labels **save, t_header **head)
 {
@@ -58,7 +54,7 @@ t_pars		*ft_parsing(t_pars *lst, t_pars *tmp, t_labels **save)
 		}
 		lst = lst->next;
 	}
-	if (!(lst = ft_get_label(lst->line, lst, save)))
+	if (!(lst = ft_get_label(lst->line, lst, save, NULL)))
 		ft_exit("get_label failed", lst->line_nb);
 	if (!(lst = ft_get_op_name(lst->line, lst)))
 		ft_exit("get_op_name failed", lst->line_nb);
@@ -99,9 +95,11 @@ t_pars		*ft_get_code(t_pars *lst, t_labels *label, int fd, int opt)
 
 char		*check_line(char *line)
 {
+	if (!line)
+		return (NULL);
 	while (*line && (*line == ' ' || *line == '\t'))
 		line++;
-	if (!line || !*line)
+	if (!*line)
 		return (NULL);
 	return (line);
 }

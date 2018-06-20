@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 11:33:35 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/19 19:03:09 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/20 15:13:29 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int				main(int ac, char **av)
 
 	lst_label = NULL;
 	if (!(head = (t_header*)malloc(sizeof(t_header))))
-		return (-1);
+		return (1);
 	ft_bzero(head, sizeof(t_header));
 	if (ac == 1)
 		ft_printf("Error\nUsage: ./asm	-[Option -h]	[Path]/[File_name]\n");

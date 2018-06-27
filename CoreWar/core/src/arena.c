@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 21:46:07 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/20 13:14:00 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/27 11:28:33 by mconti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void	make_arena(t_core *core, int nb_player)
 		reg[0] = core->player[i].nbr;
 		new_process(core, ((i * MEM_SIZE) / nb_player), i, reg);
 		place_champion(core, &core->player[i], ((i * MEM_SIZE) / nb_player));
+		print_player(&core->player[i], i);
 		i++;
-		print_player(&core->player[i]);
 	}
 	core->cycle_to_die = CYCLE_TO_DIE;
 	core->opt_num_player = 0;

@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 18:36:10 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/27 10:55:27 by mconti           ###   ########.fr       */
+/*   Updated: 2018/06/27 11:34:08 by mconti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void		corewar(t_core *core)
 		current_process = core->process;
 		while (current_process)
 			current_process = do_process(core, current_process);
-		if (core->current_cycle == core->cycle_to_die)
+		if (core->current_cycle >= core->cycle_to_die)
 		{
 			change_cycle(core);
 			if (!core->live)

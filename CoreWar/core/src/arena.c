@@ -73,6 +73,7 @@ void	init_core(t_core *core)
 	core->nb_process = 0;
 	core->opt_num_player = 0;
 	core->blink = 0;
+	core->checks = 0;
 }
 
 void	take_num_player(t_core *core, char *num)

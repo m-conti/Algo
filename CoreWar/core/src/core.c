@@ -39,40 +39,40 @@ void		is_winner(t_core *core)
 			cycle = core->player[i - 1].last_alive;
 			n = i - 1;
 		}
+	if (core->opt_num_player)
+		ft_putchar('\n');
 	if (core->opt & VISU)
 		print_winner(core, n);
 	else if (core->opt & ACTIVE_DUMP)
 		print_dump(core);
 	else
-	{
-		if (core->opt_num_player)
-			ft_putchar('\n');
 		ft_printf("Le joueur \" \x1b[%im%s\x1b[0m \" a gagné !\n", color[n],
 			core->player[n].header.prog_name);
-	}
 }
 
-void		change_cycle(t_core *core, uint8_t *checks)
+void		change_cycle(t_core *core)
 {
 	core->current_cycle = 0;
 	process_to_die(core);
-	if ((core->live >= NBR_LIVE || *checks == MAX_CHECKS)
-		&& !(*checks = 0))
+	if (core->live >= NBR_LIVE || core->checks == MAX_CHECKS)
+	{
+		core->checks = 0;
 		core->cycle_to_die -= CYCLE_DELTA;
+	}
 	else
-		(*checks)++;
+		core->checks++;
 }
 
 void		corewar(t_core *core)
 {
 	t_process		*current_process;
-	uint8_t			checks;
 
 	if (core->opt & VISU)
 		init_visu(core);
-	checks = 0;
-	while (core->cycle_to_die > 0 && core->current_cycle < core->opt_dump)
+	while (core->cycle_to_die <= CYCLE_TO_DIE)
 	{
+		if (core->opt & ACTIVE_DUMP && core->current_cycle == core->opt_dump)
+			break ;
 		if (core->opt & VISU)
 			print_arena(core);
 		core->cycle++;
@@ -82,7 +82,7 @@ void		corewar(t_core *core)
 			current_process = do_process(core, current_process);
 		if (core->current_cycle == core->cycle_to_die)
 		{
-			change_cycle(core, &checks);
+			change_cycle(core);
 			if (!core->live)
 				break ;
 			core->live = 0;

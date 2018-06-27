@@ -83,6 +83,7 @@ typedef struct			s_core
 	uint32_t			opt_num_player;
 	uint32_t			opt_dump;
 	uint8_t				blink;
+	uint8_t				checks;
 }						t_core;
 
 #endif

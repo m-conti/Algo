@@ -6,7 +6,7 @@
 #    By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/19 22:24:46 by mmanley           #+#    #+#              #
-#    Updated: 2018/06/20 13:09:15 by tbehra           ###   ########.fr        #
+#    Updated: 2018/06/27 14:22:18 by mmanley          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,8 +85,10 @@ libft : $(LIBFT)
 info :
 	@echo "${GREEN}DONE${WHITE}"
 
+corclean:
+	@rm -f *.cor
+
 clean :
-	rm -f *.cor
 	@make clean -C core
 	@make clean -C asmb
 	@make clean -C libft

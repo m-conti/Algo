@@ -6,7 +6,7 @@
 #    By: cfavero <cfavero@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/08 15:32:33 by cfavero           #+#    #+#              #
-#    Updated: 2018/06/20 12:52:40 by tbehra           ###   ########.fr        #
+#    Updated: 2018/06/27 14:18:34 by mmanley          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,21 +58,20 @@ OBJ = ft_isalnum.o ft_memccpy.o ft_putchar.o ft_putstr_fd.o ft_strdup.o \
 	ft_deltab.o ft_tablen.o rec_nbr_count.o ft_print_bits.o ft_index.o\
 	ft_memdup.o ft_utoa.o
 
-all: $(LIBPRINTF) $(NAME) info
+all: $(LIBPRINTF) $(NAME)
+	@echo > /dev/null
 
 $(NAME): $(OBJ)
 	@cp ft_printf/libftprintf.a ./libft.a
 	@ar rc $(NAME) $(OBJ)
 	@ranlib libft.a
+	@echo "libft.a${GREEN}			DONE${WHITE}"
 
 $(LIBPRINTF):
 	@make -C ./ft_printf/
 
 %.o: %.c $(INC)/libft.h
 	@gcc $(FLAGS) -o $@ -c $< -I$(INC)
-
-info:
-	@echo "libft.a${GREEN}			DONE${WHITE}"
 
 clean:
 	@/bin/rm -f $(OBJ)

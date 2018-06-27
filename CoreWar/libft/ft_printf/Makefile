@@ -43,17 +43,16 @@ RM = rm -rf
 
 .PHONY: all, clean, fclean, re
 
-all: $(NAME) info
+all: $(NAME)
+	@echo > /dev/null
 
 $(NAME): $(OBJ) $(INC)
 	@ar -rc $@ $^
 	@ranlib $@
+	@echo "libftprintf.a${GREEN}		DONE${WHITE}"
 
 %.o: %.c
 	@gcc $(FLAGS) -o $@ -c $< -I$(INC_PATH)/ -I$(LIB_PATH)
-
-info:
-	@echo "libftprintf.a${GREEN}		DONE${WHITE}"
 
 clean:
 	@$(RM) $(OBJ)

@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 18:21:01 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/19 21:50:44 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/27 14:36:02 by mconti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ void	op_ldi(t_core *core, t_process *proc)
 void	op_lld(t_core *core, t_process *proc)
 {
 	if (proc->param_type[0] == IND_CODE)
-		proc->param[0] = read_arena(core, proc,
-			overflow(proc->pc, (int16_t)proc->param[0]),
+		proc->param[0] = read_arena(core, proc, (int16_t)proc->param[0],
 			DIR_SIZE);
 	proc->reg[proc->param[1] - 1] = proc->param[0];
 	if (!proc->param[0])

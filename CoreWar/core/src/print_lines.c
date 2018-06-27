@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 21:35:35 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/19 21:37:14 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/27 14:24:24 by mconti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,11 @@ void	print_dump(t_core *core)
 	i = 0;
 	while (i < MEM_SIZE)
 	{
-		if (i && !(i % 32))
+		if (i && !(i % 64))
 			ft_printf("\n");
-		else if (i)
-			ft_printf(" ");
-		ft_printf("%02hhx", core->arena[i++]);
+		if (!(i % 64))
+			ft_printf("0x%.4hx : ", i);
+		ft_printf("%02hhx ", core->arena[i++]);
 	}
 	ft_printf("\n");
 }

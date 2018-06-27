@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 15:58:31 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/13 15:58:32 by mconti           ###   ########.fr       */
+/*   Updated: 2018/06/27 10:56:43 by mconti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,6 @@ void		free_all(t_core *core);
 t_process	*do_process(t_core *core, t_process *current_process);
 void		make_dump(t_core *core, char *num);
 void		print_dump(t_core *core);
+void		print_player(t_player *player);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/16 14:59:07 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/19 22:29:37 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/27 10:57:09 by mconti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,10 @@ void	init_visu(t_core *core)
 	core->v.delay = 1000;
 	core->v.pause = 0;
 	toggle_pause(core);
+}
+
+void	print_player(t_player *player)
+{
+	(void)player;
+//
 }

@@ -6,7 +6,7 @@
 /*   By: mconti <mconti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 18:36:10 by mconti            #+#    #+#             */
-/*   Updated: 2018/06/20 11:21:36 by tbehra           ###   ########.fr       */
+/*   Updated: 2018/06/27 10:55:27 by mconti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,8 @@ void		corewar(t_core *core)
 
 	if (core->opt & VISU)
 		init_visu(core);
-	while (core->cycle_to_die <= CYCLE_TO_DIE)
+	while (core->cycle_to_die <= CYCLE_TO_DIE || !core->cycle_to_die)
 	{
-		if (core->opt & ACTIVE_DUMP && core->current_cycle == core->opt_dump)
-			break ;
 		if (core->opt & VISU)
 			print_arena(core);
 		core->cycle++;
@@ -87,6 +85,8 @@ void		corewar(t_core *core)
 				break ;
 			core->live = 0;
 		}
+		if (core->opt & ACTIVE_DUMP && core->cycle == core->opt_dump)
+			break ;
 	}
 	is_winner(core);
 	free_all(core);

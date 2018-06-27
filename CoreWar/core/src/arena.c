@@ -49,6 +49,7 @@ void	make_arena(t_core *core, int nb_player)
 		new_process(core, ((i * MEM_SIZE) / nb_player), i, reg);
 		place_champion(core, &core->player[i], ((i * MEM_SIZE) / nb_player));
 		i++;
+		print_player(&core->player[i]);
 	}
 	core->cycle_to_die = CYCLE_TO_DIE;
 	core->opt_num_player = 0;

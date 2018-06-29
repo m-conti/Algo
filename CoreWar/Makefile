@@ -6,7 +6,7 @@
 #    By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/19 22:24:46 by mmanley           #+#    #+#              #
-#    Updated: 2018/06/29 09:58:55 by mmanley          ###   ########.fr        #
+#    Updated: 2018/06/29 13:07:41 by mmanley          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,6 +82,7 @@ compasm:
 
 debug:
 	@make debug -C asmb
+	@make debug -C core
 
 info :
 	@echo "${GREEN}DONE${WHITE}"

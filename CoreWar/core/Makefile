@@ -6,7 +6,7 @@
 #    By: tbehra <tbehra@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/02 14:00:49 by tbehra            #+#    #+#              #
-#    Updated: 2018/06/28 15:03:23 by tbehra           ###   ########.fr        #
+#    Updated: 2018/06/29 13:09:21 by mmanley          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,13 @@
 CC		= gcc
 CFLAGS	= -Wall -Werror -Wextra
 NAME	= ../corewar
+DEBUG = ../debug_cor
 
 SRCDIR	= src
 OBJDIR	= obj
 LIB_PATH = ../libft/
+
+FAN = -fsanitize=address,undefined -g
 
 GREEN = \x1b[32m
 
@@ -48,6 +51,10 @@ $(NAME): obj $(OBJP)
 	@$(CC) $(CFLAGS) -o $@ $(OBJP) -I$(INC_PATH) -I$(LIB_PATH)/includes ../libft/$(LIBFT) -lncurses
 	@echo "${WHITE}corewar			${GREEN}DONE${WHITE}"
 
+debug: obj $(OBJP)
+	@$(CC) $(CFLAGS) -o $(DEBUG) $(OBJP) -I$(INC_PATH) -I$(LIB_PATH)/includes ../libft/$(LIBFT) -lncurses $(FAN)
+	@echo "${WHITE}corewar			${GREEN}DONE${WHITE}"
+
 printfcomp:
 	@make -C $(LIB_PATH)
 
@@ -65,6 +72,6 @@ clean:
 fclean:
 	@make fclean -C $(LIB_PATH)
 	@rm -rf $(OBJDIR)
-	@rm -f $(NAME)
+	@rm -f $(NAME) $(DEBUG)
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: cfavero <cfavero@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 15:31:18 by cfavero           #+#    #+#             */
-/*   Updated: 2018/06/19 20:24:40 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/28 13:10:33 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		line_copy(char **line, char *content, char c)
 	while (content[i] && content[i] != c)
 		i++;
 	if (!(*line = ft_strndup(content, i)))
-		return (0);
+		exit(1);
 	return (i);
 }
 
@@ -40,7 +40,8 @@ t_list	*get_live(int fd, t_list **hist)
 			return (tmp);
 		tmp = tmp->next;
 	}
-	tmp = ft_lstnew("", fd);
+	if (!(tmp = ft_lstnew("", fd)))
+		return (NULL);
 	ft_lstadd(hist, tmp);
 	return (tmp);
 }
@@ -56,7 +57,7 @@ int		my_read(const int fd, char **content)
 		buf[read_result] = '\0';
 		tmp = *content;
 		if (!(*content = ft_strjoin_free(*content, buf, 1)))
-			return (-1);
+			exit(1);
 		if (ft_strchr(buf, ENDL))
 			break ;
 	}
@@ -94,8 +95,8 @@ int		get_next_line(const int fd, char **line)
 	t_list			*live;
 	char			*tmp;
 
-	if (fd < 0 || !line || (read(fd, buf, 0)) < 0 ||
-			(!(live = get_live(fd, &hist))))
+	if (fd < 0 || !line || (read(fd, buf, 0)) < 0
+		|| (!(live = get_live(fd, &hist))))
 		return (-1);
 	tmp = live->content;
 	read_result = my_read(fd, &tmp);
@@ -106,7 +107,8 @@ int		get_next_line(const int fd, char **line)
 	tmp = live->content;
 	if (tmp[read_result] != '\0')
 	{
-		live->content = ft_strdup(&((live->content)[read_result + 1]));
+		if (!(live->content = ft_strdup(&((live->content)[read_result + 1]))))
+			return (-1);
 		free(tmp);
 	}
 	else

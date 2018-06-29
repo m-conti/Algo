@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 11:36:54 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/20 15:29:45 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/29 10:03:30 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ t_pars				*ft_get_label(char *line, t_pars *lst, t_labels **save,\
 t_pars				*ft_get_label_values(t_pars *lst, t_labels *label, int k,\
 	t_op *op_tab);
 t_pars				*ft_get_op_name(char *line, t_pars *lst);
-t_pars				*ft_get_size_code(t_pars *lst, int i, int tot_size);
+t_pars				*ft_get_size_code(t_pars *lst);
 t_pars				*ft_get_type(char *line, t_pars *lst);
-int					ft_hd_com(char *line, t_header **head, int cnt, int len);
+int					ft_hd_com(char *line, t_header **head, int cnt);
 int					ft_hd_name(char *line, t_header **head, int cnt);
 t_pars				*ft_init_lst(t_pars *lst, char *line);
 t_pars				*ft_parsing(t_pars *lst, t_pars *tmp, t_labels **save);

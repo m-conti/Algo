@@ -6,7 +6,7 @@
 #    By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/19 22:24:46 by mmanley           #+#    #+#              #
-#    Updated: 2018/06/27 14:22:18 by mmanley          ###   ########.fr        #
+#    Updated: 2018/06/29 09:58:55 by mmanley          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,18 +69,19 @@ LFT_INC_DIR = $(LFT_DIR)/includes
 LFT_SRC = $(addprefix $(LFT_DIR)/, $(LFT_SRCS))
 LFT_INC = $(addprefix $(LFT_INC_DIR)/, $(LFT_INCS))
 
-all : $(CORE) $(ASM) info
+all : complibft compcore compasm info
 
-$(CORE) : $(CORE_SRC) $(CORE_INC)
-	@make -C core
-
-$(ASM) : $(ASM_SRC) $(ASM_INC)
-	@make -C asmb
-
-$(LIBFT) : $(LFT_SRC) $(LFT_INC)
+complibft:
 	@make -C libft
 
-libft : $(LIBFT)
+compcore:
+	@make -C core
+
+compasm:
+	@make -C asmb
+
+debug:
+	@make debug -C asmb
 
 info :
 	@echo "${GREEN}DONE${WHITE}"

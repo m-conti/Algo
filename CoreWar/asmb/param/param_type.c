@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 13:48:38 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/20 14:54:21 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/29 10:10:38 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ t_pars		*ft_get_type(char *line, t_pars *lst)
 {
 	int		i;
 	int		k;
-	int		j;
 	t_op	op_tab;
 
 	k = 0;
 	i = 0;
+	ft_bzero(&op_tab, sizeof(t_op));
 	while (line[i] && (line[i] == ' ' || line[i] == '\t'))
 		i++;
 	if (!line[i] && !lst->op_name)

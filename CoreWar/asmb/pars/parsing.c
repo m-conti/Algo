@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 17:45:52 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/20 14:57:44 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/29 10:02:15 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int		save_the_comment(char *line, char *s, t_header **head, int cnt)
 	return (0);
 }
 
-int		ft_hd_com(char *line, t_header **head, int cnt, int len)
+int		ft_hd_com(char *line, t_header **head, int cnt)
 {
 	char	*s;
 

@@ -14,6 +14,7 @@
 
 void		print_winner(t_core *core, uint8_t n)
 {
+	print_arena(core);
 	nodelay(stdscr, FALSE);
 	attron(COLOR_PAIR(COLOR_PAIR_P1 + n));
 	mvprintw(Y_MSG + 2, X_MSG + 30, "Le joueur \" %s \" a gagné !",
@@ -43,11 +44,11 @@ void		is_winner(t_core *core)
 		ft_putchar('\n');
 	if (core->opt & VISU)
 		print_winner(core, n);
-	else if (core->opt & ACTIVE_DUMP)
-		print_dump(core);
 	else
 		ft_printf("Le joueur \" \x1b[%im%s\x1b[0m \" a gagné !\n", color[n],
 			core->player[n].header.prog_name);
+	if (core->opt & ACTIVE_DUMP)
+		print_dump(core);
 }
 
 void		change_cycle(t_core *core)

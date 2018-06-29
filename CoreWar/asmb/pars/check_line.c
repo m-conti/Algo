@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 17:28:48 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/20 14:58:03 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/29 10:02:43 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_pars			*ft_check_line(char *l, t_pars *lst, t_header **hd, int c)
 
 	if ((*hd)->magic == 0)
 	{
-		if (((ft_hd_name(l, hd, c)) == 1) || ((ft_hd_com(l, hd, c, 0)) == 1))
+		if (((ft_hd_name(l, hd, c)) == 1) || ((ft_hd_com(l, hd, c)) == 1))
 			return (lst);
 		else
 		{
@@ -31,7 +31,7 @@ t_pars			*ft_check_line(char *l, t_pars *lst, t_header **hd, int c)
 	l = ft_comment_delete(l);
 	if (!(l = check_line(l)))
 		return (lst);
-	if (!(new = ft_init_lst(new, l)))
+	if (!(new = ft_init_lst(NULL, l)))
 		ft_exit("Malloc faild(init_lst)", c);
 	new->line_nb = c;
 	ft_add_lst(&lst, new);

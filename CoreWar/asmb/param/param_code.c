@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 13:48:28 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/19 15:20:52 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/29 10:51:59 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ t_pars		*ft_size_count(t_pars *lst, int value, t_op *op_tab)
 	return (lst);
 }
 
-t_pars		*ft_get_size_code(t_pars *lst, int i, int tot_size)
+t_pars		*ft_get_size_code(t_pars *lst)
 {
 	t_op	op_tab;
 

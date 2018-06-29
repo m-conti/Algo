@@ -6,7 +6,7 @@
 /*   By: mmanley <mmanley@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/05 11:33:32 by mmanley           #+#    #+#             */
-/*   Updated: 2018/06/20 15:30:27 by mmanley          ###   ########.fr       */
+/*   Updated: 2018/06/29 11:17:03 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_pars		*ft_parsing(t_pars *lst, t_pars *tmp, t_labels **save)
 		ft_exit("get_op_name failed", lst->line_nb);
 	if (!(lst = ft_get_type(lst->line, lst)))
 		ft_exit("get_type failed", lst->line_nb);
-	if (!(lst = ft_get_size_code(lst, lst->op_code, tot_size)))
+	if (!(lst = ft_get_size_code(lst)))
 		ft_exit("get_size_code failed", lst->line_nb);
 	return (tmp);
 }

@@ -6,7 +6,7 @@
 #    By: tbehra <tbehra@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/02 14:00:49 by tbehra            #+#    #+#              #
-#    Updated: 2018/06/20 13:17:36 by tbehra           ###   ########.fr        #
+#    Updated: 2018/06/28 15:03:23 by tbehra           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ SRC		= $(addprefix $(SRCDIR)/, $(SRCS))
 
 OBJ		= $(SRC:.c=.o)
 
-INC		=	op.h	op_struct.h		coredefine.h \
+INC		=	op.h	op_struct.h		coredefine.h	corewar.h \
 
 INC_PATH = ./includes
 
@@ -41,23 +41,22 @@ LIBFT	= libft.a
 OBJP	= $(addprefix $(OBJDIR)/, $(OBJ))
 INCP	= $(addprefix $(INC_PATH)/, $(INC))
 
-all: printfcomp $(OBJDIR) $(NAME)
+all:  $(OBJDIR) $(NAME)
+	@echo > /dev/null
 
 $(NAME): obj $(OBJP)
-	@$(CC) $(CFLAGS) -o $@ $(OBJP) -I$(INC_PATH) -I$(LIB_PATH)/includes $(LIBFT) -lncurses
+	@$(CC) $(CFLAGS) -o $@ $(OBJP) -I$(INC_PATH) -I$(LIB_PATH)/includes ../libft/$(LIBFT) -lncurses
 	@echo "${WHITE}corewar			${GREEN}DONE${WHITE}"
 
 printfcomp:
-	@make all -C $(LIB_PATH)
-	@cp ../libft/libft.a .
+	@make -C $(LIB_PATH)
 
 obj :
 	@mkdir -p obj
 	@mkdir -p obj/src
 
-$(OBJDIR)/%.o: %.c $(INCP)
+$(OBJDIR)/%.o: %.c $(INCP) ../libft/$(LIBFT)
 	@$(CC) $(CFLAGS) -o $@ -c $< $(INCRULE) -I$(INC_PATH) -I$(LIB_PATH)/includes
-
 
 clean:
 	@make clean -C $(LIB_PATH)

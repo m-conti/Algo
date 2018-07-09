@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arena.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tbehra <tbehra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 21:46:07 by tbehra            #+#    #+#             */
-/*   Updated: 2018/06/27 11:28:33 by mconti           ###   ########.fr       */
+/*   Updated: 2018/07/09 17:43:40 by mmanley          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	init_core(t_core *core)
 	core->opt_num_player = 0;
 	core->blink = 0;
 	core->checks = 0;
+	core->cur_proc = 0;
 }
 
 void	take_num_player(t_core *core, char *num)
